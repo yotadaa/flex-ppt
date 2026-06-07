@@ -41,6 +41,6 @@ This checklist records the state of the Flex-PPT migration request.
 
 - [x] Run `npm ci` in `C:\skripsi\flex-ppt`. Validation: install added 97 packages, audited 98 packages, and found 0 vulnerabilities.
 - [x] Run `npm run build` in `C:\skripsi\flex-ppt`. Validation: TypeScript and Vite build passed with 623 modules transformed.
-- [ ] Initialize new git repository in `C:\skripsi\flex-ppt`.
-- [ ] Commit baseline app and docs in the new repository.
-- [ ] Confirm `git status -sb` is clean in `flex-ppt`.
+- [x] Initialize new git repository in `C:\skripsi\flex-ppt`. Validation: `.git` did not exist before `git init`; repository was initialized and branch was renamed to `main`.
+- [x] Commit baseline app and docs in the new repository. Validation: initial commit `0bbfbc8` was created with message `Initial flex-ppt presenter baseline`.
+- [x] Confirm `git status -sb` is clean in `flex-ppt`. Validation: `git status -sb` reported `## main` immediately after the initial commit and branch rename.
