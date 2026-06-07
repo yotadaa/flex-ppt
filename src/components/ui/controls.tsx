@@ -42,17 +42,17 @@ export function IconButton({ label, icon, compact = false, className = "", ...pr
   );
 }
 
-type TextFieldProps = Omit<InputHTMLAttributes<HTMLInputElement>, "type"> & {
+type TextFieldProps = InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   icon?: ReactNode;
   inputClassName?: string;
 };
 
-export function TextField({ label, icon, className = "", inputClassName = "", ...props }: TextFieldProps) {
+export function TextField({ label, icon, className = "", inputClassName = "", type = "text", ...props }: TextFieldProps) {
   const field = (
     <span className={`ui-text-field ${icon ? "has-icon" : ""} ${className}`.trim()}>
       {icon ? <span className="ui-field-icon">{icon}</span> : null}
-      <input type="text" {...props} className={inputClassName} />
+      <input type={type} {...props} className={inputClassName} />
     </span>
   );
 
