@@ -8,6 +8,9 @@ import "../src/styles/app.css";
 export const metadata: Metadata = {
   title: "Flex-PPT",
   description: "Personal presentation editor for dynamic thesis slides.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

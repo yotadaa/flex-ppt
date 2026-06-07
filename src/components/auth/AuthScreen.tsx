@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { FormEvent } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { ArrowRightIcon, EnvelopeIcon, KeyIcon } from "@heroicons/react/24/outline";
 import { getSupabaseBrowserClient } from "../../lib/supabaseClient";
@@ -17,7 +18,8 @@ export default function AuthScreen({ supabaseConfigured, onAuthenticated, onDemo
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  async function submit() {
+  async function submit(event?: FormEvent<HTMLFormElement>) {
+    event?.preventDefault();
     setBusy(true);
     setMessage(null);
     try {
@@ -61,7 +63,7 @@ export default function AuthScreen({ supabaseConfigured, onAuthenticated, onDemo
             <p>Dashboard proyek, slide dinamis, dan editor presentasi tersimpan untuk akun email kamu.</p>
           </div>
 
-          <div className="auth-form">
+          <form className="auth-form" onSubmit={(event) => void submit(event)}>
             <div className="auth-switch" role="tablist" aria-label="Auth mode">
               <button type="button" className={mode === "login" ? "active" : ""} onClick={() => setMode("login")}>Login</button>
               <button type="button" className={mode === "register" ? "active" : ""} onClick={() => setMode("register")}>Register</button>
@@ -87,18 +89,18 @@ export default function AuthScreen({ supabaseConfigured, onAuthenticated, onDemo
             />
             {message ? <p className="auth-message">{message}</p> : null}
             <AppButton
+              type="submit"
               variant="primary"
               size="lg"
               disabled={busy || !email.trim() || password.length < 6}
               icon={<ArrowRightIcon aria-hidden="true" />}
-              onClick={() => void submit()}
             >
               {busy ? "Memproses" : mode === "login" ? "Login" : "Register"}
             </AppButton>
             {!supabaseConfigured ? (
-              <AppButton size="lg" onClick={onDemo}>Masuk Mode Lokal</AppButton>
+              <AppButton type="button" size="lg" onClick={onDemo}>Masuk Mode Lokal</AppButton>
             ) : null}
-          </div>
+          </form>
         </div>
       </section>
     </main>
