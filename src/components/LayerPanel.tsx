@@ -1,19 +1,23 @@
-import { ArrowDownIcon, ArrowUpIcon, DocumentDuplicateIcon, EyeIcon, EyeSlashIcon, LockClosedIcon, LockOpenIcon, RectangleStackIcon, TrashIcon } from "@heroicons/react/24/outline";
-import type { BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, SlideLayer } from "../types";
+import { ArrowDownIcon, ArrowUpIcon, CodeBracketSquareIcon, DocumentDuplicateIcon, EyeIcon, EyeSlashIcon, LockClosedIcon, LockOpenIcon, RectangleStackIcon, TrashIcon } from "@heroicons/react/24/outline";
+import type { BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, SlideContainer, SlideLayer } from "../types";
 import { normalizeAssetUrl } from "../utils/slideDom";
 import { AppButton, IconButton, NumberStepper } from "./ui/controls";
 
 type LayerPanelProps = {
   layers: SlideLayer[];
+  containers: SlideContainer[];
   baseImages: BaseImageLayer[];
   baseElements: BaseElementLayer[];
   selectedLayerId: string | null;
   onSelectLayer: (id: string | null) => void;
   onUpdateLayer: (id: string, patch: Partial<SlideLayer>, saveHistory?: boolean, historyBeforePatch?: Partial<SlideLayer>) => void;
+  onUpdateContainer: (id: string, patch: Partial<SlideContainer>, saveHistory?: boolean, historyBeforePatch?: Partial<SlideContainer>) => void;
   onDeleteLayer: (id: string) => void;
+  onDeleteContainer: (id: string) => void;
   onDeleteBaseImage: (id: string) => void;
   onDeleteBaseElement: (id: string) => void;
   onDuplicateLayer: (id: string) => void;
+  onDuplicateContainer: (id: string) => void;
   onUpdateBaseImage: (id: string, patch: Partial<BaseImageOverride>, saveHistory?: boolean, historyBeforePatch?: Partial<BaseImageOverride>) => void;
   onUpdateBaseElement: (id: string, patch: Partial<BaseElementOverride>, saveHistory?: boolean, historyBeforePatch?: Partial<BaseElementOverride>) => void;
   onDuplicateBaseImage: (id: string) => void;
@@ -21,20 +25,24 @@ type LayerPanelProps = {
 
 export default function LayerPanel({
   layers,
+  containers,
   baseImages,
   baseElements,
   selectedLayerId,
   onSelectLayer,
   onUpdateLayer,
+  onUpdateContainer,
   onDeleteLayer,
+  onDeleteContainer,
   onDeleteBaseImage,
   onDeleteBaseElement,
   onDuplicateLayer,
+  onDuplicateContainer,
   onUpdateBaseImage,
   onUpdateBaseElement,
   onDuplicateBaseImage,
 }: LayerPanelProps) {
-  if (!layers.length && !baseImages.length && !baseElements.length) {
+  if (!layers.length && !containers.length && !baseImages.length && !baseElements.length) {
     return <p className="empty-note">Belum ada layer tambahan di slide ini. Insert gambar dari tab Assets.</p>;
   }
 
@@ -128,6 +136,50 @@ export default function LayerPanel({
                       <AppButton size="sm" icon={<ArrowDownIcon aria-hidden="true" />} onClick={() => onUpdateBaseElement(element.id, { zIndex: Math.max(1, (element.zIndex ?? 18) - 1) })}>Back</AppButton>
                       <AppButton size="sm" icon={isBehindText ? <ArrowUpIcon aria-hidden="true" /> : <ArrowDownIcon aria-hidden="true" />} onClick={() => onUpdateBaseElement(element.id, { depth: isBehindText ? "front" : "back" })}>{isBehindText ? "Depan teks" : "Belakang teks"}</AppButton>
                       <AppButton size="sm" variant="danger" className="danger-text" icon={<TrashIcon aria-hidden="true" />} onClick={() => onDeleteBaseElement(element.id)}>Hide card</AppButton>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+        </div>
+      ) : null}
+
+      {containers.length ? (
+        <div className="base-layer-group">
+          <h3>Container dinamis</h3>
+          {containers
+            .slice()
+            .sort((a, b) => b.zIndex - a.zIndex)
+            .map((container) => {
+              const isBehindText = container.depth === "back";
+              return (
+                <article key={container.id} className={`layer-row base-element-row ${selectedLayerId === container.id ? "active" : ""} ${container.visible ? "" : "is-hidden"}`}>
+                  <IconButton
+                    label={`Pilih container ${container.name}`}
+                    className="layer-thumb element-thumb"
+                    icon={<CodeBracketSquareIcon aria-hidden="true" />}
+                    onClick={() => onSelectLayer(container.id)}
+                  />
+                  <div className="layer-main">
+                    <AppButton variant="ghost" size="sm" className="layer-title" onClick={() => onSelectLayer(container.id)}>
+                      {container.name}
+                    </AppButton>
+                    <p>{container.kind.toUpperCase()} container - provider {container.provider}</p>
+                    <div className="layer-fields">
+                      <NumberStepper label="X" min={0} max={95} value={Math.round(container.x)} onChange={(value) => onUpdateContainer(container.id, { x: value })} />
+                      <NumberStepper label="Y" min={0} max={92} value={Math.round(container.y)} onChange={(value) => onUpdateContainer(container.id, { y: value })} />
+                      <NumberStepper label="W" min={4} max={95} value={Math.round(container.width)} onChange={(value) => onUpdateContainer(container.id, { width: value })} />
+                      <NumberStepper label="H" min={3} max={82} value={Math.round(container.height)} onChange={(value) => onUpdateContainer(container.id, { height: value })} />
+                      <NumberStepper label="Z" min={1} max={999} value={container.zIndex} onChange={(value) => onUpdateContainer(container.id, { zIndex: value })} />
+                    </div>
+                    <div className="layer-actions">
+                      <AppButton size="sm" icon={container.visible ? <EyeSlashIcon aria-hidden="true" /> : <EyeIcon aria-hidden="true" />} onClick={() => onUpdateContainer(container.id, { visible: !container.visible })}>{container.visible ? "Hide" : "Show"}</AppButton>
+                      <AppButton size="sm" icon={container.locked ? <LockOpenIcon aria-hidden="true" /> : <LockClosedIcon aria-hidden="true" />} onClick={() => onUpdateContainer(container.id, { locked: !container.locked })}>{container.locked ? "Unlock" : "Lock"}</AppButton>
+                      <AppButton size="sm" icon={<ArrowUpIcon aria-hidden="true" />} onClick={() => onUpdateContainer(container.id, { zIndex: container.zIndex + 1 })}>Front</AppButton>
+                      <AppButton size="sm" icon={<ArrowDownIcon aria-hidden="true" />} onClick={() => onUpdateContainer(container.id, { zIndex: Math.max(1, container.zIndex - 1) })}>Back</AppButton>
+                      <AppButton size="sm" icon={isBehindText ? <ArrowUpIcon aria-hidden="true" /> : <ArrowDownIcon aria-hidden="true" />} onClick={() => onUpdateContainer(container.id, { depth: isBehindText ? "front" : "back" })}>{isBehindText ? "Depan teks" : "Belakang teks"}</AppButton>
+                      <AppButton size="sm" icon={<DocumentDuplicateIcon aria-hidden="true" />} onClick={() => onDuplicateContainer(container.id)}>Duplicate</AppButton>
+                      <AppButton size="sm" variant="danger" className="danger-text" icon={<TrashIcon aria-hidden="true" />} onClick={() => onDeleteContainer(container.id)}>Delete</AppButton>
                     </div>
                   </div>
                 </article>

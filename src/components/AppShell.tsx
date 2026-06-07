@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import type { AssetsData, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, SlidesData, ThesisData } from "../types";
+import { containerRenderableMarkup } from "../utils/containers";
 import { extractBaseElementLayers, extractBaseImageLayers, highlightSlideSearch, normalizeAssetUrl, plainTextFromHtml, slideHtmlFor } from "../utils/slideDom";
 import { useEditorState } from "../hooks/useEditorState";
 import Toolbar from "./Toolbar";
@@ -65,6 +66,10 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
   const activeLayers = useMemo(
     () => state.layers.filter((layer) => layer.slideIndex === activeSlide.index),
     [activeSlide.index, state.layers],
+  );
+  const activeContainers = useMemo(
+    () => state.containers.filter((container) => container.slideIndex === activeSlide.index),
+    [activeSlide.index, state.containers],
   );
   const activeBaseImages = useMemo(
     () => enrichBaseImages(extractBaseImageLayers(activeHtml, activeSlide.index), state.baseImageOverrides),
@@ -213,6 +218,7 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
           isEditingLocked={isPresenting}
           chapterStartByName={chapterStartByName}
           layers={activeLayers}
+          containers={activeContainers}
           baseImages={activeBaseImages}
           baseElements={activeBaseElements}
           selectedLayerId={state.selectedLayerId}
@@ -224,9 +230,11 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
           }}
           onSelectLayer={editor.selectLayer}
           onUpdateLayer={editor.updateLayer}
+          onUpdateContainer={editor.updateContainer}
           onUpdateBaseImage={editor.updateBaseImage}
           onUpdateBaseElement={editor.updateBaseElement}
           onBeginLayerEdit={editor.beginLayerEdit}
+          onBeginContainerEdit={editor.beginContainerEdit}
           onBeginBaseImageEdit={editor.beginBaseImageEdit}
           onBeginBaseElementEdit={editor.beginBaseElementEdit}
           onDeleteLayer={editor.deleteLayer}
@@ -249,6 +257,10 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
           onSetDraftQuery={editor.setDraftQuery}
           onReplaceImage={editor.replaceImage}
           onAddLayer={editor.addLayer}
+          onAddContainer={editor.addContainer}
+          onUpdateContainer={editor.updateContainer}
+          onDeleteContainer={editor.deleteContainer}
+          onDuplicateContainer={editor.duplicateContainer}
           onUpdateLayer={editor.updateLayer}
           onDeleteLayer={editor.deleteLayer}
           onDeleteBaseImage={editor.deleteBaseImage}
@@ -322,6 +334,9 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
           const frontBaseElements = managedBaseElements.filter((element) => (element.depth || "front") !== "back");
           const backLayers = layers.filter((layer) => (layer.depth || "front") === "back");
           const frontLayers = layers.filter((layer) => (layer.depth || "front") !== "back");
+          const containers = state.containers.filter((container) => container.slideIndex === item.index);
+          const backContainers = containers.filter((container) => (container.depth || "front") === "back");
+          const frontContainers = containers.filter((container) => (container.depth || "front") !== "back");
           return (
             <div
               key={item.index}
@@ -377,6 +392,25 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
                     dangerouslySetInnerHTML={{ __html: element.html }}
                   />
                 ))}
+                {backContainers.map((container) => container.visible ? (
+                  <div
+                    key={container.id}
+                    className={`slide-layer slide-container-layer depth-back container-${container.kind}`}
+                    style={{
+                      left: `${container.x}%`,
+                      top: `${container.y}%`,
+                      width: `${container.width}%`,
+                      height: `${container.height}%`,
+                      zIndex: container.zIndex,
+                    }}
+                  >
+                    {container.kind === "image" ? (
+                      <img src={normalizeAssetUrl(container.imageUrl)} alt={container.name} draggable={false} />
+                    ) : (
+                      <div className="slide-container-render" dangerouslySetInnerHTML={{ __html: containerRenderableMarkup(container) }} />
+                    )}
+                  </div>
+                ) : null)}
               </div>
               <div className="layer-stage print-layer-stage layer-stage-front" aria-hidden="true">
                 {frontBaseImages.map((image) => image.visible === false ? null : (
@@ -425,6 +459,25 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
                     dangerouslySetInnerHTML={{ __html: element.html }}
                   />
                 ))}
+                {frontContainers.map((container) => container.visible ? (
+                  <div
+                    key={container.id}
+                    className={`slide-layer slide-container-layer depth-front container-${container.kind}`}
+                    style={{
+                      left: `${container.x}%`,
+                      top: `${container.y}%`,
+                      width: `${container.width}%`,
+                      height: `${container.height}%`,
+                      zIndex: container.zIndex,
+                    }}
+                  >
+                    {container.kind === "image" ? (
+                      <img src={normalizeAssetUrl(container.imageUrl)} alt={container.name} draggable={false} />
+                    ) : (
+                      <div className="slide-container-render" dangerouslySetInnerHTML={{ __html: containerRenderableMarkup(container) }} />
+                    )}
+                  </div>
+                ) : null)}
               </div>
             </div>
           );

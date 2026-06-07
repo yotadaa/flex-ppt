@@ -1,8 +1,9 @@
-import { DocumentTextIcon, PhotoIcon, RectangleStackIcon, BookOpenIcon } from "@heroicons/react/24/outline";
-import type { AssetItem, AssetsData, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, EditorState, ReferenceEntry, SlidesData, ThesisData, SlideLayer } from "../types";
+import { BookOpenIcon, CodeBracketSquareIcon, DocumentTextIcon, PhotoIcon, RectangleStackIcon } from "@heroicons/react/24/outline";
+import type { AssetItem, AssetsData, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, EditorState, ReferenceEntry, SlideContainer, SlideContainerKind, SlidesData, ThesisData, SlideLayer } from "../types";
 import DraftPanel from "./DraftPanel";
 import AssetPanel from "./AssetPanel";
 import LayerPanel from "./LayerPanel";
+import ContainerPanel from "./ContainerPanel";
 import ReferencePreview from "./ReferencePreview";
 import { SegmentedControl } from "./ui/controls";
 
@@ -16,6 +17,10 @@ type InspectorProps = {
   onReplaceImage: (asset: AssetItem) => void;
   onAddLayer: (asset: AssetItem) => void;
   onUpdateLayer: (id: string, patch: Partial<SlideLayer>, saveHistory?: boolean, historyBeforePatch?: Partial<SlideLayer>) => void;
+  onAddContainer: (kind?: SlideContainerKind, patch?: Partial<SlideContainer>) => void;
+  onUpdateContainer: (id: string, patch: Partial<SlideContainer>, saveHistory?: boolean, historyBeforePatch?: Partial<SlideContainer>) => void;
+  onDeleteContainer: (id: string) => void;
+  onDuplicateContainer: (id: string) => void;
   onDeleteLayer: (id: string) => void;
   onDeleteBaseImage: (id: string) => void;
   onDeleteBaseElement: (id: string) => void;
@@ -32,6 +37,7 @@ const tabs: Array<{ id: EditorState["inspectorTab"]; label: string; Icon: typeof
   { id: "draft", label: "Draft", Icon: DocumentTextIcon },
   { id: "assets", label: "Assets", Icon: PhotoIcon },
   { id: "layers", label: "Layers", Icon: RectangleStackIcon },
+  { id: "containers", label: "Containers", Icon: CodeBracketSquareIcon },
   { id: "references", label: "Refs", Icon: BookOpenIcon },
 ];
 
@@ -45,6 +51,10 @@ export default function Inspector({
   onReplaceImage,
   onAddLayer,
   onUpdateLayer,
+  onAddContainer,
+  onUpdateContainer,
+  onDeleteContainer,
+  onDuplicateContainer,
   onDeleteLayer,
   onDeleteBaseImage,
   onDeleteBaseElement,
@@ -58,6 +68,7 @@ export default function Inspector({
 }: InspectorProps) {
   const slide = slidesData.slides.find((item) => item.index === state.currentSlide) || slidesData.slides[0];
   const layers = state.layers.filter((layer) => layer.slideIndex === state.currentSlide);
+  const containers = state.containers.filter((container) => container.slideIndex === state.currentSlide);
 
   return (
     <aside className="inspector">
@@ -91,18 +102,35 @@ export default function Inspector({
         {state.inspectorTab === "layers" ? (
           <LayerPanel
             layers={layers}
+            containers={containers}
             baseImages={baseImages}
             baseElements={baseElements}
             selectedLayerId={state.selectedLayerId}
             onSelectLayer={onSelectLayer}
             onUpdateLayer={onUpdateLayer}
+            onUpdateContainer={onUpdateContainer}
             onDeleteLayer={onDeleteLayer}
+            onDeleteContainer={onDeleteContainer}
             onDeleteBaseImage={onDeleteBaseImage}
             onDeleteBaseElement={onDeleteBaseElement}
             onDuplicateLayer={onDuplicateLayer}
+            onDuplicateContainer={onDuplicateContainer}
             onUpdateBaseImage={onUpdateBaseImage}
             onUpdateBaseElement={onUpdateBaseElement}
             onDuplicateBaseImage={onDuplicateBaseImage}
+          />
+        ) : null}
+
+        {state.inspectorTab === "containers" ? (
+          <ContainerPanel
+            containers={containers}
+            assets={assetsData.assets}
+            selectedLayerId={state.selectedLayerId}
+            onSelectLayer={onSelectLayer}
+            onAddContainer={onAddContainer}
+            onUpdateContainer={onUpdateContainer}
+            onDeleteContainer={onDeleteContainer}
+            onDuplicateContainer={onDuplicateContainer}
           />
         ) : null}
 

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { AssetItem, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, EditorSnapshot, EditorState, FontFamilyName, SelectionTarget, SlideLayer, ThemeName } from "../types";
+import type { AssetItem, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, EditorSnapshot, EditorState, FontFamilyName, SelectionTarget, SlideContainer, SlideContainerKind, SlideLayer, ThemeName } from "../types";
+import { createSlideContainer } from "../utils/containers";
 import { applyElementStyle, replaceElementText, replaceImageSource } from "../utils/slideDom";
 
 const STORAGE_KEY = "skripsi-presenter-react-editor-v1";
@@ -18,6 +19,7 @@ function snapshot(state: EditorState): EditorSnapshot {
   return {
     slideHtmlByIndex: { ...state.slideHtmlByIndex },
     layers: state.layers.map((layer) => ({ ...layer })),
+    containers: state.containers.map((container) => ({ ...container })),
     baseImageOverrides: Object.fromEntries(
       Object.entries(state.baseImageOverrides).map(([key, image]) => [key, { ...image }]),
     ),
@@ -50,6 +52,7 @@ function loadState(initial: InitialState): EditorState {
           inspectorTab: "draft",
           slideHtmlByIndex: storedSlides,
           layers: parsed.layers || initial.layers,
+          containers: parsed.containers || [],
           baseImageOverrides: parsed.baseImageOverrides || {},
           baseElementOverrides: parsed.baseElementOverrides || {},
           history: [],
@@ -72,6 +75,7 @@ function loadState(initial: InitialState): EditorState {
     inspectorTab: "draft",
     slideHtmlByIndex: initial.slideHtmlByIndex,
     layers: initial.layers,
+    containers: [],
     baseImageOverrides: {},
     baseElementOverrides: {},
     history: [],
@@ -98,6 +102,7 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
         baseImageOverrides: state.baseImageOverrides,
         baseElementOverrides: state.baseElementOverrides,
         layers: state.layers,
+        containers: state.containers,
         historyTail: state.history.at(-1),
         futureHead: state.future[0],
       };
@@ -205,6 +210,17 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
         };
       }
       if (prev.selectedLayerId) {
+        if (prev.containers.some((container) => container.id === prev.selectedLayerId)) {
+          return {
+            ...prev,
+            containers: prev.containers.map((container) => container.id === prev.selectedLayerId ? {
+              ...container,
+              kind: "image",
+              imageUrl: asset.path,
+              name: asset.name,
+            } : container),
+          };
+        }
         if (isBaseElementLayerId(prev.selectedLayerId)) return prev;
         if (!prev.layers.some((layer) => layer.id === prev.selectedLayerId)) return prev;
         return {
@@ -555,6 +571,118 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
     });
   }, [commit]);
 
+  const addContainer = useCallback((kind: SlideContainerKind = "html", patch?: Partial<SlideContainer>) => {
+    commit((prev) => {
+      const sameSlideContainers = prev.containers.filter((container) => container.slideIndex === prev.currentSlide);
+      const maxZ = sameSlideContainers.reduce((max, container) => Math.max(max, container.zIndex), 40);
+      const container = createSlideContainer({
+        slideIndex: prev.currentSlide,
+        kind,
+        sequence: prev.containers.length + 1,
+        provider: patch?.provider || "local",
+        patch: {
+          ...patch,
+          zIndex: patch?.zIndex ?? maxZ + 1,
+        },
+      });
+      return {
+        ...prev,
+        containers: [...prev.containers, container],
+        selectedLayerId: container.id,
+        selectedTarget: null,
+        inspectorTab: "containers",
+      };
+    });
+  }, [commit]);
+
+  const duplicateContainer = useCallback((containerId: string) => {
+    commit((prev) => {
+      const container = prev.containers.find((item) => item.id === containerId);
+      if (!container) return prev;
+      const duplicate: SlideContainer = {
+        ...container,
+        id: `container-${container.slideIndex}-${prev.containers.length + 1}`,
+        name: `${container.name} copy`,
+        x: Math.min(92, container.x + 4),
+        y: Math.min(88, container.y + 4),
+        zIndex: container.zIndex + 1,
+        locked: false,
+        visible: true,
+      };
+      return {
+        ...prev,
+        containers: [...prev.containers, duplicate],
+        selectedLayerId: duplicate.id,
+        selectedTarget: null,
+        inspectorTab: "containers",
+      };
+    });
+  }, [commit]);
+
+  const beginContainerEdit = useCallback((containerId: string, beforePatch?: Partial<SlideContainer>) => {
+    const transactionKey = `container:${containerId}`;
+    const existingSnapshot = activeLayerTransactionsRef.current[transactionKey];
+    if (existingSnapshot && !beforePatch) return;
+    const initialSnapshot = existingSnapshot || snapshot(stateRef.current);
+    if (beforePatch) {
+      initialSnapshot.containers = initialSnapshot.containers.map((container) => (
+        container.id === containerId ? { ...container, ...beforePatch } : container
+      ));
+    }
+    activeLayerTransactionsRef.current[transactionKey] = initialSnapshot;
+  }, []);
+
+  const updateContainer = useCallback((
+    containerId: string,
+    patch: Partial<SlideContainer>,
+    saveHistory = true,
+    historyBeforePatch?: Partial<SlideContainer>,
+  ) => {
+    const updater = (prev: EditorState) => ({
+      ...prev,
+      containers: prev.containers.map((container) => container.id === containerId ? { ...container, ...patch } : container),
+    });
+    const transactionKey = `container:${containerId}`;
+    if (saveHistory) {
+      setState((prev) => {
+        const transactionStart = activeLayerTransactionsRef.current[transactionKey];
+        if (transactionStart) delete activeLayerTransactionsRef.current[transactionKey];
+        const next = updater(prev);
+        if (next.containers === prev.containers && !transactionStart && !historyBeforePatch) return prev;
+        let historySnapshot = transactionStart || snapshot(prev);
+        if (historyBeforePatch) {
+          historySnapshot = {
+            ...historySnapshot,
+            containers: historySnapshot.containers.map((container) => (
+              container.id === containerId ? { ...container, ...historyBeforePatch } : container
+            )),
+          };
+        }
+        return {
+          ...next,
+          selectedLayerId: containerId,
+          selectedTarget: null,
+          history: [...prev.history.slice(-30), historySnapshot],
+          future: [],
+          autosavedAt: Date.now(),
+        };
+      });
+    } else {
+      setState((prev) => {
+        const next = updater(prev);
+        return next === prev ? prev : { ...next, selectedLayerId: containerId, selectedTarget: null, autosavedAt: Date.now() };
+      });
+    }
+  }, []);
+
+  const deleteContainer = useCallback((containerId: string) => {
+    commit((prev) => ({
+      ...prev,
+      containers: prev.containers.filter((container) => container.id !== containerId),
+      selectedLayerId: prev.selectedLayerId === containerId ? null : prev.selectedLayerId,
+    }));
+  }, [commit]);
+
   const updateLayer = useCallback((
     layerId: string,
     patch: Partial<SlideLayer>,
@@ -636,6 +764,7 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
         ...prev,
         slideHtmlByIndex: nextHtml,
         layers: prev.layers.filter((layer) => layer.slideIndex !== slideIndex),
+        containers: prev.containers.filter((container) => container.slideIndex !== slideIndex),
         baseImageOverrides: nextOverrides,
         baseElementOverrides: nextElementOverrides,
         selectedLayerId: null,
@@ -654,6 +783,7 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
       ...prev,
       slideHtmlByIndex: parsed.slideHtmlByIndex || prev.slideHtmlByIndex,
       layers: parsed.layers || prev.layers,
+      containers: parsed.containers || prev.containers,
       baseImageOverrides: parsed.baseImageOverrides || prev.baseImageOverrides,
       baseElementOverrides: parsed.baseElementOverrides || prev.baseElementOverrides,
       theme: parsed.theme || prev.theme,
@@ -667,6 +797,7 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
       ...prev,
       slideHtmlByIndex: initialSlideHtmlByIndex,
       layers: [],
+      containers: [],
       baseImageOverrides: {},
       baseElementOverrides: {},
       selectedLayerId: null,
@@ -699,6 +830,11 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
     duplicateBaseImage,
     addLayer,
     duplicateLayer,
+    addContainer,
+    duplicateContainer,
+    beginContainerEdit,
+    updateContainer,
+    deleteContainer,
     updateLayer,
     deleteLayer,
     undo,
@@ -707,5 +843,5 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
     exportState,
     importState,
     resetAll,
-  }), [addLayer, beginBaseElementEdit, beginBaseImageEdit, beginLayerEdit, deleteBaseElement, deleteBaseImage, deleteLayer, duplicateBaseImage, duplicateLayer, exportState, goToSlide, importState, redo, registerBaseElements, registerBaseImages, replaceImage, replaceText, resetAll, resetSlide, selectLayer, selectTarget, setAccent, setDraftQuery, setFontFamily, setInspectorTab, setTheme, state, undo, updateBaseElement, updateBaseImage, updateLayer, updateTargetStyle]);
+  }), [addContainer, addLayer, beginBaseElementEdit, beginBaseImageEdit, beginContainerEdit, beginLayerEdit, deleteBaseElement, deleteBaseImage, deleteContainer, deleteLayer, duplicateBaseImage, duplicateContainer, duplicateLayer, exportState, goToSlide, importState, redo, registerBaseElements, registerBaseImages, replaceImage, replaceText, resetAll, resetSlide, selectLayer, selectTarget, setAccent, setDraftQuery, setFontFamily, setInspectorTab, setTheme, state, undo, updateBaseElement, updateBaseImage, updateContainer, updateLayer, updateTargetStyle]);
 }

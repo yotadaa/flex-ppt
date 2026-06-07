@@ -88,6 +88,7 @@ export type AssetItem = {
 export type ImageDepth = "back" | "front";
 export type ImageFrame = "screen";
 export type BaseElementKind = "card" | "callout" | "metric" | "element";
+export type SlideContainerKind = "html" | "svg" | "image";
 
 export type AssetsData = {
   assets: AssetItem[];
@@ -111,6 +112,25 @@ export type SlideLayer = {
   x: number;
   y: number;
   width: number;
+  zIndex: number;
+  depth?: ImageDepth;
+  visible: boolean;
+  locked: boolean;
+};
+
+export type SlideContainer = {
+  id: string;
+  slideIndex: number;
+  provider: string;
+  kind: SlideContainerKind;
+  name: string;
+  html: string;
+  svg: string;
+  imageUrl: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
   zIndex: number;
   depth?: ImageDepth;
   visible: boolean;
@@ -188,6 +208,7 @@ export type BaseElementLayer = {
 export type EditorSnapshot = {
   slideHtmlByIndex: Record<number, string>;
   layers: SlideLayer[];
+  containers: SlideContainer[];
   baseImageOverrides: Record<string, BaseImageOverride>;
   baseElementOverrides: Record<string, BaseElementOverride>;
   theme: ThemeName;
@@ -203,7 +224,7 @@ export type EditorState = EditorSnapshot & {
   selectedTarget: SelectionTarget | null;
   selectedLayerId: string | null;
   draftQuery: string;
-  inspectorTab: "draft" | "assets" | "layers" | "references";
+  inspectorTab: "draft" | "assets" | "layers" | "containers" | "references";
   history: EditorSnapshot[];
   future: EditorSnapshot[];
   autosavedAt: number;
