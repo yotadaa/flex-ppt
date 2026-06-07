@@ -1,0 +1,2671 @@
+{
+  "Alkhayyat et al., 2022": {
+    "citation": "(Alkhayyat et al., 2022)",
+    "file": "005 - Fuzzy logic, genetic algorithms, and artificial neural networks applied to cognitive radio networks A review.pdf",
+    "title": "Fuzzy logic, genetic algorithms, and artificial neural networks applied to cognitive radio networks: A review",
+    "sourceIndex": 5,
+    "slides": [
+      20
+    ],
+    "status": "available",
+    "note": null,
+    "page": 1,
+    "image": "../assets/reference-pdf-pages/alkhayyat-et-al-2022-slide-20-page-01.jpg",
+    "bySlide": {
+      "20": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/alkhayyat-et-al-2022-slide-20-page-01.jpg",
+        "score": 44.358,
+        "hits": [
+          "logic",
+          "networks",
+          "radio",
+          "cognitive",
+          "artificial",
+          "neural",
+          "review",
+          "applied"
+        ],
+        "slideTitle": "Fuzzy Logic dan Variabel Linguistik"
+      }
+    }
+  },
+  "Azam et al., 2020": {
+    "citation": "(Azam et al., 2020)",
+    "file": "011 - Fuzzy Type-1 Triangular Membership Function Approximation Using Fuzzy C-Means.pdf",
+    "title": "Fuzzy Type-1 Triangular Membership Function Approximation Using Fuzzy C-Means",
+    "sourceIndex": 11,
+    "slides": [
+      8,
+      25,
+      26,
+      27,
+      36,
+      39,
+      41
+    ],
+    "status": "available",
+    "note": null,
+    "page": 6,
+    "image": "../assets/reference-pdf-pages/azam-et-al-2020-slide-08-page-06.jpg",
+    "bySlide": {
+      "8": {
+        "status": "available",
+        "page": 6,
+        "image": "../assets/reference-pdf-pages/azam-et-al-2020-slide-08-page-06.jpg",
+        "score": 43.204,
+        "hits": [
+          "membership",
+          "controller",
+          "triangular",
+          "function",
+          "adaptive",
+          "c-means",
+          "type-1",
+          "approximation",
+          "logic",
+          "parameter"
+        ],
+        "slideTitle": "Kontribusi Penelitian"
+      },
+      "25": {
+        "status": "available",
+        "page": 6,
+        "image": "../assets/reference-pdf-pages/azam-et-al-2020-slide-25-page-06.jpg",
+        "score": 37.415,
+        "hits": [
+          "membership",
+          "controller",
+          "triangular",
+          "function",
+          "c-means",
+          "type-1",
+          "approximation",
+          "logic"
+        ],
+        "slideTitle": "BAB III - Metodologi"
+      },
+      "26": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/azam-et-al-2020-slide-26-page-01.jpg",
+        "score": 52.903,
+        "hits": [
+          "data",
+          "membership",
+          "function",
+          "triangular",
+          "c-means",
+          "logic",
+          "type-1",
+          "approximation",
+          "model"
+        ],
+        "slideTitle": "Metodologi Penelitian dan Pengumpulan Data"
+      },
+      "27": {
+        "status": "available",
+        "page": 6,
+        "image": "../assets/reference-pdf-pages/azam-et-al-2020-slide-27-page-06.jpg",
+        "score": 43.039,
+        "hits": [
+          "membership",
+          "controller",
+          "triangular",
+          "function",
+          "c-means",
+          "type-1",
+          "approximation",
+          "logic",
+          "parameter"
+        ],
+        "slideTitle": "Pipeline Sistem Optimasi"
+      },
+      "36": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/azam-et-al-2020-slide-36-page-01.jpg",
+        "score": 37.953,
+        "hits": [
+          "membership",
+          "function",
+          "triangular",
+          "c-means",
+          "type-1",
+          "approximation",
+          "data",
+          "logic",
+          "input"
+        ],
+        "slideTitle": "Evaluasi dan Implementasi GUI"
+      },
+      "39": {
+        "status": "available",
+        "page": 6,
+        "image": "../assets/reference-pdf-pages/azam-et-al-2020-slide-39-page-06.jpg",
+        "score": 52.308,
+        "hits": [
+          "membership",
+          "adaptive",
+          "parameter",
+          "function",
+          "triangular",
+          "c-means",
+          "type-1",
+          "approximation",
+          "logic"
+        ],
+        "slideTitle": "Implementasi Program dan Parameter Adaptif"
+      },
+      "41": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/azam-et-al-2020-slide-41-page-01.jpg",
+        "score": 35.18,
+        "hits": [
+          "membership",
+          "function",
+          "triangular",
+          "c-means",
+          "type-1",
+          "approximation",
+          "logic",
+          "generated"
+        ],
+        "slideTitle": "Hasil Jadwal, Implikasi, dan GUI"
+      }
+    }
+  },
+  "Cao et al., 2024": {
+    "citation": "(Cao et al., 2024)",
+    "file": "017 - Fuzzy inference system with interpretable fuzzy rules Advancing explainable artificial intelligence for disease diagnosis A comprehensive review.pdf",
+    "title": "Fuzzy inference system with interpretable fuzzy rules: Advancing explainable artificial intelligence for disease diagnosis—A comprehensive review",
+    "sourceIndex": 17,
+    "slides": [
+      20
+    ],
+    "status": "available",
+    "note": null,
+    "page": 2,
+    "image": "../assets/reference-pdf-pages/cao-et-al-2024-slide-20-page-02.jpg",
+    "bySlide": {
+      "20": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/cao-et-al-2024-slide-20-page-02.jpg",
+        "score": 51.321,
+        "hits": [
+          "logic",
+          "rules",
+          "interpretable",
+          "diagnosis",
+          "disease",
+          "review",
+          "explainable",
+          "artificial",
+          "inference",
+          "advancing",
+          "intelligence",
+          "comprehensive",
+          "high"
+        ],
+        "slideTitle": "Fuzzy Logic dan Variabel Linguistik"
+      }
+    }
+  },
+  "Dockhorn & Lucas, 2022": {
+    "citation": "(Dockhorn & Lucas, 2022)",
+    "file": "021 - Choosing Representation, Mutation, and Crossover in Genetic Algorithms.pdf",
+    "title": "Choosing Representation, Mutation, and Crossover in Genetic Algorithms",
+    "sourceIndex": 21,
+    "slides": [
+      16,
+      28,
+      33
+    ],
+    "status": "available",
+    "note": null,
+    "page": 2,
+    "image": "../assets/reference-pdf-pages/dockhorn-lucas-2022-slide-16-page-02.jpg",
+    "bySlide": {
+      "16": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/dockhorn-lucas-2022-slide-16-page-02.jpg",
+        "score": 71.388,
+        "hits": [
+          "mutation",
+          "crossover",
+          "representation",
+          "choosing",
+          "operator"
+        ],
+        "slideTitle": "Mutation"
+      },
+      "28": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/dockhorn-lucas-2022-slide-28-page-02.jpg",
+        "score": 53.212,
+        "hits": [
+          "crossover",
+          "mutation",
+          "representation",
+          "choosing",
+          "valid",
+          "operator",
+          "feasible"
+        ],
+        "slideTitle": "Repair dan Post-Processing Konflik"
+      },
+      "33": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/dockhorn-lucas-2022-slide-33-page-02.jpg",
+        "score": 44.902,
+        "hits": [
+          "mutation",
+          "crossover",
+          "representation",
+          "choosing",
+          "parent"
+        ],
+        "slideTitle": "Menjaga Keragaman Populasi"
+      }
+    }
+  },
+  "Dockhorn &amp; Lucas, 2022": {
+    "citation": "(Dockhorn & Lucas, 2022)",
+    "file": "021 - Choosing Representation, Mutation, and Crossover in Genetic Algorithms.pdf",
+    "title": "Choosing Representation, Mutation, and Crossover in Genetic Algorithms",
+    "sourceIndex": 21,
+    "slides": [
+      16,
+      28,
+      33
+    ],
+    "status": "available",
+    "note": null,
+    "page": 2,
+    "image": "../assets/reference-pdf-pages/dockhorn-lucas-2022-slide-16-page-02.jpg",
+    "bySlide": {
+      "16": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/dockhorn-lucas-2022-slide-16-page-02.jpg",
+        "score": 71.388,
+        "hits": [
+          "mutation",
+          "crossover",
+          "representation",
+          "choosing",
+          "operator"
+        ],
+        "slideTitle": "Mutation"
+      },
+      "28": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/dockhorn-lucas-2022-slide-28-page-02.jpg",
+        "score": 53.212,
+        "hits": [
+          "crossover",
+          "mutation",
+          "representation",
+          "choosing",
+          "valid",
+          "operator",
+          "feasible"
+        ],
+        "slideTitle": "Repair dan Post-Processing Konflik"
+      },
+      "33": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/dockhorn-lucas-2022-slide-33-page-02.jpg",
+        "score": 44.902,
+        "hits": [
+          "mutation",
+          "crossover",
+          "representation",
+          "choosing",
+          "parent"
+        ],
+        "slideTitle": "Menjaga Keragaman Populasi"
+      }
+    }
+  },
+  "Ghaffar et al., 2022": {
+    "citation": "(Ghaffar et al., 2022)",
+    "file": "024 - Multi-objective fuzzy-based adaptive memetic algorithm with hyper-heuristics to solve university course timetabling problem.pdf",
+    "title": "Multi-objective fuzzy-based adaptive memetic algorithm with hyper-heuristics to solve university course timetabling problem",
+    "sourceIndex": 24,
+    "slides": [
+      40,
+      42,
+      43
+    ],
+    "status": "available",
+    "note": null,
+    "page": 2,
+    "image": "../assets/reference-pdf-pages/ghaffar-et-al-2022-slide-40-page-02.jpg",
+    "bySlide": {
+      "40": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/ghaffar-et-al-2022-slide-40-page-02.jpg",
+        "score": 57.067,
+        "hits": [
+          "timetabling",
+          "adaptive",
+          "fitness",
+          "problem",
+          "university",
+          "course",
+          "memetic",
+          "solve",
+          "hyper-heuristics",
+          "fuzzy-based",
+          "optimal",
+          "logic"
+        ],
+        "slideTitle": "Classic GA vs Fuzzy GA"
+      },
+      "42": {
+        "status": "available",
+        "page": 3,
+        "image": "../assets/reference-pdf-pages/ghaffar-et-al-2022-slide-42-page-03.jpg",
+        "score": 53.844,
+        "hits": [
+          "timetabling",
+          "adaptive",
+          "problem",
+          "course",
+          "hyper-heuristics",
+          "university",
+          "memetic",
+          "solve",
+          "multi-objective",
+          "fuzzy-based",
+          "logic"
+        ],
+        "slideTitle": "BAB V - Penutup"
+      },
+      "43": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/ghaffar-et-al-2022-slide-43-page-02.jpg",
+        "score": 58.048,
+        "hits": [
+          "timetabling",
+          "adaptive",
+          "fitness",
+          "problem",
+          "logic",
+          "university",
+          "course",
+          "memetic",
+          "solve",
+          "hyper-heuristics",
+          "fuzzy-based"
+        ],
+        "slideTitle": "Kesimpulan dan Saran"
+      }
+    }
+  },
+  "Han & Xiao, 2022": {
+    "citation": "(Han & Xiao, 2022)",
+    "file": "027 - An improved adaptive genetic algorithm.pdf",
+    "title": "An improved adaptive genetic algorithm",
+    "sourceIndex": 27,
+    "slides": [
+      15,
+      27,
+      32,
+      40,
+      44
+    ],
+    "status": "available",
+    "note": null,
+    "page": 4,
+    "image": "../assets/reference-pdf-pages/han-xiao-2022-slide-15-page-04.jpg",
+    "bySlide": {
+      "15": {
+        "status": "available",
+        "page": 4,
+        "image": "../assets/reference-pdf-pages/han-xiao-2022-slide-15-page-04.jpg",
+        "score": 61.826,
+        "hits": [
+          "crossover",
+          "adaptive",
+          "improved"
+        ],
+        "slideTitle": "Crossover"
+      },
+      "27": {
+        "status": "available",
+        "page": 4,
+        "image": "../assets/reference-pdf-pages/han-xiao-2022-slide-27-page-04.jpg",
+        "score": 46.773,
+        "hits": [
+          "fitness",
+          "adaptive",
+          "crossover",
+          "mutation",
+          "selection",
+          "improved"
+        ],
+        "slideTitle": "Pipeline Sistem Optimasi"
+      },
+      "32": {
+        "status": "available",
+        "page": 4,
+        "image": "../assets/reference-pdf-pages/han-xiao-2022-slide-32-page-04.jpg",
+        "score": 32.083,
+        "hits": [
+          "crossover",
+          "adaptive",
+          "fitness",
+          "improved"
+        ],
+        "slideTitle": "Rekombinasi Jadwal antar Parent"
+      },
+      "40": {
+        "status": "available",
+        "page": 5,
+        "image": "../assets/reference-pdf-pages/han-xiao-2022-slide-40-page-05.jpg",
+        "score": 26.202,
+        "hits": [
+          "classic",
+          "adaptive",
+          "fitness"
+        ],
+        "slideTitle": "Classic GA vs Fuzzy GA"
+      },
+      "44": {
+        "status": "available",
+        "page": 4,
+        "image": "../assets/reference-pdf-pages/han-xiao-2022-slide-44-page-04.jpg",
+        "score": 27.065,
+        "hits": [
+          "fitness",
+          "adaptive",
+          "improved",
+          "optimal"
+        ],
+        "slideTitle": "Kesimpulan Utama dan Saran Pengembangan"
+      }
+    }
+  },
+  "Han &amp; Xiao, 2022": {
+    "citation": "(Han & Xiao, 2022)",
+    "file": "027 - An improved adaptive genetic algorithm.pdf",
+    "title": "An improved adaptive genetic algorithm",
+    "sourceIndex": 27,
+    "slides": [
+      15,
+      27,
+      32,
+      40,
+      44
+    ],
+    "status": "available",
+    "note": null,
+    "page": 4,
+    "image": "../assets/reference-pdf-pages/han-xiao-2022-slide-15-page-04.jpg",
+    "bySlide": {
+      "15": {
+        "status": "available",
+        "page": 4,
+        "image": "../assets/reference-pdf-pages/han-xiao-2022-slide-15-page-04.jpg",
+        "score": 61.826,
+        "hits": [
+          "crossover",
+          "adaptive",
+          "improved"
+        ],
+        "slideTitle": "Crossover"
+      },
+      "27": {
+        "status": "available",
+        "page": 4,
+        "image": "../assets/reference-pdf-pages/han-xiao-2022-slide-27-page-04.jpg",
+        "score": 46.773,
+        "hits": [
+          "fitness",
+          "adaptive",
+          "crossover",
+          "mutation",
+          "selection",
+          "improved"
+        ],
+        "slideTitle": "Pipeline Sistem Optimasi"
+      },
+      "32": {
+        "status": "available",
+        "page": 4,
+        "image": "../assets/reference-pdf-pages/han-xiao-2022-slide-32-page-04.jpg",
+        "score": 32.083,
+        "hits": [
+          "crossover",
+          "adaptive",
+          "fitness",
+          "improved"
+        ],
+        "slideTitle": "Rekombinasi Jadwal antar Parent"
+      },
+      "40": {
+        "status": "available",
+        "page": 5,
+        "image": "../assets/reference-pdf-pages/han-xiao-2022-slide-40-page-05.jpg",
+        "score": 26.202,
+        "hits": [
+          "classic",
+          "adaptive",
+          "fitness"
+        ],
+        "slideTitle": "Classic GA vs Fuzzy GA"
+      },
+      "44": {
+        "status": "available",
+        "page": 4,
+        "image": "../assets/reference-pdf-pages/han-xiao-2022-slide-44-page-04.jpg",
+        "score": 27.065,
+        "hits": [
+          "fitness",
+          "adaptive",
+          "improved",
+          "optimal"
+        ],
+        "slideTitle": "Kesimpulan Utama dan Saran Pengembangan"
+      }
+    }
+  },
+  "Irfan et al., 2022": {
+    "citation": "(Irfan et al., 2022)",
+    "file": "032 - Penerapan Algoritma Genetika untuk Penjadwalan Mata Pelajaran di SD Taman Cahya Pematangsiantar.pdf",
+    "title": "Penerapan Algoritma Genetika untuk Penjadwalan Mata Pelajaran di SD Taman Cahya Pematangsiantar",
+    "sourceIndex": 32,
+    "slides": [
+      17,
+      18
+    ],
+    "status": "available",
+    "note": null,
+    "page": 2,
+    "image": "../assets/reference-pdf-pages/irfan-et-al-2022-slide-17-page-02.jpg",
+    "bySlide": {
+      "17": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/irfan-et-al-2022-slide-17-page-02.jpg",
+        "score": 132.632,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "algoritma",
+          "jadwal",
+          "manual",
+          "pelajaran",
+          "taman",
+          "mata",
+          "cahya",
+          "pematangsiantar",
+          "penerapan",
+          "data",
+          "optimasi",
+          "waktu"
+        ],
+        "slideTitle": "Penjadwalan Akademik"
+      },
+      "18": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/irfan-et-al-2022-slide-18-page-02.jpg",
+        "score": 149.642,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "algoritma",
+          "penerapan",
+          "crossover",
+          "mutasi",
+          "optimasi",
+          "seleksi",
+          "pelajaran",
+          "taman",
+          "mata",
+          "cahya",
+          "pematangsiantar",
+          "jadwal"
+        ],
+        "slideTitle": "Penerapan AG dalam Penjadwalan"
+      }
+    }
+  },
+  "Mahmoudinazlou & Kwon, 2024": {
+    "citation": "(Mahmoudinazlou & Kwon, 2024)",
+    "file": "039 - A hybrid genetic algorithm for the min max Multiple Traveling Salesman Problem.pdf",
+    "title": "A hybrid genetic algorithm for the min–max Multiple Traveling Salesman Problem",
+    "sourceIndex": 39,
+    "slides": [
+      22
+    ],
+    "status": "available",
+    "note": null,
+    "page": 1,
+    "image": "../assets/reference-pdf-pages/mahmoudinazlou-kwon-2024-slide-22-page-01.jpg",
+    "bySlide": {
+      "22": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/mahmoudinazlou-kwon-2024-slide-22-page-01.jpg",
+        "score": 27.23,
+        "hits": [
+          "hybrid",
+          "problem",
+          "multiple",
+          "traveling",
+          "salesman",
+          "optimal"
+        ],
+        "slideTitle": "Evaluasi Kinerja Hybrid Genetic Algorithm"
+      }
+    }
+  },
+  "Mahmoudinazlou &amp; Kwon, 2024": {
+    "citation": "(Mahmoudinazlou & Kwon, 2024)",
+    "file": "039 - A hybrid genetic algorithm for the min max Multiple Traveling Salesman Problem.pdf",
+    "title": "A hybrid genetic algorithm for the min–max Multiple Traveling Salesman Problem",
+    "sourceIndex": 39,
+    "slides": [
+      22
+    ],
+    "status": "available",
+    "note": null,
+    "page": 1,
+    "image": "../assets/reference-pdf-pages/mahmoudinazlou-kwon-2024-slide-22-page-01.jpg",
+    "bySlide": {
+      "22": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/mahmoudinazlou-kwon-2024-slide-22-page-01.jpg",
+        "score": 27.23,
+        "hits": [
+          "hybrid",
+          "problem",
+          "multiple",
+          "traveling",
+          "salesman",
+          "optimal"
+        ],
+        "slideTitle": "Evaluasi Kinerja Hybrid Genetic Algorithm"
+      }
+    }
+  },
+  "Marrouchi et al., 2024": {
+    "citation": "(Marrouchi et al., 2024)",
+    "file": "042 - Optimizing Unit Scheduling with Fuzzy Logic A Strategic Approach for Efficient Power Network Operations.pdf",
+    "title": "Optimizing Unit Scheduling with Fuzzy Logic: A Strategic Approach for Efficient Power Network Operations",
+    "sourceIndex": 42,
+    "slides": [
+      24,
+      25,
+      26,
+      36,
+      39,
+      41
+    ],
+    "status": "available",
+    "note": null,
+    "page": 7,
+    "image": "../assets/reference-pdf-pages/marrouchi-et-al-2024-slide-24-page-07.jpg",
+    "bySlide": {
+      "24": {
+        "status": "available",
+        "page": 7,
+        "image": "../assets/reference-pdf-pages/marrouchi-et-al-2024-slide-24-page-07.jpg",
+        "score": 53.57,
+        "hits": [
+          "scheduling",
+          "controller",
+          "logic",
+          "unit",
+          "power",
+          "approach",
+          "optimizing",
+          "efficient",
+          "network",
+          "data",
+          "model",
+          "research"
+        ],
+        "slideTitle": "Penelitian Terdahulu"
+      },
+      "25": {
+        "status": "available",
+        "page": 7,
+        "image": "../assets/reference-pdf-pages/marrouchi-et-al-2024-slide-25-page-07.jpg",
+        "score": 45.134,
+        "hits": [
+          "scheduling",
+          "controller",
+          "logic",
+          "unit",
+          "power",
+          "approach",
+          "optimizing",
+          "efficient",
+          "network",
+          "data"
+        ],
+        "slideTitle": "BAB III - Metodologi"
+      },
+      "26": {
+        "status": "available",
+        "page": 7,
+        "image": "../assets/reference-pdf-pages/marrouchi-et-al-2024-slide-26-page-07.jpg",
+        "score": 65.37,
+        "hits": [
+          "data",
+          "scheduling",
+          "controller",
+          "logic",
+          "unit",
+          "power",
+          "approach",
+          "optimizing",
+          "efficient",
+          "network",
+          "model"
+        ],
+        "slideTitle": "Metodologi Penelitian dan Pengumpulan Data"
+      },
+      "36": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/marrouchi-et-al-2024-slide-36-page-01.jpg",
+        "score": 46.734,
+        "hits": [
+          "scheduling",
+          "logic",
+          "unit",
+          "network",
+          "power",
+          "optimizing",
+          "approach",
+          "efficient",
+          "strategic",
+          "operations",
+          "input",
+          "program"
+        ],
+        "slideTitle": "Evaluasi dan Implementasi GUI"
+      },
+      "39": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/marrouchi-et-al-2024-slide-39-page-01.jpg",
+        "score": 53.648,
+        "hits": [
+          "scheduling",
+          "program",
+          "logic",
+          "unit",
+          "network",
+          "power",
+          "optimizing",
+          "approach",
+          "efficient",
+          "strategic",
+          "operations",
+          "function"
+        ],
+        "slideTitle": "Implementasi Program dan Parameter Adaptif"
+      },
+      "41": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/marrouchi-et-al-2024-slide-41-page-01.jpg",
+        "score": 45.61,
+        "hits": [
+          "scheduling",
+          "logic",
+          "unit",
+          "network",
+          "power",
+          "optimizing",
+          "approach",
+          "efficient",
+          "strategic",
+          "operations",
+          "generated"
+        ],
+        "slideTitle": "Hasil Jadwal, Implikasi, dan GUI"
+      }
+    }
+  },
+  "Movassaghi & Avakh Darestani, 2022": {
+    "citation": "(Movassaghi & Avakh Darestani, 2022)",
+    "file": "044 - Multiple Cross-docks Scheduling with Multiple Doors using Fuzzy Approach and Metaheuristic Algorithms.pdf",
+    "title": "Multiple Cross-docks Scheduling with Multiple Doors using Fuzzy Approach and Metaheuristic Algorithms",
+    "sourceIndex": 44,
+    "slides": [
+      23,
+      24
+    ],
+    "status": "available",
+    "note": null,
+    "page": 5,
+    "image": "../assets/reference-pdf-pages/movassaghi-avakh-darestani-2022-slide-23-page-05.jpg",
+    "bySlide": {
+      "23": {
+        "status": "available",
+        "page": 5,
+        "image": "../assets/reference-pdf-pages/movassaghi-avakh-darestani-2022-slide-23-page-05.jpg",
+        "score": 37.476,
+        "hits": [
+          "scheduling",
+          "multiple",
+          "penalty",
+          "doors",
+          "cross-docks",
+          "approach",
+          "logic"
+        ],
+        "slideTitle": "Kerangka Pemikiran"
+      },
+      "24": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/movassaghi-avakh-darestani-2022-slide-24-page-01.jpg",
+        "score": 36.374,
+        "hits": [
+          "scheduling",
+          "multiple",
+          "doors",
+          "metaheuristic",
+          "cross-docks",
+          "approach",
+          "model",
+          "research"
+        ],
+        "slideTitle": "Penelitian Terdahulu"
+      }
+    }
+  },
+  "Movassaghi &amp; Avakh Darestani, 2022": {
+    "citation": "(Movassaghi & Avakh Darestani, 2022)",
+    "file": "044 - Multiple Cross-docks Scheduling with Multiple Doors using Fuzzy Approach and Metaheuristic Algorithms.pdf",
+    "title": "Multiple Cross-docks Scheduling with Multiple Doors using Fuzzy Approach and Metaheuristic Algorithms",
+    "sourceIndex": 44,
+    "slides": [
+      23,
+      24
+    ],
+    "status": "available",
+    "note": null,
+    "page": 5,
+    "image": "../assets/reference-pdf-pages/movassaghi-avakh-darestani-2022-slide-23-page-05.jpg",
+    "bySlide": {
+      "23": {
+        "status": "available",
+        "page": 5,
+        "image": "../assets/reference-pdf-pages/movassaghi-avakh-darestani-2022-slide-23-page-05.jpg",
+        "score": 37.476,
+        "hits": [
+          "scheduling",
+          "multiple",
+          "penalty",
+          "doors",
+          "cross-docks",
+          "approach",
+          "logic"
+        ],
+        "slideTitle": "Kerangka Pemikiran"
+      },
+      "24": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/movassaghi-avakh-darestani-2022-slide-24-page-01.jpg",
+        "score": 36.374,
+        "hits": [
+          "scheduling",
+          "multiple",
+          "doors",
+          "metaheuristic",
+          "cross-docks",
+          "approach",
+          "model",
+          "research"
+        ],
+        "slideTitle": "Penelitian Terdahulu"
+      }
+    }
+  },
+  "Noptrina et al., 2024": {
+    "citation": "(Noptrina et al., 2024)",
+    "file": "048 - PERANCANGAN SISTEM PENJADWALAN PRAKTIKUM MENGGUNAKAN ALGORITMA FIFO (FIRST IN FIRST OUT) BERBASIS WEBSITE.pdf",
+    "title": "PERANCANGAN SISTEM PENJADWALAN PRAKTIKUM MENGGUNAKAN ALGORITMA FIFO (FIRST IN FIRST OUT) BERBASIS WEBSITE",
+    "sourceIndex": 48,
+    "slides": [
+      7,
+      10,
+      19,
+      37,
+      38
+    ],
+    "status": "available",
+    "note": null,
+    "page": 2,
+    "image": "../assets/reference-pdf-pages/noptrina-et-al-2024-slide-07-page-02.jpg",
+    "bySlide": {
+      "7": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/noptrina-et-al-2024-slide-07-page-02.jpg",
+        "score": 145.61,
+        "hits": [
+          "penjadwalan",
+          "praktikum",
+          "laboratorium",
+          "algoritma",
+          "first",
+          "tujuan",
+          "yang",
+          "jadwal",
+          "menggunakan",
+          "fifo",
+          "website",
+          "perancangan",
+          "waktu",
+          "teknik"
+        ],
+        "slideTitle": "Arah Penelitian"
+      },
+      "10": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/noptrina-et-al-2024-slide-10-page-02.jpg",
+        "score": 212.666,
+        "hits": [
+          "penjadwalan",
+          "praktikum",
+          "algoritma",
+          "first",
+          "pustaka",
+          "laboratorium",
+          "scheduling",
+          "waktu",
+          "menggunakan",
+          "fifo",
+          "website",
+          "perancangan",
+          "sumber",
+          "ketersediaan"
+        ],
+        "slideTitle": "Tinjauan Pustaka dan Algoritma Penjadwalan"
+      },
+      "19": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/noptrina-et-al-2024-slide-19-page-02.jpg",
+        "score": 182.569,
+        "hits": [
+          "penjadwalan",
+          "laboratorium",
+          "praktikum",
+          "algoritma",
+          "first",
+          "menggunakan",
+          "fifo",
+          "ketersediaan",
+          "website",
+          "yang",
+          "perancangan",
+          "memiliki",
+          "jadwal",
+          "waktu"
+        ],
+        "slideTitle": "Penjadwalan Laboratorium"
+      },
+      "37": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/noptrina-et-al-2024-slide-37-page-02.jpg",
+        "score": 79.015,
+        "hits": [
+          "penjadwalan",
+          "praktikum",
+          "algoritma",
+          "first",
+          "menggunakan",
+          "fifo",
+          "website",
+          "perancangan",
+          "jadwal",
+          "serta",
+          "implementasi",
+          "pencarian",
+          "solusi"
+        ],
+        "slideTitle": "BAB IV - Hasil dan Pembahasan"
+      },
+      "38": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/noptrina-et-al-2024-slide-38-page-01.jpg",
+        "score": 163.744,
+        "hits": [
+          "praktikum",
+          "penjadwalan",
+          "data",
+          "algoritma",
+          "first",
+          "laboratorium",
+          "program",
+          "fifo",
+          "website",
+          "menggunakan",
+          "perancangan",
+          "studi",
+          "ruangan",
+          "yang"
+        ],
+        "slideTitle": "Hasil dan Rekap Data Praktikum FST"
+      }
+    }
+  },
+  "Pratama, 2025": {
+    "citation": "(Pratama, 2025)",
+    "file": "055 - Sistem Penjadwalan Otomatis Menggunakan Algoritma Genetika pada Lingkungan Sekolah.pdf",
+    "title": "Sistem Penjadwalan Otomatis Menggunakan Algoritma Genetika pada Lingkungan Sekolah",
+    "sourceIndex": 55,
+    "slides": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      19
+    ],
+    "status": "available",
+    "note": null,
+    "page": 1,
+    "image": "../assets/reference-pdf-pages/pratama-2025-slide-02-page-01.jpg",
+    "bySlide": {
+      "2": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/pratama-2025-slide-02-page-01.jpg",
+        "score": 67.854,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "algoritma",
+          "praktikum",
+          "menggunakan",
+          "otomatis",
+          "teori",
+          "pengembangan"
+        ],
+        "slideTitle": "Agenda Presentasi"
+      },
+      "3": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/pratama-2025-slide-03-page-01.jpg",
+        "score": 74.149,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "algoritma",
+          "praktikum",
+          "menggunakan",
+          "otomatis",
+          "yang",
+          "jadwal",
+          "ruang",
+          "penyusunan",
+          "waktu",
+          "satu",
+          "muncul",
+          "pendekatan"
+        ],
+        "slideTitle": "BAB I - Pendahuluan"
+      },
+      "4": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/pratama-2025-slide-04-page-01.jpg",
+        "score": 103.349,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "praktikum",
+          "algoritma",
+          "jadwal",
+          "laboratorium",
+          "menggunakan",
+          "otomatis",
+          "yang",
+          "kuliah",
+          "ruang",
+          "tidak",
+          "daftar",
+          "program"
+        ],
+        "slideTitle": "Pendahuluan"
+      },
+      "5": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/pratama-2025-slide-05-page-01.jpg",
+        "score": 172.623,
+        "hits": [
+          "penjadwalan",
+          "praktikum",
+          "genetika",
+          "algoritma",
+          "laboratorium",
+          "ruang",
+          "tidak",
+          "yang",
+          "menggunakan",
+          "otomatis",
+          "jadwal",
+          "waktu",
+          "memiliki",
+          "program"
+        ],
+        "slideTitle": "Masalah Penjadwalan Praktikum"
+      },
+      "6": {
+        "status": "available",
+        "page": 5,
+        "image": "../assets/reference-pdf-pages/pratama-2025-slide-06-page-05.jpg",
+        "score": 101.053,
+        "hits": [
+          "genetika",
+          "konflik",
+          "penjadwalan",
+          "algoritma",
+          "jadwal",
+          "bagaimana",
+          "fitness",
+          "ruang",
+          "menggunakan",
+          "solusi",
+          "optimasi",
+          "bentrok",
+          "evolusi"
+        ],
+        "slideTitle": "Fokus Masalah Penelitian"
+      },
+      "19": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/pratama-2025-slide-19-page-01.jpg",
+        "score": 151.712,
+        "hits": [
+          "penjadwalan",
+          "laboratorium",
+          "genetika",
+          "praktikum",
+          "algoritma",
+          "ruang",
+          "menggunakan",
+          "otomatis",
+          "yang",
+          "memiliki",
+          "jadwal",
+          "tidak",
+          "waktu",
+          "alat"
+        ],
+        "slideTitle": "Penjadwalan Laboratorium"
+      }
+    }
+  },
+  "Pytel, 2025": {
+    "citation": "(Pytel, 2025)",
+    "file": "056 - Fuzzy logic applied to tunning mutation size in evolutionary algorithms.pdf",
+    "title": "Fuzzy logic applied to tunning mutation size in evolutionary algorithms",
+    "sourceIndex": 56,
+    "slides": [
+      14,
+      16,
+      21,
+      23,
+      31,
+      33,
+      34,
+      35
+    ],
+    "status": "available",
+    "note": null,
+    "page": 4,
+    "image": "../assets/reference-pdf-pages/pytel-2025-slide-14-page-04.jpg",
+    "bySlide": {
+      "14": {
+        "status": "available",
+        "page": 4,
+        "image": "../assets/reference-pdf-pages/pytel-2025-slide-14-page-04.jpg",
+        "score": 89.196,
+        "hits": [
+          "fitness",
+          "mutation",
+          "function",
+          "logic",
+          "size",
+          "applied",
+          "evolutionary"
+        ],
+        "slideTitle": "Fitness Function"
+      },
+      "16": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/pytel-2025-slide-16-page-01.jpg",
+        "score": 66.798,
+        "hits": [
+          "mutation",
+          "logic",
+          "size",
+          "evolutionary",
+          "applied",
+          "tunning"
+        ],
+        "slideTitle": "Mutation"
+      },
+      "21": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/pytel-2025-slide-21-page-01.jpg",
+        "score": 60.328,
+        "hits": [
+          "mutation",
+          "logic",
+          "crossover",
+          "size",
+          "evolutionary",
+          "applied",
+          "tunning",
+          "approach",
+          "input"
+        ],
+        "slideTitle": "Optimasi Algoritma Menggunakan Fuzzy Logic"
+      },
+      "23": {
+        "status": "available",
+        "page": 4,
+        "image": "../assets/reference-pdf-pages/pytel-2025-slide-23-page-04.jpg",
+        "score": 39.822,
+        "hits": [
+          "mutation",
+          "fitness",
+          "logic",
+          "size",
+          "applied",
+          "evolutionary",
+          "data",
+          "output"
+        ],
+        "slideTitle": "Kerangka Pemikiran"
+      },
+      "31": {
+        "status": "available",
+        "page": 4,
+        "image": "../assets/reference-pdf-pages/pytel-2025-slide-31-page-04.jpg",
+        "score": 40.727,
+        "hits": [
+          "mutation",
+          "fitness",
+          "logic",
+          "size",
+          "applied",
+          "evolutionary"
+        ],
+        "slideTitle": "Penalty sebagai Dasar Kualitas Jadwal"
+      },
+      "33": {
+        "status": "available",
+        "page": 4,
+        "image": "../assets/reference-pdf-pages/pytel-2025-slide-33-page-04.jpg",
+        "score": 45.3,
+        "hits": [
+          "mutation",
+          "fitness",
+          "logic",
+          "size",
+          "applied",
+          "evolutionary",
+          "area",
+          "rate",
+          "diversity"
+        ],
+        "slideTitle": "Menjaga Keragaman Populasi"
+      },
+      "34": {
+        "status": "available",
+        "page": 16,
+        "image": "../assets/reference-pdf-pages/pytel-2025-slide-34-page-16.jpg",
+        "score": 73.384,
+        "hits": [
+          "controller",
+          "mutation",
+          "parameter",
+          "logic",
+          "adaptive",
+          "applied",
+          "evolutionary",
+          "size"
+        ],
+        "slideTitle": "Controller Adaptif pada Parameter GA"
+      },
+      "35": {
+        "status": "available",
+        "page": 4,
+        "image": "../assets/reference-pdf-pages/pytel-2025-slide-35-page-04.jpg",
+        "score": 62.478,
+        "hits": [
+          "fitness",
+          "mutation",
+          "logic",
+          "size",
+          "diversity",
+          "applied",
+          "evolutionary",
+          "area"
+        ],
+        "slideTitle": "Fuzzy untuk Mengatur Cr dan Mr"
+      }
+    }
+  },
+  "Subburaj & Miruna Joe Amali, 2025": {
+    "citation": "(Subburaj & Miruna Joe Amali, 2025)",
+    "file": "068 - A fuzzy system based self-adaptive memetic algorithm using population diversity control for evolutionary multi-objective optimization.pdf",
+    "title": "A fuzzy system based self-adaptive memetic algorithm using population diversity control for evolutionary multi-objective optimization",
+    "sourceIndex": 68,
+    "slides": [
+      21,
+      34,
+      35
+    ],
+    "status": "available",
+    "note": null,
+    "page": 25,
+    "image": "../assets/reference-pdf-pages/subburaj-miruna-joe-amali-2025-slide-21-page-25.jpg",
+    "bySlide": {
+      "21": {
+        "status": "available",
+        "page": 25,
+        "image": "../assets/reference-pdf-pages/subburaj-miruna-joe-amali-2025-slide-21-page-25.jpg",
+        "score": 60.892,
+        "hits": [
+          "population",
+          "logic",
+          "crossover",
+          "mutation",
+          "diversity",
+          "evolutionary",
+          "optimization",
+          "multi-objective",
+          "memetic",
+          "control",
+          "self-adaptive",
+          "hybrid",
+          "approach",
+          "base"
+        ],
+        "slideTitle": "Optimasi Algoritma Menggunakan Fuzzy Logic"
+      },
+      "34": {
+        "status": "available",
+        "page": 3,
+        "image": "../assets/reference-pdf-pages/subburaj-miruna-joe-amali-2025-slide-34-page-03.jpg",
+        "score": 88.718,
+        "hits": [
+          "crossover",
+          "population",
+          "parameter",
+          "diversity",
+          "mutation",
+          "rate",
+          "control",
+          "multi-objective",
+          "optimization",
+          "adaptive",
+          "memetic",
+          "evolutionary",
+          "factor",
+          "scaling"
+        ],
+        "slideTitle": "Controller Adaptif pada Parameter GA"
+      },
+      "35": {
+        "status": "available",
+        "page": 13,
+        "image": "../assets/reference-pdf-pages/subburaj-miruna-joe-amali-2025-slide-35-page-13.jpg",
+        "score": 61.278,
+        "hits": [
+          "fitness",
+          "crossover",
+          "population",
+          "diversity",
+          "memetic",
+          "control",
+          "evolutionary",
+          "multi-objective",
+          "parameter"
+        ],
+        "slideTitle": "Fuzzy untuk Mengatur Cr dan Mr"
+      }
+    }
+  },
+  "Subburaj &amp; Miruna Joe Amali, 2025": {
+    "citation": "(Subburaj & Miruna Joe Amali, 2025)",
+    "file": "068 - A fuzzy system based self-adaptive memetic algorithm using population diversity control for evolutionary multi-objective optimization.pdf",
+    "title": "A fuzzy system based self-adaptive memetic algorithm using population diversity control for evolutionary multi-objective optimization",
+    "sourceIndex": 68,
+    "slides": [
+      21,
+      34,
+      35
+    ],
+    "status": "available",
+    "note": null,
+    "page": 25,
+    "image": "../assets/reference-pdf-pages/subburaj-miruna-joe-amali-2025-slide-21-page-25.jpg",
+    "bySlide": {
+      "21": {
+        "status": "available",
+        "page": 25,
+        "image": "../assets/reference-pdf-pages/subburaj-miruna-joe-amali-2025-slide-21-page-25.jpg",
+        "score": 60.892,
+        "hits": [
+          "population",
+          "logic",
+          "crossover",
+          "mutation",
+          "diversity",
+          "evolutionary",
+          "optimization",
+          "multi-objective",
+          "memetic",
+          "control",
+          "self-adaptive",
+          "hybrid",
+          "approach",
+          "base"
+        ],
+        "slideTitle": "Optimasi Algoritma Menggunakan Fuzzy Logic"
+      },
+      "34": {
+        "status": "available",
+        "page": 3,
+        "image": "../assets/reference-pdf-pages/subburaj-miruna-joe-amali-2025-slide-34-page-03.jpg",
+        "score": 88.718,
+        "hits": [
+          "crossover",
+          "population",
+          "parameter",
+          "diversity",
+          "mutation",
+          "rate",
+          "control",
+          "multi-objective",
+          "optimization",
+          "adaptive",
+          "memetic",
+          "evolutionary",
+          "factor",
+          "scaling"
+        ],
+        "slideTitle": "Controller Adaptif pada Parameter GA"
+      },
+      "35": {
+        "status": "available",
+        "page": 13,
+        "image": "../assets/reference-pdf-pages/subburaj-miruna-joe-amali-2025-slide-35-page-13.jpg",
+        "score": 61.278,
+        "hits": [
+          "fitness",
+          "crossover",
+          "population",
+          "diversity",
+          "memetic",
+          "control",
+          "evolutionary",
+          "multi-objective",
+          "parameter"
+        ],
+        "slideTitle": "Fuzzy untuk Mengatur Cr dan Mr"
+      }
+    }
+  },
+  "Syahputra et al., 2024": {
+    "citation": "(Syahputra et al., 2024)",
+    "file": "071 - Penerapan Algoritma Genetika dalam Sistem Penjadwalan Mata Pelajaran di SD Islam Terpadu Darussalam.pdf",
+    "title": "Penerapan Algoritma Genetika dalam Sistem Penjadwalan Mata Pelajaran di SD Islam Terpadu Darussalam",
+    "sourceIndex": 71,
+    "slides": [
+      9,
+      10,
+      17,
+      18
+    ],
+    "status": "available",
+    "note": null,
+    "page": 13,
+    "image": "../assets/reference-pdf-pages/syahputra-et-al-2024-slide-09-page-13.jpg",
+    "bySlide": {
+      "9": {
+        "status": "available",
+        "page": 13,
+        "image": "../assets/reference-pdf-pages/syahputra-et-al-2024-slide-09-page-13.jpg",
+        "score": 86.388,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "algoritma",
+          "adaptif",
+          "mata",
+          "pelajaran",
+          "penerapan",
+          "islam",
+          "terpadu",
+          "darussalam",
+          "optimasi",
+          "tersebut"
+        ],
+        "slideTitle": "BAB II - Tinjauan Pustaka"
+      },
+      "10": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/syahputra-et-al-2024-slide-10-page-02.jpg",
+        "score": 184.179,
+        "hits": [
+          "penjadwalan",
+          "algoritma",
+          "genetika",
+          "konflik",
+          "waktu",
+          "pelajaran",
+          "mata",
+          "islam",
+          "terpadu",
+          "darussalam",
+          "kegiatan",
+          "sumber",
+          "daya",
+          "yang"
+        ],
+        "slideTitle": "Tinjauan Pustaka dan Algoritma Penjadwalan"
+      },
+      "17": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/syahputra-et-al-2024-slide-17-page-02.jpg",
+        "score": 140.219,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "akademik",
+          "algoritma",
+          "konflik",
+          "jadwal",
+          "pelajaran",
+          "mata",
+          "islam",
+          "terpadu",
+          "darussalam",
+          "waktu",
+          "belajar",
+          "serta"
+        ],
+        "slideTitle": "Penjadwalan Akademik"
+      },
+      "18": {
+        "status": "available",
+        "page": 13,
+        "image": "../assets/reference-pdf-pages/syahputra-et-al-2024-slide-18-page-13.jpg",
+        "score": 145.649,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "algoritma",
+          "penerapan",
+          "crossover",
+          "mutasi",
+          "optimasi",
+          "adaptif",
+          "mata",
+          "pelajaran",
+          "islam",
+          "terpadu",
+          "darussalam",
+          "kombinasi"
+        ],
+        "slideTitle": "Penerapan AG dalam Penjadwalan"
+      }
+    }
+  },
+  "Triyono & Kusrini, 2024": {
+    "citation": "(Triyono & Kusrini, 2024)",
+    "file": "077 - Algoritma Genetika dalam Penjadwalan Mata Kuliah Eksplorasi Metode Crossover, Mutasi, dan Seleksi Terbaik.pdf",
+    "title": "Algoritma Genetika dalam Penjadwalan Mata Kuliah: Eksplorasi Metode Crossover, Mutasi, dan Seleksi Terbaik",
+    "sourceIndex": 77,
+    "slides": [
+      8,
+      9,
+      11,
+      12,
+      13,
+      14,
+      29,
+      30,
+      31,
+      42,
+      43,
+      44
+    ],
+    "status": "available",
+    "note": null,
+    "page": 2,
+    "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-08-page-02.jpg",
+    "bySlide": {
+      "8": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-08-page-02.jpg",
+        "score": 119.07,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "algoritma",
+          "crossover",
+          "mutasi",
+          "seleksi",
+          "fitness",
+          "metode",
+          "mata",
+          "kuliah",
+          "eksplorasi",
+          "optimasi",
+          "yang",
+          "mekanisme"
+        ],
+        "slideTitle": "Kontribusi Penelitian"
+      },
+      "9": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-09-page-01.jpg",
+        "score": 112.208,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "algoritma",
+          "mutasi",
+          "seleksi",
+          "kuliah",
+          "mata",
+          "metode",
+          "terbaik",
+          "eksplorasi",
+          "teori"
+        ],
+        "slideTitle": "BAB II - Tinjauan Pustaka"
+      },
+      "11": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-11-page-02.jpg",
+        "score": 212.565,
+        "hits": [
+          "genetika",
+          "algoritma",
+          "crossover",
+          "mutasi",
+          "penjadwalan",
+          "seleksi",
+          "fitness",
+          "metode",
+          "mata",
+          "kuliah",
+          "eksplorasi",
+          "yang",
+          "kombinasi",
+          "solusi"
+        ],
+        "slideTitle": "Algoritma Genetika"
+      },
+      "12": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-12-page-02.jpg",
+        "score": 110.368,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "mutasi",
+          "seleksi",
+          "algoritma",
+          "mata",
+          "metode",
+          "kuliah",
+          "eksplorasi",
+          "setiap",
+          "studi",
+          "ruang",
+          "waktu"
+        ],
+        "slideTitle": "Kromosom"
+      },
+      "13": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-13-page-02.jpg",
+        "score": 113.617,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "mutasi",
+          "seleksi",
+          "algoritma",
+          "mata",
+          "fitness",
+          "metode",
+          "waktu",
+          "ruang",
+          "kuliah",
+          "eksplorasi",
+          "yang"
+        ],
+        "slideTitle": "Pembangkitan Kromosom"
+      },
+      "14": {
+        "status": "available",
+        "page": 20,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-14-page-20.jpg",
+        "score": 151.054,
+        "hits": [
+          "fitness",
+          "konflik",
+          "genetika",
+          "mutasi",
+          "crossover",
+          "algoritma",
+          "seleksi",
+          "yang",
+          "semakin",
+          "mata",
+          "kuliah",
+          "solusi",
+          "jumlah",
+          "pelanggaran"
+        ],
+        "slideTitle": "Fitness Function"
+      },
+      "29": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-29-page-02.jpg",
+        "score": 108.045,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "mutasi",
+          "seleksi",
+          "algoritma",
+          "mata",
+          "metode",
+          "ruang",
+          "kuliah",
+          "eksplorasi",
+          "setiap",
+          "waktu",
+          "yang"
+        ],
+        "slideTitle": "Representasi Jadwal sebagai Kromosom"
+      },
+      "30": {
+        "status": "available",
+        "page": 3,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-30-page-03.jpg",
+        "score": 132.748,
+        "hits": [
+          "populasi",
+          "genetika",
+          "penjadwalan",
+          "crossover",
+          "mutasi",
+          "algoritma",
+          "seleksi",
+          "inisialisasi",
+          "metode",
+          "mata",
+          "kuliah",
+          "optimasi",
+          "pencarian"
+        ],
+        "slideTitle": "Inisialisasi Populasi Awal"
+      },
+      "31": {
+        "status": "available",
+        "page": 20,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-31-page-20.jpg",
+        "score": 124.38,
+        "hits": [
+          "konflik",
+          "genetika",
+          "mutasi",
+          "crossover",
+          "algoritma",
+          "fitness",
+          "seleksi",
+          "dasar",
+          "yang",
+          "constraint",
+          "tidak",
+          "mata",
+          "kuliah",
+          "sebuah"
+        ],
+        "slideTitle": "Penalty sebagai Dasar Kualitas Jadwal"
+      },
+      "42": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-42-page-02.jpg",
+        "score": 103.452,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "mutasi",
+          "seleksi",
+          "algoritma",
+          "metode",
+          "mata",
+          "kuliah",
+          "eksplorasi",
+          "optimasi",
+          "parameter"
+        ],
+        "slideTitle": "BAB V - Penutup"
+      },
+      "43": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-43-page-02.jpg",
+        "score": 123.061,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "mutasi",
+          "algoritma",
+          "seleksi",
+          "fitness",
+          "metode",
+          "mata",
+          "kuliah",
+          "eksplorasi",
+          "yang",
+          "diuji",
+          "solusi"
+        ],
+        "slideTitle": "Kesimpulan dan Saran"
+      },
+      "44": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-44-page-02.jpg",
+        "score": 112.45,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "mutasi",
+          "seleksi",
+          "algoritma",
+          "fitness",
+          "metode",
+          "mata",
+          "kuliah",
+          "eksplorasi",
+          "optimasi",
+          "seperti",
+          "optimal"
+        ],
+        "slideTitle": "Kesimpulan Utama dan Saran Pengembangan"
+      }
+    }
+  },
+  "Triyono &amp; Kusrini, 2024": {
+    "citation": "(Triyono & Kusrini, 2024)",
+    "file": "077 - Algoritma Genetika dalam Penjadwalan Mata Kuliah Eksplorasi Metode Crossover, Mutasi, dan Seleksi Terbaik.pdf",
+    "title": "Algoritma Genetika dalam Penjadwalan Mata Kuliah: Eksplorasi Metode Crossover, Mutasi, dan Seleksi Terbaik",
+    "sourceIndex": 77,
+    "slides": [
+      8,
+      9,
+      11,
+      12,
+      13,
+      14,
+      29,
+      30,
+      31,
+      42,
+      43,
+      44
+    ],
+    "status": "available",
+    "note": null,
+    "page": 2,
+    "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-08-page-02.jpg",
+    "bySlide": {
+      "8": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-08-page-02.jpg",
+        "score": 119.07,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "algoritma",
+          "crossover",
+          "mutasi",
+          "seleksi",
+          "fitness",
+          "metode",
+          "mata",
+          "kuliah",
+          "eksplorasi",
+          "optimasi",
+          "yang",
+          "mekanisme"
+        ],
+        "slideTitle": "Kontribusi Penelitian"
+      },
+      "9": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-09-page-01.jpg",
+        "score": 112.208,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "algoritma",
+          "mutasi",
+          "seleksi",
+          "kuliah",
+          "mata",
+          "metode",
+          "terbaik",
+          "eksplorasi",
+          "teori"
+        ],
+        "slideTitle": "BAB II - Tinjauan Pustaka"
+      },
+      "11": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-11-page-02.jpg",
+        "score": 212.565,
+        "hits": [
+          "genetika",
+          "algoritma",
+          "crossover",
+          "mutasi",
+          "penjadwalan",
+          "seleksi",
+          "fitness",
+          "metode",
+          "mata",
+          "kuliah",
+          "eksplorasi",
+          "yang",
+          "kombinasi",
+          "solusi"
+        ],
+        "slideTitle": "Algoritma Genetika"
+      },
+      "12": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-12-page-02.jpg",
+        "score": 110.368,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "mutasi",
+          "seleksi",
+          "algoritma",
+          "mata",
+          "metode",
+          "kuliah",
+          "eksplorasi",
+          "setiap",
+          "studi",
+          "ruang",
+          "waktu"
+        ],
+        "slideTitle": "Kromosom"
+      },
+      "13": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-13-page-02.jpg",
+        "score": 113.617,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "mutasi",
+          "seleksi",
+          "algoritma",
+          "mata",
+          "fitness",
+          "metode",
+          "waktu",
+          "ruang",
+          "kuliah",
+          "eksplorasi",
+          "yang"
+        ],
+        "slideTitle": "Pembangkitan Kromosom"
+      },
+      "14": {
+        "status": "available",
+        "page": 20,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-14-page-20.jpg",
+        "score": 151.054,
+        "hits": [
+          "fitness",
+          "konflik",
+          "genetika",
+          "mutasi",
+          "crossover",
+          "algoritma",
+          "seleksi",
+          "yang",
+          "semakin",
+          "mata",
+          "kuliah",
+          "solusi",
+          "jumlah",
+          "pelanggaran"
+        ],
+        "slideTitle": "Fitness Function"
+      },
+      "29": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-29-page-02.jpg",
+        "score": 108.045,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "mutasi",
+          "seleksi",
+          "algoritma",
+          "mata",
+          "metode",
+          "ruang",
+          "kuliah",
+          "eksplorasi",
+          "setiap",
+          "waktu",
+          "yang"
+        ],
+        "slideTitle": "Representasi Jadwal sebagai Kromosom"
+      },
+      "30": {
+        "status": "available",
+        "page": 3,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-30-page-03.jpg",
+        "score": 132.748,
+        "hits": [
+          "populasi",
+          "genetika",
+          "penjadwalan",
+          "crossover",
+          "mutasi",
+          "algoritma",
+          "seleksi",
+          "inisialisasi",
+          "metode",
+          "mata",
+          "kuliah",
+          "optimasi",
+          "pencarian"
+        ],
+        "slideTitle": "Inisialisasi Populasi Awal"
+      },
+      "31": {
+        "status": "available",
+        "page": 20,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-31-page-20.jpg",
+        "score": 124.38,
+        "hits": [
+          "konflik",
+          "genetika",
+          "mutasi",
+          "crossover",
+          "algoritma",
+          "fitness",
+          "seleksi",
+          "dasar",
+          "yang",
+          "constraint",
+          "tidak",
+          "mata",
+          "kuliah",
+          "sebuah"
+        ],
+        "slideTitle": "Penalty sebagai Dasar Kualitas Jadwal"
+      },
+      "42": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-42-page-02.jpg",
+        "score": 103.452,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "mutasi",
+          "seleksi",
+          "algoritma",
+          "metode",
+          "mata",
+          "kuliah",
+          "eksplorasi",
+          "optimasi",
+          "parameter"
+        ],
+        "slideTitle": "BAB V - Penutup"
+      },
+      "43": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-43-page-02.jpg",
+        "score": 123.061,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "mutasi",
+          "algoritma",
+          "seleksi",
+          "fitness",
+          "metode",
+          "mata",
+          "kuliah",
+          "eksplorasi",
+          "yang",
+          "diuji",
+          "solusi"
+        ],
+        "slideTitle": "Kesimpulan dan Saran"
+      },
+      "44": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/triyono-kusrini-2024-slide-44-page-02.jpg",
+        "score": 112.45,
+        "hits": [
+          "penjadwalan",
+          "genetika",
+          "crossover",
+          "mutasi",
+          "seleksi",
+          "algoritma",
+          "fitness",
+          "metode",
+          "mata",
+          "kuliah",
+          "eksplorasi",
+          "optimasi",
+          "seperti",
+          "optimal"
+        ],
+        "slideTitle": "Kesimpulan Utama dan Saran Pengembangan"
+      }
+    }
+  },
+  "Umam et al., 2022": {
+    "citation": "(Umam et al., 2022)",
+    "file": "078 - A hybrid genetic algorithm and tabu search for minimizing makespan in flow shop scheduling problem.pdf",
+    "title": "A hybrid genetic algorithm and tabu search for minimizing makespan in flow shop scheduling problem",
+    "sourceIndex": 78,
+    "slides": [
+      22
+    ],
+    "status": "available",
+    "note": null,
+    "page": 9,
+    "image": "../assets/reference-pdf-pages/umam-et-al-2022-slide-22-page-09.jpg",
+    "bySlide": {
+      "22": {
+        "status": "available",
+        "page": 9,
+        "image": "../assets/reference-pdf-pages/umam-et-al-2022-slide-22-page-09.jpg",
+        "score": 51.714,
+        "hits": [
+          "scheduling",
+          "hybrid",
+          "shop",
+          "problem",
+          "search",
+          "tabu",
+          "makespan",
+          "flow",
+          "yang"
+        ],
+        "slideTitle": "Evaluasi Kinerja Hybrid Genetic Algorithm"
+      }
+    }
+  },
+  "Xue et al., 2021": {
+    "citation": "(Xue et al., 2021)",
+    "file": "082 - Adaptive crossover operator based multi-objective binary genetic algorithm for feature selection in classification Formula presented.pdf",
+    "title": "Adaptive crossover operator based multi-objective binary genetic algorithm for feature selection in classification[Formula presented]",
+    "sourceIndex": 82,
+    "slides": [
+      15,
+      28,
+      32
+    ],
+    "status": "available",
+    "note": null,
+    "page": 2,
+    "image": "../assets/reference-pdf-pages/xue-et-al-2021-slide-15-page-02.jpg",
+    "bySlide": {
+      "15": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/xue-et-al-2021-slide-15-page-02.jpg",
+        "score": 109.481,
+        "hits": [
+          "crossover",
+          "selection",
+          "operator",
+          "adaptive",
+          "feature",
+          "multi-objective",
+          "binary",
+          "classification"
+        ],
+        "slideTitle": "Crossover"
+      },
+      "28": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/xue-et-al-2021-slide-28-page-02.jpg",
+        "score": 77.079,
+        "hits": [
+          "crossover",
+          "selection",
+          "adaptive",
+          "mutation",
+          "operator",
+          "fitness",
+          "constraint",
+          "feature",
+          "multi-objective",
+          "binary",
+          "classification"
+        ],
+        "slideTitle": "Repair dan Post-Processing Konflik"
+      },
+      "32": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/xue-et-al-2021-slide-32-page-02.jpg",
+        "score": 75.915,
+        "hits": [
+          "crossover",
+          "selection",
+          "adaptive",
+          "fitness",
+          "constraint",
+          "feature",
+          "operator",
+          "multi-objective",
+          "binary",
+          "classification"
+        ],
+        "slideTitle": "Rekombinasi Jadwal antar Parent"
+      }
+    }
+  },
+  "Yazid, 2025": {
+    "citation": "(Yazid, 2025)",
+    "file": "083 - LABORATORIUM SEBAGAI LAYANAN TERPADU DI UNIVERSITAS INTEGRASI EFISIENSI PELAYANAN DAN MANAJEMEN SUMBER DAYA.pdf",
+    "title": "LABORATORIUM SEBAGAI LAYANAN TERPADU DI UNIVERSITAS – INTEGRASI EFISIENSI PELAYANAN DAN MANAJEMEN SUMBER DAYA",
+    "sourceIndex": 83,
+    "slides": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      37,
+      38
+    ],
+    "status": "available",
+    "note": null,
+    "page": 7,
+    "image": "../assets/reference-pdf-pages/yazid-2025-slide-02-page-07.jpg",
+    "bySlide": {
+      "2": {
+        "status": "available",
+        "page": 7,
+        "image": "../assets/reference-pdf-pages/yazid-2025-slide-02-page-07.jpg",
+        "score": 55.137,
+        "hits": [
+          "laboratorium",
+          "penjadwalan",
+          "praktikum",
+          "pelayanan",
+          "integrasi",
+          "terpadu",
+          "sumber",
+          "daya",
+          "layanan",
+          "efisiensi",
+          "mudah",
+          "pengembangan"
+        ],
+        "slideTitle": "Agenda Presentasi"
+      },
+      "3": {
+        "status": "available",
+        "page": 7,
+        "image": "../assets/reference-pdf-pages/yazid-2025-slide-03-page-07.jpg",
+        "score": 53.334,
+        "hits": [
+          "laboratorium",
+          "praktikum",
+          "penjadwalan",
+          "pelayanan",
+          "integrasi",
+          "terpadu",
+          "sumber",
+          "daya",
+          "layanan",
+          "efisiensi",
+          "yang",
+          "ruang",
+          "harus"
+        ],
+        "slideTitle": "BAB I - Pendahuluan"
+      },
+      "4": {
+        "status": "available",
+        "page": 7,
+        "image": "../assets/reference-pdf-pages/yazid-2025-slide-04-page-07.jpg",
+        "score": 76.414,
+        "hits": [
+          "laboratorium",
+          "penjadwalan",
+          "praktikum",
+          "pelayanan",
+          "integrasi",
+          "terpadu",
+          "sumber",
+          "daya",
+          "layanan",
+          "efisiensi",
+          "yang",
+          "tidak",
+          "ruang",
+          "ketersediaan"
+        ],
+        "slideTitle": "Pendahuluan"
+      },
+      "5": {
+        "status": "available",
+        "page": 7,
+        "image": "../assets/reference-pdf-pages/yazid-2025-slide-05-page-07.jpg",
+        "score": 142.714,
+        "hits": [
+          "praktikum",
+          "penjadwalan",
+          "laboratorium",
+          "ruang",
+          "tidak",
+          "sumber",
+          "daya",
+          "yang",
+          "pelayanan",
+          "integrasi",
+          "terpadu",
+          "layanan",
+          "efisiensi",
+          "kebutuhan"
+        ],
+        "slideTitle": "Masalah Penjadwalan Praktikum"
+      },
+      "6": {
+        "status": "available",
+        "page": 7,
+        "image": "../assets/reference-pdf-pages/yazid-2025-slide-06-page-07.jpg",
+        "score": 60.969,
+        "hits": [
+          "laboratorium",
+          "praktikum",
+          "penjadwalan",
+          "pelayanan",
+          "ruang",
+          "integrasi",
+          "terpadu",
+          "sumber",
+          "daya",
+          "layanan",
+          "efisiensi",
+          "penggunaan",
+          "solusi"
+        ],
+        "slideTitle": "Fokus Masalah Penelitian"
+      },
+      "7": {
+        "status": "available",
+        "page": 9,
+        "image": "../assets/reference-pdf-pages/yazid-2025-slide-07-page-09.jpg",
+        "score": 95.209,
+        "hits": [
+          "laboratorium",
+          "penjadwalan",
+          "tujuan",
+          "yang",
+          "manajemen",
+          "pelayanan",
+          "jadwal",
+          "terpadu",
+          "layanan",
+          "efisiensi",
+          "integrasi",
+          "sumber",
+          "daya",
+          "efisien"
+        ],
+        "slideTitle": "Arah Penelitian"
+      },
+      "37": {
+        "status": "available",
+        "page": 9,
+        "image": "../assets/reference-pdf-pages/yazid-2025-slide-37-page-09.jpg",
+        "score": 47.281,
+        "hits": [
+          "laboratorium",
+          "penjadwalan",
+          "pelayanan",
+          "terpadu",
+          "layanan",
+          "efisiensi",
+          "manajemen",
+          "integrasi",
+          "sumber",
+          "daya",
+          "kualitas",
+          "jadwal",
+          "serta",
+          "solusi"
+        ],
+        "slideTitle": "BAB IV - Hasil dan Pembahasan"
+      },
+      "38": {
+        "status": "available",
+        "page": 3,
+        "image": "../assets/reference-pdf-pages/yazid-2025-slide-38-page-03.jpg",
+        "score": 116.077,
+        "hits": [
+          "praktikum",
+          "laboratorium",
+          "data",
+          "program",
+          "layanan",
+          "terpadu",
+          "pelayanan",
+          "manajemen",
+          "integrasi",
+          "efisiensi",
+          "studi",
+          "yang",
+          "pendekatan",
+          "implementasi"
+        ],
+        "slideTitle": "Hasil dan Rekap Data Praktikum FST"
+      }
+    }
+  },
+  "Zhou et al., 2020": {
+    "citation": "(Zhou et al., 2020)",
+    "file": "088 - An improved genetic algorithm using greedy strategy toward task scheduling optimization in cloud environments.pdf",
+    "title": "An improved genetic algorithm using greedy strategy toward task scheduling optimization in cloud environments",
+    "sourceIndex": 88,
+    "slides": [
+      11,
+      12,
+      13,
+      29,
+      30
+    ],
+    "status": "available",
+    "note": null,
+    "page": 2,
+    "image": "../assets/reference-pdf-pages/zhou-et-al-2020-slide-11-page-02.jpg",
+    "bySlide": {
+      "11": {
+        "status": "available",
+        "page": 2,
+        "image": "../assets/reference-pdf-pages/zhou-et-al-2020-slide-11-page-02.jpg",
+        "score": 49.831,
+        "hits": [
+          "scheduling",
+          "crossover",
+          "task",
+          "cloud",
+          "greedy",
+          "strategy",
+          "environments",
+          "improved",
+          "optimization"
+        ],
+        "slideTitle": "Algoritma Genetika"
+      },
+      "12": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/zhou-et-al-2020-slide-12-page-01.jpg",
+        "score": 41.35,
+        "hits": [
+          "scheduling",
+          "cloud",
+          "task",
+          "greedy",
+          "strategy",
+          "improved",
+          "optimization",
+          "toward",
+          "environments"
+        ],
+        "slideTitle": "Kromosom"
+      },
+      "13": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/zhou-et-al-2020-slide-13-page-01.jpg",
+        "score": 43.6,
+        "hits": [
+          "scheduling",
+          "cloud",
+          "task",
+          "greedy",
+          "strategy",
+          "improved",
+          "optimization",
+          "toward",
+          "environments",
+          "data"
+        ],
+        "slideTitle": "Pembangkitan Kromosom"
+      },
+      "29": {
+        "status": "available",
+        "page": 1,
+        "image": "../assets/reference-pdf-pages/zhou-et-al-2020-slide-29-page-01.jpg",
+        "score": 46.974,
+        "hits": [
+          "scheduling",
+          "cloud",
+          "task",
+          "data",
+          "greedy",
+          "strategy",
+          "improved",
+          "optimization",
+          "toward",
+          "environments",
+          "model"
+        ],
+        "slideTitle": "Representasi Jadwal sebagai Kromosom"
+      },
+      "30": {
+        "status": "available",
+        "page": 3,
+        "image": "../assets/reference-pdf-pages/zhou-et-al-2020-slide-30-page-03.jpg",
+        "score": 65.963,
+        "hits": [
+          "gene",
+          "scheduling",
+          "population",
+          "task",
+          "cloud",
+          "greedy",
+          "optimization",
+          "environments",
+          "strategy",
+          "time"
+        ],
+        "slideTitle": "Inisialisasi Populasi Awal"
+      }
+    }
+  }
+}

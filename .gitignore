@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+*.tsbuildinfo
+
+# Runtime logs and local OS/editor files
+*.log
+.DS_Store
+
+# QA/runtime scratch
+qa/chrome-profile-*/
+qa/chrome-*-profile/
+qa/chrome-shot-profile-*/
+
+# Local AI/session artifacts
+.opencode-context.md
+.opencode-jce/

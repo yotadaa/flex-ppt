@@ -1,0 +1,841 @@
+.react-slide-frame .slide {
+  margin: 0 !important;
+  page-break-after: auto !important;
+}
+
+.react-slide-frame .slide.active {
+  display: block;
+}
+
+.react-slide-frame .deck {
+  width: auto;
+}
+
+.react-slide-frame img {
+  max-width: none;
+}
+
+.react-slide-frame .topbar,
+.react-slide-frame .chapter,
+.react-slide-frame .brand {
+  box-sizing: border-box;
+}
+
+.react-slide-frame .slide [class*='data-edit-id'] {
+  box-shadow: none;
+}
+
+.react-slide-frame .chapter {
+  position: relative;
+  --chip-step: .94in;
+}
+
+.react-slide-frame .chip {
+  cursor: pointer;
+  user-select: none;
+  will-change: transform, background-color, color, box-shadow;
+  position: relative;
+  z-index: 1;
+}
+
+.react-slide-frame .chapter::before {
+  content: "";
+  position: absolute;
+  left: calc(50% - (var(--chip-step) * 2.5) + (var(--active-chip-index, 0) * var(--chip-step)));
+  top: 50%;
+  width: .82in;
+  height: .26in;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, .06);
+  border: 1px solid rgba(15, 23, 42, .08);
+  transform: translateY(-50%);
+  transition: left .44s cubic-bezier(.22,1,.36,1), opacity .28s ease;
+  opacity: .9;
+  pointer-events: none;
+}
+
+.react-slide-frame .chip:hover {
+  color: color-mix(in srgb, var(--slide-accent, var(--accent)) 72%, #0f172a);
+  border-color: color-mix(in srgb, var(--slide-accent, var(--accent)) 24%, rgba(15,23,42,.10));
+  background: color-mix(in srgb, var(--slide-accent, var(--accent)) 8%, rgba(255,255,255,.76));
+  transform: translateY(-.01in);
+}
+
+.react-slide-frame .chip.active {
+  isolation: isolate;
+}
+
+.react-slide-frame .main {
+  position: relative;
+}
+
+.react-slide-frame .main > *:not(.generated-decor) {
+  position: relative;
+  z-index: 2;
+}
+
+.react-slide-frame .generated-decor {
+  position: absolute;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  opacity: .94;
+  z-index: 1;
+  pointer-events: auto;
+  filter: drop-shadow(0 .20in .34in rgba(15, 23, 42, .13));
+}
+
+.react-slide-frame .generated-decor-fitness {
+  right: .44in;
+  bottom: .62in;
+  width: 2.35in;
+  height: 2.05in;
+}
+
+.react-slide-frame .generated-decor-pipeline {
+  right: .52in;
+  bottom: .62in;
+  width: 2.18in;
+  height: 1.92in;
+}
+
+.react-slide-frame .generated-decor-repair {
+  right: .58in;
+  bottom: .58in;
+  width: 2.28in;
+  height: 2.05in;
+}
+
+.react-slide-frame .generated-decor-fuzzy {
+  right: .54in;
+  bottom: .62in;
+  width: 2.24in;
+  height: 2.00in;
+}
+
+.react-slide-frame .generated-decor-summary {
+  right: .64in;
+  bottom: .68in;
+  width: 2.12in;
+  height: 1.82in;
+}
+
+.react-slide-frame .divider .main > .divider-main {
+  position: absolute;
+  z-index: 1;
+  right: .50in;
+  top: 50%;
+  width: 5.15in;
+  height: 3.80in;
+  transform: translateY(-42%);
+}
+
+.react-slide-frame .divider .main > .divider-main .divider-art {
+  height: 100%;
+  min-height: 100%;
+  overflow: visible;
+}
+
+.react-slide-frame .divider .main > .divider-main img {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  transform: translateY(-.18in) scale(1.04);
+}
+
+.react-slide-frame #slide-34 .wide-visual {
+  height: 3.02in;
+  margin-top: .06in;
+}
+
+.react-slide-frame .slide {
+  --accent: var(--slide-accent, #0f766e);
+  --accent-soft: color-mix(in srgb, var(--accent) 14%, transparent);
+  --accent-line: color-mix(in srgb, var(--accent) 62%, transparent);
+}
+
+.react-slide-frame .subdesc p,
+.react-slide-frame .lead,
+.react-slide-frame .bodytext,
+.react-slide-frame .card p,
+.react-slide-frame .metric span,
+.react-slide-frame .flow-node,
+.react-slide-frame .step p,
+.react-slide-frame .callout,
+.react-slide-frame .formula,
+.react-slide-frame .lab-matrix span,
+.react-slide-frame .scale-grid span,
+.react-slide-frame .source-note {
+  font-size: calc(1em * 1.12);
+  line-height: 1.42;
+}
+
+.react-slide-frame .card h3,
+.react-slide-frame .flow-node strong,
+.react-slide-frame .step strong {
+  font-size: calc(1em * 1.08);
+}
+
+.react-slide-frame .accent-teal,
+.react-slide-frame .accent-sky,
+.react-slide-frame .accent-lime,
+.react-slide-frame .accent-amber,
+.react-slide-frame .accent-indigo {
+  --accent: var(--slide-accent, #0f766e);
+  --accent-soft: color-mix(in srgb, var(--accent) 14%, transparent);
+  --accent-line: color-mix(in srgb, var(--accent) 62%, transparent);
+}
+
+.react-slide-frame .arrow,
+.react-slide-frame .arrow-inline,
+.react-slide-frame .flow-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: .48in;
+  height: .24in;
+  color: var(--slide-accent, var(--accent));
+  font-size: 0 !important;
+  line-height: 1;
+  vertical-align: middle;
+  filter: drop-shadow(0 8px 14px color-mix(in srgb, var(--slide-accent, var(--accent)) 18%, transparent));
+}
+
+.react-slide-frame .cross-symbol {
+  position: relative;
+  display: inline-flex;
+  width: .34in;
+  height: .34in;
+  color: var(--slide-accent, var(--accent));
+  font-size: 0 !important;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.react-slide-frame .cross-symbol::before,
+.react-slide-frame .cross-symbol::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: .30in;
+  height: .035in;
+  border-radius: 999px;
+  background: currentColor;
+  transform-origin: center;
+}
+
+.react-slide-frame .cross-symbol::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.react-slide-frame .cross-symbol::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.react-slide-frame .arrow::before,
+.react-slide-frame .arrow-inline::before,
+.react-slide-frame .flow-arrow::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: currentColor;
+  mask: url("/assets/modern-arrow-right.svg") center / contain no-repeat;
+  -webkit-mask: url("/assets/modern-arrow-right.svg") center / contain no-repeat;
+}
+
+.react-slide-frame .flow-arrow {
+  width: .40in;
+  height: .20in;
+}
+
+.react-slide-frame .flow-diagram .flow-arrow {
+  width: .56in;
+  height: .30in;
+}
+
+.react-slide-frame #slide-23 .flow-diagram.big-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+  gap: .32in;
+  margin-top: .38in;
+  margin-bottom: .24in;
+}
+
+.react-slide-frame #slide-23 .flow-diagram.big-flow > .flow-arrow {
+  display: none;
+}
+
+.react-slide-frame #slide-23 .flow-diagram.big-flow .flow-node {
+  min-height: 1.08in;
+  position: relative;
+  justify-content: flex-start;
+  text-align: left;
+  padding: .18in .18in;
+  gap: .12in;
+  border-color: color-mix(in srgb, var(--slide-accent, var(--accent)) 22%, rgba(15,23,42,.08));
+}
+
+.react-slide-frame #slide-23 .flow-diagram.big-flow .flow-node svg {
+  width: .28in;
+  height: .28in;
+}
+
+.react-slide-frame #slide-23 .flow-diagram.big-flow .flow-node span {
+  font-size: .17in;
+  line-height: 1.14;
+}
+
+.react-slide-frame #slide-23 .flow-diagram.big-flow .flow-node:not(:last-of-type)::after {
+  content: "";
+  position: absolute;
+  right: -.31in;
+  top: 50%;
+  width: .30in;
+  height: .052in;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--slide-accent, var(--accent)), #38bdf8);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--slide-accent, var(--accent)) 18%, transparent);
+  transform: translateY(-50%);
+  z-index: 3;
+}
+
+.react-slide-frame #slide-23 .flow-diagram.big-flow .flow-node:not(:last-of-type)::before {
+  content: "";
+  position: absolute;
+  right: -.38in;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-top: .085in solid transparent;
+  border-bottom: .085in solid transparent;
+  border-left: .13in solid var(--slide-accent, var(--accent));
+  transform: translateY(-50%);
+  z-index: 4;
+}
+
+.react-slide-frame #slide-27 .pipeline-wide {
+  position: relative;
+  margin-top: .32in;
+}
+
+.react-slide-frame #slide-27 .pipeline-lane {
+  gap: .18in;
+}
+
+.react-slide-frame #slide-27 .pipeline-lane:first-child {
+  position: relative;
+}
+
+.react-slide-frame #slide-27 .pipeline-lane:first-child::after {
+  display: none;
+}
+
+.react-slide-frame #slide-27 .pipeline-lane:first-child .pipeline-stage:last-child::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -.40in;
+  width: .068in;
+  height: .40in;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #38bdf8, var(--slide-accent, var(--accent)));
+  box-shadow: 0 8px 18px rgba(20, 184, 166, .16);
+  transform: translateX(-50%);
+  z-index: 3;
+}
+
+.react-slide-frame #slide-27 .pipeline-lane:first-child .pipeline-stage:last-child::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  right: auto;
+  bottom: -.53in;
+  width: 0;
+  height: 0;
+  border-left: .11in solid transparent;
+  border-right: .11in solid transparent;
+  border-top: .16in solid var(--slide-accent, var(--accent));
+  transform: translateX(-50%);
+  z-index: 4;
+}
+
+.react-slide-frame #slide-27 .pipeline-lane.lower {
+  direction: rtl;
+  margin-top: .18in;
+}
+
+.react-slide-frame #slide-27 .pipeline-lane.lower .pipeline-stage {
+  direction: ltr;
+}
+
+.react-slide-frame #slide-27 .pipeline-lane.lower .pipeline-stage:not(:last-child)::after {
+  left: -.25in;
+  right: auto;
+  width: .32in;
+  height: .068in;
+  background: linear-gradient(270deg, var(--slide-accent, var(--accent)), #a3e635);
+}
+
+.react-slide-frame #slide-27 .pipeline-lane.lower .pipeline-stage:not(:last-child)::before {
+  left: -.38in;
+  right: auto;
+  border-left: 0;
+  border-right: .16in solid var(--slide-accent, var(--accent));
+  border-top: .105in solid transparent;
+  border-bottom: .105in solid transparent;
+}
+
+.react-slide-frame #slide-27 .pipeline-stage {
+  min-height: 1.12in;
+  padding: .16in .14in .13in;
+}
+
+.react-slide-frame #slide-27 .pipeline-stage strong {
+  font-size: .162in;
+}
+
+.react-slide-frame #slide-27 .pipeline-stage span {
+  font-size: .128in;
+}
+
+.react-slide-frame :is(.agenda-grid, .process-line, .repair-flow) > .step {
+  display: grid;
+  grid-template-columns: .42in minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  align-content: start;
+  align-items: start;
+  column-gap: .12in;
+  row-gap: .06in;
+  text-align: left;
+}
+
+.react-slide-frame :is(.agenda-grid, .process-line, .repair-flow) > .step .step-icon {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+}
+
+.react-slide-frame :is(.agenda-grid, .process-line, .repair-flow) > .step h3 {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  align-self: center;
+  font-size: .176in;
+  line-height: 1.16;
+}
+
+.react-slide-frame :is(.agenda-grid, .process-line, .repair-flow) > .step p {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+  font-size: .146in;
+  line-height: 1.34;
+}
+
+.react-slide-frame .controller-card {
+  display: grid;
+  grid-template-columns: .40in minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr;
+  align-content: start;
+  align-items: start;
+  column-gap: .12in;
+  row-gap: .025in;
+  text-align: left;
+}
+
+.react-slide-frame .controller-card .controller-icon {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  margin: 0;
+}
+
+.react-slide-frame .controller-card span {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  align-self: end;
+}
+
+.react-slide-frame .controller-card strong {
+  grid-column: 2;
+  grid-row: 2;
+  margin: 0;
+}
+
+.react-slide-frame .controller-card p {
+  grid-column: 2;
+  grid-row: 3;
+  margin: .045in 0 0;
+}
+
+.react-slide-frame .native-flowchart .flow-arrow {
+  width: .34in;
+  height: .24in;
+  flex-basis: .34in;
+}
+
+.react-slide-frame .arrow-inline {
+  margin: 0 .02in;
+}
+
+.react-slide-frame .arrow-inline.combine::before {
+  width: .25in;
+  height: .25in;
+  border-radius: 50%;
+  background:
+    linear-gradient(currentColor, currentColor) center / 72% .035in no-repeat,
+    linear-gradient(currentColor, currentColor) center / .035in 72% no-repeat;
+  mask: none;
+  -webkit-mask: none;
+  opacity: .92;
+}
+
+.react-slide-frame[data-slide-theme="light"] .slide,
+.react-slide-frame[data-slide-theme="mint"] .slide {
+  background:
+    radial-gradient(820px 500px at 89% 7%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 62%),
+    radial-gradient(640px 420px at 4% 100%, rgba(167, 243, 208, .36), transparent 61%),
+    linear-gradient(135deg, #ffffff 0%, #f7fbff 48%, #eaf7ff 100%);
+}
+
+.react-slide-frame[data-slide-theme="mint"] .slide {
+  background:
+    radial-gradient(820px 500px at 89% 7%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 62%),
+    radial-gradient(640px 420px at 4% 100%, rgba(187, 247, 208, .48), transparent 61%),
+    linear-gradient(135deg, #f8fffc 0%, #effdf7 48%, #dffaf1 100%);
+}
+
+.react-slide-frame[data-slide-theme="paper"] .slide {
+  background:
+    radial-gradient(820px 500px at 89% 7%, rgba(251, 191, 36, .20), transparent 62%),
+    radial-gradient(640px 420px at 4% 100%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 61%),
+    linear-gradient(135deg, #fffdf8 0%, #fbf4e8 52%, #f8ead6 100%);
+}
+
+.react-slide-frame[data-slide-theme="navy"] .slide {
+  background:
+    radial-gradient(820px 500px at 89% 7%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 62%),
+    radial-gradient(640px 420px at 4% 100%, rgba(37, 99, 235, .18), transparent 61%),
+    linear-gradient(135deg, #0f172a 0%, #172554 52%, #1e293b 100%);
+}
+
+.react-slide-frame[data-slide-theme="contrast"] .slide {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 52%, #e2e8f0 100%);
+}
+
+.react-slide-frame[data-slide-theme="navy"] .slide,
+.react-slide-frame[data-slide-theme="navy"] .slide h1,
+.react-slide-frame[data-slide-theme="navy"] .slide h3,
+.react-slide-frame[data-slide-theme="navy"] .lab-matrix strong,
+.react-slide-frame[data-slide-theme="navy"] .scale-grid strong {
+  color: #edf6ff;
+}
+
+.react-slide-frame[data-slide-theme="navy"] .brand-sub,
+.react-slide-frame[data-slide-theme="navy"] .section-note,
+.react-slide-frame[data-slide-theme="navy"] .subdesc p,
+.react-slide-frame[data-slide-theme="navy"] .lead,
+.react-slide-frame[data-slide-theme="navy"] .bodytext,
+.react-slide-frame[data-slide-theme="navy"] .card p,
+.react-slide-frame[data-slide-theme="navy"] .lab-matrix span,
+.react-slide-frame[data-slide-theme="navy"] .scale-grid span,
+.react-slide-frame[data-slide-theme="navy"] .source-note,
+.react-slide-frame[data-slide-theme="navy"] .pageno {
+  color: rgba(237, 246, 255, .74);
+}
+
+.react-slide-frame[data-slide-theme="navy"] .chip {
+  color: rgba(237, 246, 255, .78);
+  background: rgba(15, 23, 42, .58);
+  border-color: rgba(226, 232, 240, .16);
+}
+
+.react-slide-frame[data-slide-theme="navy"] .chip.active {
+  color: #020617;
+  background: #e0f2fe;
+  border-color: #e0f2fe;
+}
+
+.react-slide-frame[data-slide-theme="navy"] .card,
+.react-slide-frame[data-slide-theme="navy"] .metric,
+.react-slide-frame[data-slide-theme="navy"] .controller-card,
+.react-slide-frame[data-slide-theme="navy"] .theory-map,
+.react-slide-frame[data-slide-theme="navy"] .chromosome-visual,
+.react-slide-frame[data-slide-theme="navy"] .mutation-demo-card,
+.react-slide-frame[data-slide-theme="navy"] .population-cloud,
+.react-slide-frame[data-slide-theme="navy"] .lab-matrix div,
+.react-slide-frame[data-slide-theme="navy"] .scale-grid div {
+  background: rgba(15, 23, 42, .68);
+  border-color: rgba(226, 232, 240, .14);
+  box-shadow: 0 18px 52px rgba(0, 0, 0, .26);
+}
+
+/* Slide 10 has a dense left-column card grid; keep the second row above the footer. */
+.react-slide-frame #slide-10 .split {
+  height: 5.9in;
+  padding-top: .10in;
+}
+
+.react-slide-frame #slide-10 .lead {
+  margin-top: .12in;
+}
+
+.react-slide-frame #slide-10 .pill-row {
+  margin-top: .16in;
+}
+
+.react-slide-frame #slide-10 .grid.two {
+  gap: .10in;
+  margin-top: .18in;
+}
+
+.react-slide-frame #slide-10 .card {
+  padding: .15in;
+  gap: .105in;
+}
+
+.react-slide-frame #slide-10 .card h3 {
+  font-size: .19in;
+  margin-bottom: .055in;
+}
+
+.react-slide-frame #slide-10 .card p {
+  font-size: .155in;
+  line-height: 1.28;
+}
+
+/* Slide 20 uses a chart plus three explanatory cards; keep the legend above the footer. */
+.react-slide-frame #slide-20 .split {
+  height: 5.34in;
+  gap: .28in;
+  padding-top: .08in;
+  align-items: start;
+}
+
+.react-slide-frame #slide-20 .membership.small {
+  height: 1.52in;
+  margin: 0 0 .10in;
+}
+
+.react-slide-frame #slide-20 .membership.small .axis {
+  left: .34in;
+  right: .34in;
+  bottom: .25in;
+}
+
+.react-slide-frame #slide-20 .membership.small .curve {
+  width: 1.58in;
+  height: .86in;
+  bottom: .26in;
+}
+
+.react-slide-frame #slide-20 .membership.small .curve.low {
+  left: .45in;
+}
+
+.react-slide-frame #slide-20 .membership.small .curve.med {
+  left: 1.82in;
+}
+
+.react-slide-frame #slide-20 .membership.small .curve.high {
+  left: 3.18in;
+}
+
+.react-slide-frame #slide-20 .mini-legend {
+  gap: .10in;
+  margin-top: .07in;
+}
+
+.react-slide-frame #slide-20 .mini-legend .card {
+  align-items: flex-start;
+  min-height: 1.50in;
+  padding: .13in .11in;
+  gap: .08in;
+}
+
+.react-slide-frame #slide-20 .mini-legend .card-icon {
+  width: .30in;
+  height: .30in;
+  flex: 0 0 .30in;
+}
+
+.react-slide-frame #slide-20 .mini-legend .card h3 {
+  font-size: .15in;
+  margin-bottom: .035in;
+}
+
+.react-slide-frame #slide-20 .mini-legend .card p {
+  font-size: .125in;
+  line-height: 1.18;
+}
+
+/* Keep cover identity cards clear of the footer. */
+.react-slide-frame #slide-01 .cover-identity {
+  transform: translateY(-.18in);
+}
+
+.react-slide-frame #slide-01 .cover-advisor-grid {
+  margin-top: .16in;
+  transform: translateY(-.22in);
+}
+
+/* Slide 33 population strip should read as a panel, not touch the footer. */
+.react-slide-frame #slide-33 .population-cloud {
+  height: 2.80in;
+  margin-top: .24in;
+  padding-block: .26in;
+}
+
+/* Slide 34 visual is decorative support; keep it inside the slide and under control. */
+.react-slide-frame #slide-34 .controller-grid {
+  gap: .12in;
+  margin-top: .16in;
+}
+
+.react-slide-frame #slide-34 .controller-card {
+  min-height: 1.04in;
+  padding: .15in .16in;
+}
+
+.react-slide-frame #slide-34 .controller-card strong {
+  margin: 0;
+  font-size: .16in;
+}
+
+.react-slide-frame #slide-34 .controller-card p {
+  font-size: .126in;
+  line-height: 1.22;
+}
+
+.react-slide-frame #slide-34 .wide-visual {
+  width: 6.25in;
+  height: 2.16in;
+  margin: .08in auto 0;
+}
+
+.react-slide-frame #slide-34 .wide-visual img {
+  inset: .04in;
+  width: calc(100% - .08in);
+  height: calc(100% - .08in);
+}
+
+.slide-scale-shell:has(#slide-34) .base-image-layer:has(img[src*="generated-concept"]) img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* GUI slides need large screenshots, but the frame must not cover the title/body area. */
+.react-slide-frame #slide-36 h1,
+.react-slide-frame #slide-39 h1,
+.react-slide-frame #slide-41 h1 {
+  max-width: 8.25in;
+  font-size: .54in;
+  line-height: .92;
+}
+
+.react-slide-frame #slide-36 .subdesc p,
+.react-slide-frame #slide-39 .subdesc p,
+.react-slide-frame #slide-41 .subdesc p {
+  font-size: .176in;
+  line-height: 1.36;
+}
+
+.react-slide-frame #slide-36 .screenshot-layout,
+.react-slide-frame #slide-39 .screenshot-layout,
+.react-slide-frame #slide-41 .screenshot-layout {
+  grid-template-columns: 7.05in 3.15in;
+  gap: .18in;
+  margin-top: .54in;
+  align-items: start;
+}
+
+.react-slide-frame #slide-36 .screen-frame,
+.react-slide-frame #slide-39 .screen-frame,
+.react-slide-frame #slide-41 .screen-frame {
+  height: 3.30in;
+  border-radius: .16in;
+  padding: .10in;
+}
+
+.react-slide-frame #slide-36 .screen-bar,
+.react-slide-frame #slide-39 .screen-bar,
+.react-slide-frame #slide-41 .screen-bar {
+  height: .23in;
+}
+
+.react-slide-frame #slide-36 .screen-frame img,
+.react-slide-frame #slide-39 .screen-frame img,
+.react-slide-frame #slide-41 .screen-frame img {
+  height: calc(100% - .23in);
+  border-radius: .10in;
+  object-position: center top;
+}
+
+.react-slide-frame #slide-36 .callout-stack,
+.react-slide-frame #slide-39 .callout-stack,
+.react-slide-frame #slide-41 .callout-stack {
+  gap: .11in;
+  align-content: start;
+}
+
+.react-slide-frame #slide-36 .gui-callout,
+.react-slide-frame #slide-39 .gui-callout,
+.react-slide-frame #slide-41 .gui-callout {
+  grid-template-columns: .38in 1fr;
+  gap: .12in;
+  padding: .15in .16in;
+}
+
+.react-slide-frame #slide-36 .gui-callout svg,
+.react-slide-frame #slide-39 .gui-callout svg,
+.react-slide-frame #slide-41 .gui-callout svg {
+  width: .28in;
+  height: .28in;
+  padding: .055in;
+}
+
+.react-slide-frame #slide-36 .gui-callout strong,
+.react-slide-frame #slide-39 .gui-callout strong,
+.react-slide-frame #slide-41 .gui-callout strong {
+  font-size: .192in;
+  line-height: 1.14;
+}
+
+.react-slide-frame #slide-36 .gui-callout p,
+.react-slide-frame #slide-39 .gui-callout p,
+.react-slide-frame #slide-41 .gui-callout p {
+  font-size: .162in;
+  line-height: 1.36;
+}
+
+.slide-scale-shell:has(#slide-36) .base-image-layer:has(img[src*="reference-html-images"]),
+.slide-scale-shell:has(#slide-39) .base-image-layer:has(img[src*="reference-html-images"]),
+.slide-scale-shell:has(#slide-41) .base-image-layer:has(img[src*="reference-html-images"]),
+.slide-scale-shell:has(#slide-36) .base-image-layer:has(img[src*="gui-"]),
+.slide-scale-shell:has(#slide-39) .base-image-layer:has(img[src*="gui-"]),
+.slide-scale-shell:has(#slide-41) .base-image-layer:has(img[src*="gui-"]) {
+  aspect-ratio: 2.14 / 1;
+  overflow: hidden;
+  border-radius: .10in;
+}
+
+.slide-scale-shell:has(#slide-36) .base-image-layer:has(img[src*="reference-html-images"]) img,
+.slide-scale-shell:has(#slide-39) .base-image-layer:has(img[src*="reference-html-images"]) img,
+.slide-scale-shell:has(#slide-41) .base-image-layer:has(img[src*="reference-html-images"]) img,
+.slide-scale-shell:has(#slide-36) .base-image-layer:has(img[src*="gui-"]) img,
+.slide-scale-shell:has(#slide-39) .base-image-layer:has(img[src*="gui-"]) img,
+.slide-scale-shell:has(#slide-41) .base-image-layer:has(img[src*="gui-"]) img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
