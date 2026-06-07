@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { ArrowRightIcon, EnvelopeIcon, KeyIcon } from "@heroicons/react/24/outline";
+import { getPublicSupabaseEnv } from "../../lib/env";
 import { getSupabaseBrowserClient } from "../../lib/supabaseClient";
 import { AppButton, TextField, TrafficLights } from "../ui/controls";
 
@@ -17,6 +18,10 @@ export default function AuthScreen({ supabaseConfigured, onAuthenticated, onDemo
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const supabaseEnv = getPublicSupabaseEnv();
+  const envMessage = supabaseEnv.configured
+    ? ""
+    : `Supabase Auth belum aktif. Isi ${supabaseEnv.missingKeys.join(" dan ") || "NEXT_PUBLIC_SUPABASE_URL dan NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY"} di .env atau .env.local, lalu restart dev server.`;
 
   async function submit(event?: FormEvent<HTMLFormElement>) {
     event?.preventDefault();
@@ -25,7 +30,7 @@ export default function AuthScreen({ supabaseConfigured, onAuthenticated, onDemo
     try {
       const client = getSupabaseBrowserClient();
       if (!client) {
-        setMessage("Supabase public env belum lengkap. Mode lokal tersedia untuk validasi UI.");
+        setMessage(envMessage);
         return;
       }
 
@@ -87,12 +92,13 @@ export default function AuthScreen({ supabaseConfigured, onAuthenticated, onDemo
               onChange={(event) => setPassword(event.target.value)}
               placeholder="Minimal 8 karakter"
             />
-            {message ? <p className="auth-message">{message}</p> : null}
+            {!supabaseConfigured ? <p className="auth-message">{envMessage}</p> : null}
+            {message && message !== envMessage ? <p className="auth-message">{message}</p> : null}
             <AppButton
               type="submit"
               variant="primary"
               size="lg"
-              disabled={busy || !email.trim() || password.length < 6}
+              disabled={busy || !supabaseConfigured || !email.trim() || password.length < 6}
               icon={<ArrowRightIcon aria-hidden="true" />}
             >
               {busy ? "Memproses" : mode === "login" ? "Login" : "Register"}
