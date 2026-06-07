@@ -18,6 +18,14 @@ build/
 qa/chrome-profile-*/
 qa/chrome-*-profile/
 qa/chrome-shot-profile-*/
+qa/tmp/
+qa/.cache/
+qa/screenshots/tmp-*/
+qa/screenshots/*.local.*
+!qa/
+!qa/README.md
+!qa/screenshots/
+!qa/screenshots/README.md
 
 # Local AI/session artifacts
 .opencode-context.md
