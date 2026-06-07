@@ -1,54 +1,31 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
-import type { Session } from "@supabase/supabase-js";
 import { ArrowRightIcon, EnvelopeIcon, KeyIcon } from "@heroicons/react/24/outline";
-import { getPublicSupabaseEnv } from "../../lib/env";
-import { getSupabaseBrowserClient } from "../../lib/supabaseClient";
+import { loginLocalUser, type LocalAuthSession, registerLocalUser } from "../../lib/localAuth";
 import { AppButton, TextField, TrafficLights } from "../ui/controls";
 
 type AuthScreenProps = {
-  supabaseConfigured: boolean;
-  onAuthenticated: (session: Session) => void;
-  onDemo: () => void;
+  onAuthenticated: (session: LocalAuthSession) => void;
 };
 
-export default function AuthScreen({ supabaseConfigured, onAuthenticated, onDemo }: AuthScreenProps) {
+export default function AuthScreen({ onAuthenticated }: AuthScreenProps) {
   const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
-  const supabaseEnv = getPublicSupabaseEnv();
-  const envMessage = supabaseEnv.configured
-    ? ""
-    : `Supabase Auth belum aktif. Isi ${supabaseEnv.missingKeys.join(" dan ") || "NEXT_PUBLIC_SUPABASE_URL dan NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY"} di .env atau .env.local, lalu restart dev server.`;
 
   async function submit(event?: FormEvent<HTMLFormElement>) {
     event?.preventDefault();
     setBusy(true);
     setMessage(null);
     try {
-      const client = getSupabaseBrowserClient();
-      if (!client) {
-        setMessage(envMessage);
-        return;
-      }
-
-      const result = mode === "login"
-        ? await client.auth.signInWithPassword({ email, password })
-        : await client.auth.signUp({ email, password });
-
-      if (result.error) {
-        setMessage(result.error.message);
-        return;
-      }
-
-      if (result.data.session) {
-        onAuthenticated(result.data.session);
-        return;
-      }
-
-      setMessage("Akun dibuat, tetapi session belum aktif. Matikan Confirm email di Supabase Auth settings untuk alur tanpa konfirmasi.");
+      const session = mode === "login"
+        ? await loginLocalUser(email, password)
+        : await registerLocalUser(email, password);
+      onAuthenticated(session);
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Auth lokal gagal.");
     } finally {
       setBusy(false);
     }
@@ -65,7 +42,7 @@ export default function AuthScreen({ supabaseConfigured, onAuthenticated, onDemo
           <div className="auth-copy">
             <p className="auth-kicker">Personal workspace</p>
             <h1>{mode === "login" ? "Masuk ke Flex-PPT" : "Buat akun Flex-PPT"}</h1>
-            <p>Dashboard proyek, slide dinamis, dan editor presentasi tersimpan untuk akun email kamu.</p>
+            <p>Dashboard proyek, slide dinamis, dan editor presentasi tersimpan di browser lokal untuk akun email kamu.</p>
           </div>
 
           <form className="auth-form" onSubmit={(event) => void submit(event)}>
@@ -92,20 +69,17 @@ export default function AuthScreen({ supabaseConfigured, onAuthenticated, onDemo
               onChange={(event) => setPassword(event.target.value)}
               placeholder="Minimal 8 karakter"
             />
-            {!supabaseConfigured ? <p className="auth-message">{envMessage}</p> : null}
-            {message && message !== envMessage ? <p className="auth-message">{message}</p> : null}
+            <p className="auth-message">Mode lokal aktif. Tidak perlu Supabase public URL/key untuk login dan register saat ini.</p>
+            {message ? <p className="auth-message">{message}</p> : null}
             <AppButton
               type="submit"
               variant="primary"
               size="lg"
-              disabled={busy || !supabaseConfigured || !email.trim() || password.length < 6}
+              disabled={busy || !email.trim() || password.length < 6}
               icon={<ArrowRightIcon aria-hidden="true" />}
             >
               {busy ? "Memproses" : mode === "login" ? "Login" : "Register"}
             </AppButton>
-            {!supabaseConfigured ? (
-              <AppButton type="button" size="lg" onClick={onDemo}>Masuk Mode Lokal</AppButton>
-            ) : null}
           </form>
         </div>
       </section>

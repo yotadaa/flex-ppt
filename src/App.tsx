@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { Session } from "@supabase/supabase-js";
 import type { AssetsData, SlidesData, ThesisData } from "./types";
 import AppShell from "./components/AppShell";
 import AuthScreen from "./components/auth/AuthScreen";
 import ProjectDashboard from "./components/dashboard/ProjectDashboard";
 import type { DashboardProject } from "./components/dashboard/projectData";
-import { getPublicSupabaseEnv } from "./lib/env";
-import { getSupabaseBrowserClient } from "./lib/supabaseClient";
+import { clearLocalAuthSession, getLocalAuthSession, type LocalAuthSession } from "./lib/localAuth";
 import { publicUrl } from "./utils/slideDom";
 
 type PresenterPayload = {
@@ -27,10 +25,8 @@ export default function App() {
   const [payload, setPayload] = useState<PresenterPayload | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [authReady, setAuthReady] = useState(false);
-  const [session, setSession] = useState<Session | null>(null);
-  const [demoEmail, setDemoEmail] = useState<string | null>(null);
+  const [session, setSession] = useState<LocalAuthSession | null>(null);
   const [activeProject, setActiveProject] = useState<DashboardProject | null>(null);
-  const supabaseEnv = getPublicSupabaseEnv();
 
   useEffect(() => {
     let cancelled = false;
@@ -51,26 +47,8 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const client = getSupabaseBrowserClient();
-    if (!client) {
-      setAuthReady(true);
-      return;
-    }
-
-    let mounted = true;
-    client.auth.getSession().then(({ data }) => {
-      if (!mounted) return;
-      setSession(data.session);
-      setAuthReady(true);
-    });
-    const { data: listener } = client.auth.onAuthStateChange((_event, nextSession) => {
-      setSession(nextSession);
-      if (!nextSession) setActiveProject(null);
-    });
-    return () => {
-      mounted = false;
-      listener.subscription.unsubscribe();
-    };
+    setSession(getLocalAuthSession());
+    setAuthReady(true);
   }, []);
 
   if (error) {
@@ -109,17 +87,14 @@ export default function App() {
     );
   }
 
-  const userEmail = session?.user.email || demoEmail;
+  const userEmail = session?.user.email || null;
 
   if (!userEmail) {
     return (
       <AuthScreen
-        supabaseConfigured={supabaseEnv.configured}
         onAuthenticated={(nextSession) => {
           setSession(nextSession);
-          setDemoEmail(null);
         }}
-        onDemo={() => setDemoEmail("local@flex-ppt.test")}
       />
     );
   }
@@ -129,14 +104,11 @@ export default function App() {
       <ProjectDashboard
         slidesData={payload.slidesData}
         userEmail={userEmail}
-        isDemo={!session}
-        accessToken={session?.access_token}
+        isDemo={false}
         onOpenProject={setActiveProject}
         onSignOut={() => {
-          const client = getSupabaseBrowserClient();
-          void client?.auth.signOut();
+          clearLocalAuthSession();
           setSession(null);
-          setDemoEmail(null);
           setActiveProject(null);
         }}
       />
