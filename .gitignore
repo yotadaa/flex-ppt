@@ -10,6 +10,9 @@ build/
 # Runtime logs and local OS/editor files
 *.log
 .DS_Store
+.env
+.env.local
+.env.*.local
 
 # QA/runtime scratch
 qa/chrome-profile-*/
