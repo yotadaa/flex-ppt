@@ -11,7 +11,7 @@ const MANAGED_ELEMENT_SELECTOR = [
 ].join(",");
 
 function appBaseUrl() {
-  const base = import.meta.env.BASE_URL || "/";
+  const base = process.env.NEXT_PUBLIC_BASE_PATH || "/";
   return base.endsWith("/") ? base : `${base}/`;
 }
 

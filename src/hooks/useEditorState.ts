@@ -89,7 +89,7 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
     stateRef.current = state;
     const { history, future, selectedTarget, selectedLayerId, ...persisted } = state;
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...persisted, version: 1, selectedTarget: null, selectedLayerId: null }));
-    if (import.meta.env.DEV) {
+    if (process.env.NODE_ENV === "development") {
       (window as Window & { __skripsiEditorDebug?: unknown }).__skripsiEditorDebug = {
         historyLength: state.history.length,
         futureLength: state.future.length,

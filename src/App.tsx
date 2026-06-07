@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import type { AssetsData, SlidesData, ThesisData } from "./types";
 import AppShell from "./components/AppShell";
