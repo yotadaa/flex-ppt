@@ -130,6 +130,7 @@ export default function App() {
         slidesData={payload.slidesData}
         userEmail={userEmail}
         isDemo={!session}
+        accessToken={session?.access_token}
         onOpenProject={setActiveProject}
         onSignOut={() => {
           const client = getSupabaseBrowserClient();

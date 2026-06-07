@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
 import {
   ArrowsUpDownIcon,
@@ -22,6 +22,7 @@ type ProjectDashboardProps = {
   slidesData: SlidesData;
   userEmail: string;
   isDemo: boolean;
+  accessToken?: string;
   onOpenProject: (project: DashboardProject) => void;
   onSignOut: () => void;
 };
@@ -34,17 +35,60 @@ const filters: Array<{ id: "all" | DashboardProjectType; label: string }> = [
   { id: "folder", label: "Folder" },
 ];
 
-export default function ProjectDashboard({ slidesData, userEmail, isDemo, onOpenProject, onSignOut }: ProjectDashboardProps) {
+export default function ProjectDashboard({ slidesData, userEmail, isDemo, accessToken, onOpenProject, onSignOut }: ProjectDashboardProps) {
   const [projects, setProjects] = useState(() => seedProjectsFromSlides(slidesData.slides, userEmail));
   const [query, setQuery] = useState("");
   const [type, setType] = useState<"all" | DashboardProjectType>("all");
   const visibleProjects = useMemo(() => filterDashboardProjects(projects, { query, type }), [projects, query, type]);
   const recents = visibleProjects.slice(0, 6);
 
-  function createProject() {
+  useEffect(() => {
+    if (isDemo || !accessToken) return;
+    let cancelled = false;
+
+    fetch("/api/projects", {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+      .then(async (response) => response.ok ? response.json() : null)
+      .then((payload: { projects?: DashboardProject[]; configured?: boolean } | null) => {
+        if (cancelled || !payload?.configured || !payload.projects?.length) return;
+        setProjects(payload.projects);
+      })
+      .catch(() => undefined);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [accessToken, isDemo]);
+
+  async function createProject() {
     const draft = createDraftProject(userEmail, projects.length + 1);
     setProjects((current) => [draft, ...current]);
-    onOpenProject(draft);
+    if (isDemo || !accessToken) {
+      onOpenProject(draft);
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/projects", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(draft),
+      });
+      if (!response.ok) {
+        onOpenProject(draft);
+        return;
+      }
+      const payload = await response.json() as { project?: DashboardProject };
+      const persisted = payload.project || draft;
+      setProjects((current) => current.map((project) => project.id === draft.id ? persisted : project));
+      onOpenProject(persisted);
+    } catch {
+      onOpenProject(draft);
+    }
   }
 
   return (
