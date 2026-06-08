@@ -131,14 +131,36 @@ export default function ContainerPanel({
           {selected.kind === "image" ? (
             <TextField label="Image URL" value={selected.imageUrl} onChange={(event) => updateSelected({ imageUrl: event.target.value })} />
           ) : (
-            <label className="container-textarea">
-              <span>{selected.kind === "svg" ? "SVG markup" : "HTML markup"}</span>
-              <textarea
-                value={selected.kind === "svg" ? selected.svg : selected.html}
-                spellCheck={false}
-                onChange={(event) => updateSelected(selected.kind === "svg" ? { svg: event.target.value } : { html: event.target.value })}
-              />
-            </label>
+            <>
+              <label className="container-textarea">
+                <span>{selected.kind === "svg" ? "SVG markup" : "HTML markup"}</span>
+                <textarea
+                  value={selected.kind === "svg" ? selected.svg : selected.html}
+                  spellCheck={false}
+                  onChange={(event) => updateSelected(selected.kind === "svg" ? { svg: event.target.value } : { html: event.target.value })}
+                />
+              </label>
+              {selected.kind === "html" ? (
+                <>
+                  <label className="container-textarea">
+                    <span>CSS</span>
+                    <textarea
+                      value={selected.css || ""}
+                      spellCheck={false}
+                      onChange={(event) => updateSelected({ css: event.target.value })}
+                    />
+                  </label>
+                  <label className="container-textarea">
+                    <span>JS</span>
+                    <textarea
+                      value={selected.js || ""}
+                      spellCheck={false}
+                      onChange={(event) => updateSelected({ js: event.target.value })}
+                    />
+                  </label>
+                </>
+              ) : null}
+            </>
           )}
         </div>
       ) : null}

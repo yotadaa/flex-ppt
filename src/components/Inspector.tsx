@@ -1,11 +1,11 @@
 import { BookOpenIcon, CodeBracketSquareIcon, DocumentTextIcon, PhotoIcon, RectangleStackIcon } from "@heroicons/react/24/outline";
-import type { AssetItem, AssetsData, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, EditorState, ReferenceEntry, SlideContainer, SlideContainerKind, SlidesData, ThesisData, SlideLayer } from "../types";
+import type { AssetItem, AssetsData, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, ComponentDefinition, DesignShape, EditorState, ReferenceEntry, SlideComment, SlideContainer, SlideContainerKind, SlidesData, ThesisData, SlideLayer } from "../types";
 import DraftPanel from "./DraftPanel";
 import AssetPanel from "./AssetPanel";
 import LayerPanel from "./LayerPanel";
 import ContainerPanel from "./ContainerPanel";
 import ReferencePreview from "./ReferencePreview";
-import { SegmentedControl } from "./ui/controls";
+import ElementPropertiesPanel from "./ElementPropertiesPanel";
 
 type InspectorProps = {
   state: EditorState;
@@ -31,14 +31,23 @@ type InspectorProps = {
   onSelectLayer: (id: string | null) => void;
   baseImages: BaseImageLayer[];
   baseElements: BaseElementLayer[];
+  shapes: DesignShape[];
+  comments: SlideComment[];
+  components: ComponentDefinition[];
+  onUpdateShape: (id: string, patch: Partial<DesignShape>) => void;
+  onDeleteShape: (id: string) => void;
+  onDuplicateShape: (id: string) => void;
+  onUpdateComment: (id: string, patch: Partial<SlideComment>) => void;
+  onDeleteComment: (id: string) => void;
+  onCreateComponent: () => void;
 };
 
 const tabs: Array<{ id: EditorState["inspectorTab"]; label: string; Icon: typeof DocumentTextIcon }> = [
-  { id: "draft", label: "Draft", Icon: DocumentTextIcon },
   { id: "assets", label: "Assets", Icon: PhotoIcon },
+  { id: "draft", label: "Draft", Icon: DocumentTextIcon },
   { id: "layers", label: "Layers", Icon: RectangleStackIcon },
   { id: "containers", label: "Containers", Icon: CodeBracketSquareIcon },
-  { id: "references", label: "Refs", Icon: BookOpenIcon },
+  { id: "references", label: "References", Icon: BookOpenIcon },
 ];
 
 export default function Inspector({
@@ -65,6 +74,15 @@ export default function Inspector({
   onSelectLayer,
   baseImages,
   baseElements,
+  shapes,
+  comments,
+  components,
+  onUpdateShape,
+  onDeleteShape,
+  onDuplicateShape,
+  onUpdateComment,
+  onDeleteComment,
+  onCreateComponent,
 }: InspectorProps) {
   const slide = slidesData.slides.find((item) => item.index === state.currentSlide) || slidesData.slides[0];
   const layers = state.layers.filter((layer) => layer.slideIndex === state.currentSlide);
@@ -72,15 +90,43 @@ export default function Inspector({
 
   return (
     <aside className="inspector">
-      <div className="inspector-tabs">
-        <SegmentedControl
-          value={state.inspectorTab}
-          onChange={onSetTab}
-          options={tabs.map((tab) => ({ value: tab.id, label: tab.label, icon: <tab.Icon aria-hidden="true" /> }))}
-        />
+      <div className="right-sidebar-shell">
+        <nav className="right-sidebar-tabs" aria-label="Inspector sections">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              type="button"
+              className={state.inspectorTab === tab.id ? "active" : ""}
+              title={tab.label}
+              aria-label={tab.label}
+              aria-current={state.inspectorTab === tab.id ? "page" : undefined}
+              onClick={() => onSetTab(tab.id)}
+            >
+              <tab.Icon aria-hidden="true" />
+              <span>{tab.label}</span>
+            </button>
+          ))}
+        </nav>
       </div>
 
       <div className="inspector-body">
+        <ElementPropertiesPanel
+          selectedLayerId={state.selectedLayerId}
+          shapes={shapes}
+          comments={comments}
+          containers={containers}
+          components={components}
+          onUpdateShape={onUpdateShape}
+          onDeleteShape={onDeleteShape}
+          onDuplicateShape={onDuplicateShape}
+          onUpdateComment={onUpdateComment}
+          onDeleteComment={onDeleteComment}
+          onUpdateContainer={onUpdateContainer}
+          onDeleteContainer={onDeleteContainer}
+          onDuplicateContainer={onDuplicateContainer}
+          onCreateComponent={onCreateComponent}
+        />
+
         {state.inspectorTab === "draft" ? (
           <DraftPanel
             blocks={thesisData.blocks}
@@ -103,6 +149,8 @@ export default function Inspector({
           <LayerPanel
             layers={layers}
             containers={containers}
+            shapes={shapes}
+            comments={comments}
             baseImages={baseImages}
             baseElements={baseElements}
             selectedLayerId={state.selectedLayerId}
@@ -115,6 +163,11 @@ export default function Inspector({
             onDeleteBaseElement={onDeleteBaseElement}
             onDuplicateLayer={onDuplicateLayer}
             onDuplicateContainer={onDuplicateContainer}
+            onUpdateShape={onUpdateShape}
+            onDeleteShape={onDeleteShape}
+            onDuplicateShape={onDuplicateShape}
+            onUpdateComment={onUpdateComment}
+            onDeleteComment={onDeleteComment}
             onUpdateBaseImage={onUpdateBaseImage}
             onUpdateBaseElement={onUpdateBaseElement}
             onDuplicateBaseImage={onDuplicateBaseImage}
@@ -136,7 +189,7 @@ export default function Inspector({
 
         {state.inspectorTab === "references" ? (
           <div className="references-panel">
-            <ReferencePreview slide={slide} references={slidesData.referencePdfs as Record<string, ReferenceEntry>} limit={2} />
+            <ReferencePreview slide={slide} references={slidesData.referencePdfs as Record<string, ReferenceEntry>} limit={8} variant="list" />
           </div>
         ) : null}
       </div>

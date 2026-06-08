@@ -89,6 +89,24 @@ export type ImageDepth = "back" | "front";
 export type ImageFrame = "screen";
 export type BaseElementKind = "card" | "callout" | "metric" | "element";
 export type SlideContainerKind = "html" | "svg" | "image";
+export type EditorTool =
+  | "move"
+  | "hand"
+  | "scale"
+  | "rectangle"
+  | "line"
+  | "arrow"
+  | "ellipse"
+  | "polygon"
+  | "star"
+  | "image"
+  | "element"
+  | "pen"
+  | "pencil"
+  | "text"
+  | "comment"
+  | "component";
+export type DesignShapeKind = "rectangle" | "line" | "arrow" | "ellipse" | "polygon" | "star" | "text" | "pen" | "pencil";
 
 export type AssetsData = {
   assets: AssetItem[];
@@ -126,6 +144,8 @@ export type SlideContainer = {
   name: string;
   html: string;
   svg: string;
+  css: string;
+  js: string;
   imageUrl: string;
   x: number;
   y: number;
@@ -135,6 +155,48 @@ export type SlideContainer = {
   depth?: ImageDepth;
   visible: boolean;
   locked: boolean;
+};
+
+export type DesignShape = {
+  id: string;
+  slideIndex: number;
+  kind: DesignShapeKind;
+  name: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  zIndex: number;
+  rotation: number;
+  fill: string;
+  stroke: string;
+  strokeWidth: number;
+  opacity: number;
+  cornerRadius: number;
+  text: string;
+  path: string;
+  visible: boolean;
+  locked: boolean;
+  componentId?: string;
+};
+
+export type SlideComment = {
+  id: string;
+  slideIndex: number;
+  authorEmail: string;
+  text: string;
+  x: number;
+  y: number;
+  resolved: boolean;
+  createdAt: string;
+};
+
+export type ComponentDefinition = {
+  id: string;
+  name: string;
+  sourceId: string;
+  sourceKind: "shape" | "container";
+  createdAt: string;
 };
 
 export type BaseImageOverride = {
@@ -209,6 +271,9 @@ export type EditorSnapshot = {
   slideHtmlByIndex: Record<number, string>;
   layers: SlideLayer[];
   containers: SlideContainer[];
+  shapes: DesignShape[];
+  comments: SlideComment[];
+  components: ComponentDefinition[];
   baseImageOverrides: Record<string, BaseImageOverride>;
   baseElementOverrides: Record<string, BaseElementOverride>;
   theme: ThemeName;
@@ -223,6 +288,7 @@ export type EditorState = EditorSnapshot & {
   accent: string;
   selectedTarget: SelectionTarget | null;
   selectedLayerId: string | null;
+  activeTool: EditorTool;
   draftQuery: string;
   inspectorTab: "draft" | "assets" | "layers" | "containers" | "references";
   history: EditorSnapshot[];

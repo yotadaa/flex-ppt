@@ -14,6 +14,7 @@ import { AppButton, IconButton, NumberStepper, TextField } from "./ui/controls";
 
 type ToolbarProps = {
   state: EditorState;
+  projectTitle: string;
   slideCount: number;
   isFullscreen: boolean;
   searchQuery: string;
@@ -27,10 +28,12 @@ type ToolbarProps = {
   onOpenPalette: () => void;
   onOpenSettings: () => void;
   onToggleFullscreen: () => void | Promise<void>;
+  onReturnToDashboard: () => void;
 };
 
 export default function Toolbar({
   state,
+  projectTitle,
   slideCount,
   isFullscreen,
   searchQuery,
@@ -44,16 +47,17 @@ export default function Toolbar({
   onOpenPalette,
   onOpenSettings,
   onToggleFullscreen,
+  onReturnToDashboard,
 }: ToolbarProps) {
   const autosaveDate = new Date(state.autosavedAt);
 
   return (
     <header className="editor-toolbar">
       <div className="toolbar-brand">
-        <span className="brand-mark">FST</span>
+        <button type="button" className="brand-mark" onClick={onReturnToDashboard} aria-label="Back to dashboard">FP</button>
         <div>
-          <strong>Presenter Web React</strong>
-          <span>Optimasi Penjadwalan Praktikum</span>
+          <strong>Flex-PPT</strong>
+          <span>{projectTitle}</span>
         </div>
       </div>
 

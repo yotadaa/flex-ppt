@@ -15,8 +15,8 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
-import type { AssetItem, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, FontFamilyName, ImageDepth, SelectionTarget, Slide, SlideContainer, SlideLayer } from "../types";
-import { containerRenderableMarkup } from "../utils/containers";
+import type { AssetItem, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, DesignShape, FontFamilyName, ImageDepth, SelectionTarget, Slide, SlideComment, SlideContainer, SlideLayer } from "../types";
+import { containerElementSrcDoc, containerRenderableMarkup } from "../utils/containers";
 import { normalizeAssetUrl, targetFromElement } from "../utils/slideDom";
 import { AppButton, ColorField, IconButton, NumberStepper, SelectMenu } from "./ui/controls";
 
@@ -61,15 +61,20 @@ type SlideCanvasProps = {
   chapterStartByName: Record<string, number>;
   layers: SlideLayer[];
   containers: SlideContainer[];
+  shapes: DesignShape[];
+  comments: SlideComment[];
   baseImages: BaseImageLayer[];
   baseElements: BaseElementLayer[];
   selectedLayerId: string | null;
   onRegisterBaseImages: (images: BaseImageLayer[]) => void;
   onRegisterBaseElements: (elements: BaseElementLayer[]) => void;
   onSelectTarget: (target: SelectionTarget | null) => void;
+  onOpenTargetDetail: (target: SelectionTarget) => void;
   onSelectLayer: (layerId: string | null) => void;
   onUpdateLayer: (layerId: string, patch: Partial<SlideLayer>, saveHistory?: boolean, historyBeforePatch?: Partial<SlideLayer>) => void;
   onUpdateContainer: (containerId: string, patch: Partial<SlideContainer>, saveHistory?: boolean, historyBeforePatch?: Partial<SlideContainer>) => void;
+  onUpdateShape: (shapeId: string, patch: Partial<DesignShape>) => void;
+  onUpdateComment: (commentId: string, patch: Partial<SlideComment>) => void;
   onUpdateBaseImage: (layerId: string, patch: Partial<BaseImageOverride>, saveHistory?: boolean, historyBeforePatch?: Partial<BaseImageOverride>) => void;
   onUpdateBaseElement: (layerId: string, patch: Partial<BaseElementOverride>, saveHistory?: boolean, historyBeforePatch?: Partial<BaseElementOverride>) => void;
   onBeginLayerEdit: (layerId: string, beforePatch?: Partial<SlideLayer>) => void;
@@ -97,15 +102,20 @@ export default function SlideCanvas({
   chapterStartByName,
   layers,
   containers,
+  shapes,
+  comments,
   baseImages,
   baseElements,
   selectedLayerId,
   onRegisterBaseImages,
   onRegisterBaseElements,
   onSelectTarget,
+  onOpenTargetDetail,
   onSelectLayer,
   onUpdateLayer,
   onUpdateContainer,
+  onUpdateShape,
+  onUpdateComment,
   onUpdateBaseImage,
   onUpdateBaseElement,
   onBeginLayerEdit,
@@ -318,7 +328,9 @@ export default function SlideCanvas({
   const frontLayers = useMemo(() => layers.filter((layer) => (layer.depth || "front") !== "back"), [layers]);
   const backContainers = useMemo(() => containers.filter((container) => (container.depth || "front") === "back"), [containers]);
   const frontContainers = useMemo(() => containers.filter((container) => (container.depth || "front") !== "back"), [containers]);
-  const slideProgress = useMemo(() => `${slide.index} / 45`, [slide.index]);
+  const activeShapes = useMemo(() => shapes.filter((shape) => shape.visible), [shapes]);
+  const activeComments = useMemo(() => comments.filter((comment) => !comment.resolved), [comments]);
+  const slideProgress = useMemo(() => `${slide.index}`, [slide.index]);
 
   function isEditInteractionLocked() {
     return isEditingLocked || isPresentationGestureEnabled();
@@ -496,10 +508,23 @@ export default function SlideCanvas({
                 setTextTip(null);
               }
             }}
+            onDoubleClick={(event) => {
+              if (isEditInteractionLocked()) return;
+              const target = event.target as HTMLElement;
+              if (target.closest(".slide-layer")) return;
+              const selected = targetFromElement(target, slide.index);
+              if (!selected || selected.kind === "image") return;
+              event.preventDefault();
+              event.stopPropagation();
+              onSelectLayer(null);
+              onSelectTarget(selected);
+              onOpenTargetDetail(selected);
+            }}
           >
             <div className="slide-html-host" dangerouslySetInnerHTML={{ __html: html }} />
             {renderLayerStage("back", backBaseImages, backLayers, backBaseElements, backContainers)}
             {renderLayerStage("front", frontBaseImages, frontLayers, frontBaseElements, frontContainers)}
+            {renderShapeStage(activeShapes, activeComments)}
           </div>
 
           {alignmentOverlay && isLayerDragging ? (
@@ -751,6 +776,13 @@ export default function SlideCanvas({
             >
               {container.kind === "image" ? (
                 <img src={normalizeAssetUrl(container.imageUrl)} alt={container.name} draggable={false} />
+              ) : container.kind === "html" ? (
+                <iframe
+                  title={container.name}
+                  className="slide-container-frame"
+                  sandbox="allow-scripts"
+                  srcDoc={containerElementSrcDoc(container)}
+                />
               ) : (
                 <div className="slide-container-render" dangerouslySetInnerHTML={{ __html: containerRenderableMarkup(container) }} />
               )}
@@ -796,6 +828,125 @@ export default function SlideCanvas({
           );
         })}
       </div>
+    );
+  }
+
+  function renderShapeStage(shapeItems: DesignShape[], commentItems: SlideComment[]) {
+    return (
+      <div className="shape-stage" aria-label="Editorial objects">
+        {shapeItems
+          .slice()
+          .sort((a, b) => a.zIndex - b.zIndex)
+          .map((shape) => {
+            const selected = selectedLayerId === shape.id;
+            return (
+              <div
+                key={shape.id}
+                className={`design-shape design-shape-${shape.kind} ${selected ? "selected" : ""} ${shape.locked ? "locked" : ""}`}
+                data-layer-id={shape.id}
+                style={{
+                  left: `${shape.x}%`,
+                  top: `${shape.y}%`,
+                  width: `${shape.width}%`,
+                  height: `${shape.height}%`,
+                  zIndex: shape.zIndex,
+                  opacity: shape.opacity,
+                  transform: `translate(-50%, -50%) rotate(${shape.rotation}deg)`,
+                }}
+                onPointerDown={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  onSelectTarget(null);
+                  onSelectLayer(shape.id);
+                  setImageTip(null);
+                  setElementTip(null);
+                  setTextTip(null);
+                }}
+                onDoubleClick={(event) => {
+                  if (shape.locked) return;
+                  event.preventDefault();
+                  onUpdateShape(shape.id, { rotation: (shape.rotation + 15) % 360 });
+                }}
+              >
+                {renderShapeContent(shape)}
+              </div>
+            );
+          })}
+        {commentItems.map((comment) => {
+          const selected = selectedLayerId === comment.id;
+          return (
+            <button
+              key={comment.id}
+              type="button"
+              className={`slide-comment ${selected ? "selected" : ""}`}
+              style={{ left: `${comment.x}%`, top: `${comment.y}%`, zIndex: 980 }}
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                onSelectTarget(null);
+                onSelectLayer(comment.id);
+              }}
+              onDoubleClick={(event) => {
+                event.preventDefault();
+                onUpdateComment(comment.id, { resolved: true });
+              }}
+            >
+              <span>{comment.authorEmail.slice(0, 1).toUpperCase()}</span>
+              <strong>{comment.text}</strong>
+            </button>
+          );
+        })}
+      </div>
+    );
+  }
+
+  function renderShapeContent(shape: DesignShape) {
+    const commonStyle = {
+      background: shape.fill,
+      borderColor: shape.stroke,
+      borderWidth: shape.strokeWidth,
+      borderRadius: `${shape.cornerRadius}px`,
+    } as CSSProperties;
+    if (shape.kind === "rectangle" || shape.kind === "ellipse") {
+      return <span className="shape-box" style={commonStyle} />;
+    }
+    if (shape.kind === "text") {
+      return <span className="shape-text">{shape.text}</span>;
+    }
+    if (shape.kind === "line" || shape.kind === "arrow") {
+      return (
+        <svg className="shape-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          {shape.kind === "arrow" ? (
+            <defs>
+              <marker id={`${shape.id}-arrow`} markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+                <path d="M0,0 L0,6 L8,3 z" fill={shape.stroke} />
+              </marker>
+            </defs>
+          ) : null}
+          <line
+            x1="4"
+            y1="50"
+            x2="96"
+            y2="50"
+            stroke={shape.stroke}
+            strokeWidth={shape.strokeWidth * 2}
+            strokeLinecap="round"
+            markerEnd={shape.kind === "arrow" ? `url(#${shape.id}-arrow)` : undefined}
+          />
+        </svg>
+      );
+    }
+    if (shape.kind === "polygon" || shape.kind === "star") {
+      return (
+        <svg className="shape-svg" viewBox="0 0 100 100" aria-hidden="true">
+          <polygon points={shape.path} fill={shape.fill} stroke={shape.stroke} strokeWidth={shape.strokeWidth * 1.8} strokeLinejoin="round" />
+        </svg>
+      );
+    }
+    return (
+      <svg className="shape-svg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <polyline points={shape.path} fill="none" stroke={shape.stroke} strokeWidth={shape.strokeWidth * 2} strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
     );
   }
 

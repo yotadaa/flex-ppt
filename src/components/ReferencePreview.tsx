@@ -6,9 +6,10 @@ type ReferencePreviewProps = {
   slide: Slide;
   references: Record<string, ReferenceEntry>;
   limit?: number;
+  variant?: "cards" | "list";
 };
 
-export default function ReferencePreview({ slide, references, limit = 2 }: ReferencePreviewProps) {
+export default function ReferencePreview({ slide, references, limit = 2, variant = "cards" }: ReferencePreviewProps) {
   const entries = slide.citations
     .slice(0, limit)
     .map((citation) => references[referenceKey(citation)] || references[citation.replace(/[()]/g, "")])
@@ -20,7 +21,7 @@ export default function ReferencePreview({ slide, references, limit = 2 }: Refer
   }
 
   return (
-    <div className="reference-grid">
+    <div className={`reference-grid reference-${variant}`}>
       {entries.map((entry) => (
         <a
           key={entry.citation}

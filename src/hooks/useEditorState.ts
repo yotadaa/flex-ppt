@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { AssetItem, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, EditorSnapshot, EditorState, FontFamilyName, SelectionTarget, SlideContainer, SlideContainerKind, SlideLayer, ThemeName } from "../types";
+import type { AssetItem, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, ComponentDefinition, DesignShape, DesignShapeKind, EditorSnapshot, EditorState, EditorTool, FontFamilyName, SelectionTarget, SlideComment, SlideContainer, SlideContainerKind, SlideLayer, ThemeName } from "../types";
 import { createSlideContainer } from "../utils/containers";
+import { createDesignShape, createSlideComment } from "../utils/editorTools";
 import { applyElementStyle, replaceElementText, replaceImageSource } from "../utils/slideDom";
 
 const STORAGE_KEY = "skripsi-presenter-react-editor-v1";
@@ -15,11 +16,22 @@ function isBaseElementLayerId(layerId: string | null) {
   return Boolean(layerId?.startsWith("base-element-"));
 }
 
+function isShapeLayerId(layerId: string | null) {
+  return Boolean(layerId?.startsWith("shape-"));
+}
+
+function storageKeyForProject(projectId: string) {
+  return `${STORAGE_KEY}:${projectId || "default"}`;
+}
+
 function snapshot(state: EditorState): EditorSnapshot {
   return {
     slideHtmlByIndex: { ...state.slideHtmlByIndex },
     layers: state.layers.map((layer) => ({ ...layer })),
     containers: state.containers.map((container) => ({ ...container })),
+    shapes: state.shapes.map((shape) => ({ ...shape })),
+    comments: state.comments.map((comment) => ({ ...comment })),
+    components: state.components.map((component) => ({ ...component })),
     baseImageOverrides: Object.fromEntries(
       Object.entries(state.baseImageOverrides).map(([key, image]) => [key, { ...image }]),
     ),
@@ -32,9 +44,9 @@ function snapshot(state: EditorState): EditorSnapshot {
   };
 }
 
-function loadState(initial: InitialState): EditorState {
+function loadState(initial: InitialState, storageKey: string): EditorState {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(storageKey);
     if (raw) {
       const parsed = JSON.parse(raw) as Partial<EditorState> & { version?: number };
       if (parsed.version === 1) {
@@ -53,8 +65,12 @@ function loadState(initial: InitialState): EditorState {
           slideHtmlByIndex: storedSlides,
           layers: parsed.layers || initial.layers,
           containers: parsed.containers || [],
+          shapes: parsed.shapes || [],
+          comments: parsed.comments || [],
+          components: parsed.components || [],
           baseImageOverrides: parsed.baseImageOverrides || {},
           baseElementOverrides: parsed.baseElementOverrides || {},
+          activeTool: parsed.activeTool || "move",
           history: [],
           future: [],
           autosavedAt: parsed.autosavedAt || Date.now(),
@@ -62,7 +78,7 @@ function loadState(initial: InitialState): EditorState {
       }
     }
   } catch {
-    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(storageKey);
   }
   return {
     currentSlide: 1,
@@ -76,23 +92,28 @@ function loadState(initial: InitialState): EditorState {
     slideHtmlByIndex: initial.slideHtmlByIndex,
     layers: initial.layers,
     containers: [],
+    shapes: [],
+    comments: [],
+    components: [],
     baseImageOverrides: {},
     baseElementOverrides: {},
+    activeTool: "move",
     history: [],
     future: [],
     autosavedAt: Date.now(),
   };
 }
 
-export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Record<number, string>) {
-  const [state, setState] = useState<EditorState>(() => loadState({ slideHtmlByIndex: initialSlideHtmlByIndex, layers: [] }));
+export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Record<number, string>, projectId = "default") {
+  const storageKey = useMemo(() => storageKeyForProject(projectId), [projectId]);
+  const [state, setState] = useState<EditorState>(() => loadState({ slideHtmlByIndex: initialSlideHtmlByIndex, layers: [] }, storageKey));
   const activeLayerTransactionsRef = useRef<Record<string, EditorSnapshot>>({});
   const stateRef = useRef(state);
 
   useEffect(() => {
     stateRef.current = state;
     const { history, future, selectedTarget, selectedLayerId, ...persisted } = state;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...persisted, version: 1, selectedTarget: null, selectedLayerId: null }));
+    localStorage.setItem(storageKey, JSON.stringify({ ...persisted, version: 1, selectedTarget: null, selectedLayerId: null }));
     if (process.env.NODE_ENV === "development") {
       (window as Window & { __skripsiEditorDebug?: unknown }).__skripsiEditorDebug = {
         historyLength: state.history.length,
@@ -103,11 +124,15 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
         baseElementOverrides: state.baseElementOverrides,
         layers: state.layers,
         containers: state.containers,
+        shapes: state.shapes,
+        comments: state.comments,
+        components: state.components,
+        activeTool: state.activeTool,
         historyTail: state.history.at(-1),
         futureHead: state.future[0],
       };
     }
-  }, [state]);
+  }, [state, storageKey]);
 
   const commit = useCallback((mutator: (draft: EditorState) => EditorState) => {
     setState((prev) => {
@@ -161,6 +186,10 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
 
   const setInspectorTab = useCallback((inspectorTab: EditorState["inspectorTab"]) => {
     setState((prev) => ({ ...prev, inspectorTab }));
+  }, []);
+
+  const setActiveTool = useCallback((activeTool: EditorTool) => {
+    setState((prev) => ({ ...prev, activeTool }));
   }, []);
 
   const replaceText = useCallback((replacement: string, targetOverride?: SelectionTarget) => {
@@ -571,6 +600,131 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
     });
   }, [commit]);
 
+  const addShape = useCallback((kind: DesignShapeKind) => {
+    commit((prev) => {
+      const sameSlideShapes = prev.shapes.filter((shape) => shape.slideIndex === prev.currentSlide);
+      const maxZ = sameSlideShapes.reduce((max, shape) => Math.max(max, shape.zIndex), 60);
+      const shape = createDesignShape({
+        slideIndex: prev.currentSlide,
+        kind,
+        sequence: prev.shapes.length + 1,
+        patch: { zIndex: maxZ + 1 },
+      });
+      return {
+        ...prev,
+        activeTool: kind,
+        shapes: [...prev.shapes, shape],
+        selectedLayerId: shape.id,
+        selectedTarget: null,
+        inspectorTab: "layers",
+      };
+    });
+  }, [commit]);
+
+  const duplicateShape = useCallback((shapeId: string) => {
+    commit((prev) => {
+      const shape = prev.shapes.find((item) => item.id === shapeId);
+      if (!shape) return prev;
+      const duplicate: DesignShape = {
+        ...shape,
+        id: `shape-${shape.slideIndex}-${prev.shapes.length + 1}`,
+        name: `${shape.name} copy`,
+        x: Math.min(92, shape.x + 4),
+        y: Math.min(88, shape.y + 4),
+        zIndex: shape.zIndex + 1,
+        locked: false,
+        visible: true,
+      };
+      return { ...prev, shapes: [...prev.shapes, duplicate], selectedLayerId: duplicate.id, selectedTarget: null };
+    });
+  }, [commit]);
+
+  const updateShape = useCallback((shapeId: string, patch: Partial<DesignShape>) => {
+    commit((prev) => ({
+      ...prev,
+      shapes: prev.shapes.map((shape) => shape.id === shapeId ? { ...shape, ...patch } : shape),
+      selectedLayerId: shapeId,
+      selectedTarget: null,
+    }));
+  }, [commit]);
+
+  const deleteShape = useCallback((shapeId: string) => {
+    commit((prev) => ({
+      ...prev,
+      shapes: prev.shapes.filter((shape) => shape.id !== shapeId),
+      selectedLayerId: prev.selectedLayerId === shapeId ? null : prev.selectedLayerId,
+      components: prev.components.filter((component) => component.sourceId !== shapeId),
+    }));
+  }, [commit]);
+
+  const addComment = useCallback((authorEmail = "local@flex-ppt.test") => {
+    commit((prev) => {
+      const comment = createSlideComment({
+        slideIndex: prev.currentSlide,
+        sequence: prev.comments.length + 1,
+        authorEmail,
+      });
+      return {
+        ...prev,
+        activeTool: "comment",
+        comments: [...prev.comments, comment],
+        selectedLayerId: comment.id,
+        selectedTarget: null,
+        inspectorTab: "layers",
+      };
+    });
+  }, [commit]);
+
+  const updateComment = useCallback((commentId: string, patch: Partial<SlideComment>) => {
+    commit((prev) => ({
+      ...prev,
+      comments: prev.comments.map((comment) => comment.id === commentId ? { ...comment, ...patch } : comment),
+      selectedLayerId: commentId,
+      selectedTarget: null,
+    }));
+  }, [commit]);
+
+  const deleteComment = useCallback((commentId: string) => {
+    commit((prev) => ({
+      ...prev,
+      comments: prev.comments.filter((comment) => comment.id !== commentId),
+      selectedLayerId: prev.selectedLayerId === commentId ? null : prev.selectedLayerId,
+    }));
+  }, [commit]);
+
+  const createComponentFromSelection = useCallback(() => {
+    commit((prev) => {
+      const selectedId = prev.selectedLayerId;
+      if (!selectedId) return prev;
+      const sourceKind: ComponentDefinition["sourceKind"] | null = isShapeLayerId(selectedId)
+        ? "shape"
+        : prev.containers.some((container) => container.id === selectedId)
+          ? "container"
+          : null;
+      if (!sourceKind) return prev;
+      const existing = prev.components.find((component) => component.sourceId === selectedId);
+      if (existing) return prev;
+      const label = sourceKind === "shape"
+        ? prev.shapes.find((shape) => shape.id === selectedId)?.name
+        : prev.containers.find((container) => container.id === selectedId)?.name;
+      const component: ComponentDefinition = {
+        id: `component-${prev.components.length + 1}`,
+        name: `${label || "Selection"} component`,
+        sourceId: selectedId,
+        sourceKind,
+        createdAt: new Date().toISOString(),
+      };
+      return {
+        ...prev,
+        activeTool: "component",
+        components: [...prev.components, component],
+        shapes: sourceKind === "shape"
+          ? prev.shapes.map((shape) => shape.id === selectedId ? { ...shape, componentId: component.id } : shape)
+          : prev.shapes,
+      };
+    });
+  }, [commit]);
+
   const addContainer = useCallback((kind: SlideContainerKind = "html", patch?: Partial<SlideContainer>) => {
     commit((prev) => {
       const sameSlideContainers = prev.containers.filter((container) => container.slideIndex === prev.currentSlide);
@@ -680,6 +834,7 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
       ...prev,
       containers: prev.containers.filter((container) => container.id !== containerId),
       selectedLayerId: prev.selectedLayerId === containerId ? null : prev.selectedLayerId,
+      components: prev.components.filter((component) => component.sourceId !== containerId),
     }));
   }, [commit]);
 
@@ -765,6 +920,14 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
         slideHtmlByIndex: nextHtml,
         layers: prev.layers.filter((layer) => layer.slideIndex !== slideIndex),
         containers: prev.containers.filter((container) => container.slideIndex !== slideIndex),
+        shapes: prev.shapes.filter((shape) => shape.slideIndex !== slideIndex),
+        comments: prev.comments.filter((comment) => comment.slideIndex !== slideIndex),
+        components: prev.components.filter((component) => {
+          if (component.sourceKind === "shape") {
+            return !prev.shapes.some((shape) => shape.slideIndex === slideIndex && shape.id === component.sourceId);
+          }
+          return !prev.containers.some((container) => container.slideIndex === slideIndex && container.id === component.sourceId);
+        }),
         baseImageOverrides: nextOverrides,
         baseElementOverrides: nextElementOverrides,
         selectedLayerId: null,
@@ -784,6 +947,9 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
       slideHtmlByIndex: parsed.slideHtmlByIndex || prev.slideHtmlByIndex,
       layers: parsed.layers || prev.layers,
       containers: parsed.containers || prev.containers,
+      shapes: parsed.shapes || prev.shapes,
+      comments: parsed.comments || prev.comments,
+      components: parsed.components || prev.components,
       baseImageOverrides: parsed.baseImageOverrides || prev.baseImageOverrides,
       baseElementOverrides: parsed.baseElementOverrides || prev.baseElementOverrides,
       theme: parsed.theme || prev.theme,
@@ -798,10 +964,14 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
       slideHtmlByIndex: initialSlideHtmlByIndex,
       layers: [],
       containers: [],
+      shapes: [],
+      comments: [],
+      components: [],
       baseImageOverrides: {},
       baseElementOverrides: {},
       selectedLayerId: null,
       selectedTarget: null,
+      activeTool: "move",
     }));
   }, [commit]);
 
@@ -815,6 +985,7 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
     selectLayer,
     setDraftQuery,
     setInspectorTab,
+    setActiveTool,
     replaceText,
     updateTargetStyle,
     replaceImage,
@@ -830,6 +1001,14 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
     duplicateBaseImage,
     addLayer,
     duplicateLayer,
+    addShape,
+    duplicateShape,
+    updateShape,
+    deleteShape,
+    addComment,
+    updateComment,
+    deleteComment,
+    createComponentFromSelection,
     addContainer,
     duplicateContainer,
     beginContainerEdit,
@@ -843,5 +1022,5 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
     exportState,
     importState,
     resetAll,
-  }), [addContainer, addLayer, beginBaseElementEdit, beginBaseImageEdit, beginContainerEdit, beginLayerEdit, deleteBaseElement, deleteBaseImage, deleteContainer, deleteLayer, duplicateBaseImage, duplicateContainer, duplicateLayer, exportState, goToSlide, importState, redo, registerBaseElements, registerBaseImages, replaceImage, replaceText, resetAll, resetSlide, selectLayer, selectTarget, setAccent, setDraftQuery, setFontFamily, setInspectorTab, setTheme, state, undo, updateBaseElement, updateBaseImage, updateContainer, updateLayer, updateTargetStyle]);
+  }), [addComment, addContainer, addLayer, addShape, beginBaseElementEdit, beginBaseImageEdit, beginContainerEdit, beginLayerEdit, createComponentFromSelection, deleteBaseElement, deleteBaseImage, deleteComment, deleteContainer, deleteLayer, deleteShape, duplicateBaseImage, duplicateContainer, duplicateLayer, duplicateShape, exportState, goToSlide, importState, redo, registerBaseElements, registerBaseImages, replaceImage, replaceText, resetAll, resetSlide, selectLayer, selectTarget, setAccent, setActiveTool, setDraftQuery, setFontFamily, setInspectorTab, setTheme, state, undo, updateBaseElement, updateBaseImage, updateComment, updateContainer, updateLayer, updateShape, updateTargetStyle]);
 }

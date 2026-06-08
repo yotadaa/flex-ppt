@@ -1,5 +1,4 @@
-import { RectangleStackIcon, Squares2X2Icon } from "@heroicons/react/24/outline";
-import { useMemo } from "react";
+import { PlusIcon, RectangleStackIcon } from "@heroicons/react/24/outline";
 import type { Slide } from "../types";
 import { AppButton } from "./ui/controls";
 
@@ -10,16 +9,6 @@ type SlideRailProps = {
 };
 
 export default function SlideRail({ slides, currentSlide, onSelect }: SlideRailProps) {
-  const groups = useMemo(() => {
-    const map = new Map<string, Slide[]>();
-    slides.forEach((slide) => {
-      const group = map.get(slide.chapter) || [];
-      group.push(slide);
-      map.set(slide.chapter, group);
-    });
-    return Array.from(map.entries()).map(([chapter, items]) => ({ chapter, items }));
-  }, [slides]);
-
   return (
     <aside className="slide-rail" aria-label="Daftar slide">
       <div className="rail-header">
@@ -27,27 +16,30 @@ export default function SlideRail({ slides, currentSlide, onSelect }: SlideRailP
         <span>{slides.length}</span>
       </div>
       <div className="rail-list">
-        {groups.map((group) => (
-          <section className="rail-section" key={group.chapter}>
-            <h3>{group.chapter}</h3>
-            {group.items.map((slide) => (
-              <AppButton
-                key={slide.index}
-                variant="ghost"
-                className={`rail-item ${slide.index === currentSlide ? "active" : ""}`}
-                onClick={() => onSelect(slide.index)}
-              >
-                <Squares2X2Icon className="rail-item-icon" aria-hidden="true" />
-                <span className="rail-number">{String(slide.index).padStart(2, "0")}</span>
-                <span className="rail-copy">
-                  <strong>{slide.title}</strong>
-                  <small>{slide.chapter}</small>
-                </span>
-              </AppButton>
-            ))}
-          </section>
+        {slides.map((slide) => (
+          <AppButton
+            key={slide.index}
+            variant="ghost"
+            className={`rail-item ${slide.index === currentSlide ? "active" : ""}`}
+            onClick={() => onSelect(slide.index)}
+          >
+            <span className="rail-thumb">
+              {slide.images[0] ? <img src={normalizeSlideImage(slide.images[0])} alt="" /> : <span>{slide.index}</span>}
+            </span>
+            <span className="rail-copy">
+              <strong>{slide.title}</strong>
+              <small>{slide.chapter}</small>
+            </span>
+          </AppButton>
         ))}
+        <button type="button" className="rail-add" aria-label="Add slide">
+          <PlusIcon aria-hidden="true" />
+        </button>
       </div>
     </aside>
   );
+}
+
+function normalizeSlideImage(path: string) {
+  return path.startsWith("/") ? path : `/${path.replace(/^\/+/, "")}`;
 }

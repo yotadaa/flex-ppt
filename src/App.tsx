@@ -7,6 +7,7 @@ import AuthScreen from "./components/auth/AuthScreen";
 import ProjectDashboard from "./components/dashboard/ProjectDashboard";
 import type { DashboardProject } from "./components/dashboard/projectData";
 import { clearLocalAuthSession, getLocalAuthSession, type LocalAuthSession } from "./lib/localAuth";
+import { createBlankProjectSlides, shouldUseBlankProjectSlides } from "./utils/projectSlides";
 import { publicUrl } from "./utils/slideDom";
 
 type PresenterPayload = {
@@ -115,15 +116,21 @@ export default function App() {
     );
   }
 
+  const projectSlidesData = shouldUseBlankProjectSlides(activeProject.id)
+    ? createBlankProjectSlides(activeProject)
+    : payload.slidesData;
+
   return (
     <div className="editor-project-host">
-      <button type="button" className="dashboard-return" onClick={() => setActiveProject(null)}>
-        {activeProject.title}
-      </button>
       <AppShell
-        slidesData={payload.slidesData}
+        key={activeProject.id}
+        projectId={activeProject.id}
+        projectTitle={activeProject.title}
+        userEmail={userEmail}
+        slidesData={projectSlidesData}
         thesisData={payload.thesisData}
         assetsData={payload.assetsData}
+        onReturnToDashboard={() => setActiveProject(null)}
       />
     </div>
   );

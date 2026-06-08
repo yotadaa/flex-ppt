@@ -1,11 +1,13 @@
 import { ArrowDownIcon, ArrowUpIcon, CodeBracketSquareIcon, DocumentDuplicateIcon, EyeIcon, EyeSlashIcon, LockClosedIcon, LockOpenIcon, RectangleStackIcon, TrashIcon } from "@heroicons/react/24/outline";
-import type { BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, SlideContainer, SlideLayer } from "../types";
+import type { BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, DesignShape, SlideComment, SlideContainer, SlideLayer } from "../types";
 import { normalizeAssetUrl } from "../utils/slideDom";
 import { AppButton, IconButton, NumberStepper } from "./ui/controls";
 
 type LayerPanelProps = {
   layers: SlideLayer[];
   containers: SlideContainer[];
+  shapes: DesignShape[];
+  comments: SlideComment[];
   baseImages: BaseImageLayer[];
   baseElements: BaseElementLayer[];
   selectedLayerId: string | null;
@@ -18,6 +20,11 @@ type LayerPanelProps = {
   onDeleteBaseElement: (id: string) => void;
   onDuplicateLayer: (id: string) => void;
   onDuplicateContainer: (id: string) => void;
+  onUpdateShape: (id: string, patch: Partial<DesignShape>) => void;
+  onDeleteShape: (id: string) => void;
+  onDuplicateShape: (id: string) => void;
+  onUpdateComment: (id: string, patch: Partial<SlideComment>) => void;
+  onDeleteComment: (id: string) => void;
   onUpdateBaseImage: (id: string, patch: Partial<BaseImageOverride>, saveHistory?: boolean, historyBeforePatch?: Partial<BaseImageOverride>) => void;
   onUpdateBaseElement: (id: string, patch: Partial<BaseElementOverride>, saveHistory?: boolean, historyBeforePatch?: Partial<BaseElementOverride>) => void;
   onDuplicateBaseImage: (id: string) => void;
@@ -26,6 +33,8 @@ type LayerPanelProps = {
 export default function LayerPanel({
   layers,
   containers,
+  shapes,
+  comments,
   baseImages,
   baseElements,
   selectedLayerId,
@@ -38,11 +47,16 @@ export default function LayerPanel({
   onDeleteBaseElement,
   onDuplicateLayer,
   onDuplicateContainer,
+  onUpdateShape,
+  onDeleteShape,
+  onDuplicateShape,
+  onUpdateComment,
+  onDeleteComment,
   onUpdateBaseImage,
   onUpdateBaseElement,
   onDuplicateBaseImage,
 }: LayerPanelProps) {
-  if (!layers.length && !containers.length && !baseImages.length && !baseElements.length) {
+  if (!layers.length && !containers.length && !shapes.length && !comments.length && !baseImages.length && !baseElements.length) {
     return <p className="empty-note">Belum ada layer tambahan di slide ini. Insert gambar dari tab Assets.</p>;
   }
 
@@ -185,6 +199,75 @@ export default function LayerPanel({
                 </article>
               );
             })}
+        </div>
+      ) : null}
+
+      {shapes.length ? (
+        <div className="base-layer-group">
+          <h3>Editorial shapes</h3>
+          {shapes
+            .slice()
+            .sort((a, b) => b.zIndex - a.zIndex)
+            .map((shape) => (
+              <article key={shape.id} className={`layer-row base-element-row ${selectedLayerId === shape.id ? "active" : ""} ${shape.visible ? "" : "is-hidden"}`}>
+                <IconButton
+                  label={`Pilih shape ${shape.name}`}
+                  className="layer-thumb element-thumb"
+                  icon={<RectangleStackIcon aria-hidden="true" />}
+                  onClick={() => onSelectLayer(shape.id)}
+                />
+                <div className="layer-main">
+                  <AppButton variant="ghost" size="sm" className="layer-title" onClick={() => onSelectLayer(shape.id)}>
+                    {shape.name}
+                  </AppButton>
+                  <p>{shape.kind} - {shape.componentId ? "component" : "editable shape"}</p>
+                  <div className="layer-fields">
+                    <NumberStepper label="X" min={0} max={95} value={Math.round(shape.x)} onChange={(value) => onUpdateShape(shape.id, { x: value })} />
+                    <NumberStepper label="Y" min={0} max={92} value={Math.round(shape.y)} onChange={(value) => onUpdateShape(shape.id, { y: value })} />
+                    <NumberStepper label="W" min={2} max={96} value={Math.round(shape.width)} onChange={(value) => onUpdateShape(shape.id, { width: value })} />
+                    <NumberStepper label="H" min={2} max={88} value={Math.round(shape.height)} onChange={(value) => onUpdateShape(shape.id, { height: value })} />
+                  </div>
+                  <div className="layer-actions">
+                    <AppButton size="sm" icon={shape.visible ? <EyeSlashIcon aria-hidden="true" /> : <EyeIcon aria-hidden="true" />} onClick={() => onUpdateShape(shape.id, { visible: !shape.visible })}>{shape.visible ? "Hide" : "Show"}</AppButton>
+                    <AppButton size="sm" icon={shape.locked ? <LockOpenIcon aria-hidden="true" /> : <LockClosedIcon aria-hidden="true" />} onClick={() => onUpdateShape(shape.id, { locked: !shape.locked })}>{shape.locked ? "Unlock" : "Lock"}</AppButton>
+                    <AppButton size="sm" icon={<ArrowUpIcon aria-hidden="true" />} onClick={() => onUpdateShape(shape.id, { zIndex: shape.zIndex + 1 })}>Front</AppButton>
+                    <AppButton size="sm" icon={<ArrowDownIcon aria-hidden="true" />} onClick={() => onUpdateShape(shape.id, { zIndex: Math.max(1, shape.zIndex - 1) })}>Back</AppButton>
+                    <AppButton size="sm" icon={<DocumentDuplicateIcon aria-hidden="true" />} onClick={() => onDuplicateShape(shape.id)}>Duplicate</AppButton>
+                    <AppButton size="sm" variant="danger" className="danger-text" icon={<TrashIcon aria-hidden="true" />} onClick={() => onDeleteShape(shape.id)}>Delete</AppButton>
+                  </div>
+                </div>
+              </article>
+            ))}
+        </div>
+      ) : null}
+
+      {comments.length ? (
+        <div className="base-layer-group">
+          <h3>Comments</h3>
+          {comments.map((comment) => (
+            <article key={comment.id} className={`layer-row base-element-row ${selectedLayerId === comment.id ? "active" : ""}`}>
+              <IconButton
+                label="Pilih comment"
+                className="layer-thumb element-thumb"
+                icon={<CodeBracketSquareIcon aria-hidden="true" />}
+                onClick={() => onSelectLayer(comment.id)}
+              />
+              <div className="layer-main">
+                <AppButton variant="ghost" size="sm" className="layer-title" onClick={() => onSelectLayer(comment.id)}>
+                  {comment.resolved ? "Resolved comment" : "Comment"}
+                </AppButton>
+                <p>{comment.text}</p>
+                <div className="layer-fields">
+                  <NumberStepper label="X" min={0} max={95} value={Math.round(comment.x)} onChange={(value) => onUpdateComment(comment.id, { x: value })} />
+                  <NumberStepper label="Y" min={0} max={92} value={Math.round(comment.y)} onChange={(value) => onUpdateComment(comment.id, { y: value })} />
+                </div>
+                <div className="layer-actions">
+                  <AppButton size="sm" onClick={() => onUpdateComment(comment.id, { resolved: !comment.resolved })}>{comment.resolved ? "Reopen" : "Resolve"}</AppButton>
+                  <AppButton size="sm" variant="danger" className="danger-text" icon={<TrashIcon aria-hidden="true" />} onClick={() => onDeleteComment(comment.id)}>Delete</AppButton>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       ) : null}
 

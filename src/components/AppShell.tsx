@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
-import type { AssetsData, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, SlidesData, ThesisData } from "../types";
+import type { AssetsData, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, DesignShapeKind, EditorTool, SlidesData, ThesisData } from "../types";
 import { containerRenderableMarkup } from "../utils/containers";
+import { editorToolFromKey } from "../utils/editorTools";
 import { extractBaseElementLayers, extractBaseImageLayers, highlightSlideSearch, normalizeAssetUrl, plainTextFromHtml, slideHtmlFor } from "../utils/slideDom";
 import { useEditorState } from "../hooks/useEditorState";
 import Toolbar from "./Toolbar";
+import EditorToolbelt from "./EditorToolbelt";
 import SlideRail from "./SlideRail";
 import SlideCanvas from "./SlideCanvas";
 import Inspector from "./Inspector";
@@ -14,9 +16,13 @@ import SettingsModal from "./SettingsModal";
 import { downloadDeckPdf } from "../utils/exportPdf";
 
 type AppShellProps = {
+  projectId: string;
+  projectTitle: string;
+  userEmail: string;
   slidesData: SlidesData;
   thesisData: ThesisData;
   assetsData: AssetsData;
+  onReturnToDashboard: () => void;
 };
 
 const FONT_STACKS = {
@@ -31,12 +37,14 @@ const FONT_STACKS = {
   rounded: '"Trebuchet MS", "Segoe UI", ui-sans-serif, system-ui, sans-serif',
 } as const;
 
-export default function AppShell({ slidesData, thesisData, assetsData }: AppShellProps) {
+const creationShapeTools: EditorTool[] = ["rectangle", "line", "arrow", "ellipse", "polygon", "star", "text", "pen", "pencil"];
+
+export default function AppShell({ projectId, projectTitle, userEmail, slidesData, thesisData, assetsData, onReturnToDashboard }: AppShellProps) {
   const initialSlideHtmlByIndex = useMemo(
     () => Object.fromEntries(slidesData.slides.map((slide) => [slide.index, slide.html])),
     [slidesData.slides],
   );
-  const editor = useEditorState(slidesData.slides.length, initialSlideHtmlByIndex);
+  const editor = useEditorState(slidesData.slides.length, initialSlideHtmlByIndex, projectId);
   const { state } = editor;
   const [modalOpen, setModalOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -70,6 +78,14 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
   const activeContainers = useMemo(
     () => state.containers.filter((container) => container.slideIndex === activeSlide.index),
     [activeSlide.index, state.containers],
+  );
+  const activeShapes = useMemo(
+    () => state.shapes.filter((shape) => shape.slideIndex === activeSlide.index),
+    [activeSlide.index, state.shapes],
+  );
+  const activeComments = useMemo(
+    () => state.comments.filter((comment) => comment.slideIndex === activeSlide.index),
+    [activeSlide.index, state.comments],
   );
   const activeBaseImages = useMemo(
     () => enrichBaseImages(extractBaseImageLayers(activeHtml, activeSlide.index), state.baseImageOverrides),
@@ -169,6 +185,15 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
       if (event.key === "ArrowLeft") editor.goToSlide(state.currentSlide - 1);
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z") editor.undo();
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "y") editor.redo();
+      const tool = editorToolFromKey(event.key, event.shiftKey);
+      if (tool && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        event.preventDefault();
+        editor.setActiveTool(tool);
+        if (creationShapeTools.includes(tool)) {
+          editor.addShape(tool as DesignShapeKind);
+        }
+        return;
+      }
       if (event.key.toLowerCase() === "f") {
         event.preventDefault();
         void toggleFullscreen();
@@ -186,6 +211,7 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
     >
       <Toolbar
         state={state}
+        projectTitle={projectTitle}
         slideCount={slidesData.slides.length}
         isFullscreen={isPresenting}
         searchQuery={slideSearch}
@@ -199,6 +225,21 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
         onOpenPalette={() => setPaletteOpen(true)}
         onOpenSettings={() => setSettingsOpen(true)}
         onToggleFullscreen={toggleFullscreen}
+        onReturnToDashboard={onReturnToDashboard}
+      />
+      <EditorToolbelt
+        activeTool={state.activeTool}
+        assets={assetsData.assets}
+        canCreateComponent={Boolean(state.selectedLayerId && (
+          state.shapes.some((shape) => shape.id === state.selectedLayerId)
+          || state.containers.some((container) => container.id === state.selectedLayerId)
+        ))}
+        onSetTool={editor.setActiveTool}
+        onAddShape={editor.addShape}
+        onAddLayer={editor.addLayer}
+        onAddContainer={editor.addContainer}
+        onAddComment={() => editor.addComment(userEmail)}
+        onCreateComponent={editor.createComponentFromSelection}
       />
       <div className="top-progress" aria-hidden="true">
         <span style={{ width: `${(state.currentSlide / slidesData.slides.length) * 100}%` }} />
@@ -219,6 +260,8 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
           chapterStartByName={chapterStartByName}
           layers={activeLayers}
           containers={activeContainers}
+          shapes={activeShapes}
+          comments={activeComments}
           baseImages={activeBaseImages}
           baseElements={activeBaseElements}
           selectedLayerId={state.selectedLayerId}
@@ -226,11 +269,17 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
           onRegisterBaseElements={editor.registerBaseElements}
           onSelectTarget={(target) => {
             editor.selectTarget(target);
-            setModalOpen(Boolean(target && target.kind !== "image"));
+            setModalOpen(false);
+          }}
+          onOpenTargetDetail={(target) => {
+            editor.selectTarget(target);
+            setModalOpen(Boolean(target.kind !== "image"));
           }}
           onSelectLayer={editor.selectLayer}
           onUpdateLayer={editor.updateLayer}
           onUpdateContainer={editor.updateContainer}
+          onUpdateShape={editor.updateShape}
+          onUpdateComment={editor.updateComment}
           onUpdateBaseImage={editor.updateBaseImage}
           onUpdateBaseElement={editor.updateBaseElement}
           onBeginLayerEdit={editor.beginLayerEdit}
@@ -272,6 +321,15 @@ export default function AppShell({ slidesData, thesisData, assetsData }: AppShel
           onSelectLayer={editor.selectLayer}
           baseImages={activeBaseImages}
           baseElements={activeBaseElements}
+          shapes={activeShapes}
+          comments={activeComments}
+          components={state.components}
+          onUpdateShape={editor.updateShape}
+          onDeleteShape={editor.deleteShape}
+          onDuplicateShape={editor.duplicateShape}
+          onUpdateComment={editor.updateComment}
+          onDeleteComment={editor.deleteComment}
+          onCreateComponent={editor.createComponentFromSelection}
         />
       </div>
 
