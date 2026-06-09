@@ -13,8 +13,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { useMemo } from "react";
 import type { ReactNode } from "react";
-import type { ComponentDefinition, DesignShape, SlideComment, SlideContainer } from "../types";
-import { AppButton, ColorField, NumberStepper, TextField } from "./ui/controls";
+import type { ComponentDefinition, DesignShape, SlideComment, SlideContainer, TextShapeRole } from "../types";
+import { AppButton, ColorField, NumberStepper, SelectMenu, TextField } from "./ui/controls";
 
 type ElementPropertiesPanelProps = {
   selectedLayerId: string | null;
@@ -32,6 +32,12 @@ type ElementPropertiesPanelProps = {
   onDuplicateContainer: (id: string) => void;
   onCreateComponent: () => void;
 };
+
+const textRoleOptions: Array<{ value: TextShapeRole; label: string; note: string }> = [
+  { value: "body", label: "Body", note: "Regular slide text" },
+  { value: "heading", label: "Heading", note: "Large title style" },
+  { value: "subheading", label: "Sub-heading", note: "Section lead style" },
+];
 
 export default function ElementPropertiesPanel({
   selectedLayerId,
@@ -78,11 +84,21 @@ export default function ElementPropertiesPanel({
           </div>
         </PropertySection>
         <PropertySection title="Appearance">
-          <ColorField label="Fill" value={selectedShape.fill} onChange={(value) => onUpdateShape(selectedShape.id, { fill: value })} icon={<PaintBrushIcon aria-hidden="true" />} />
-          <ColorField label="Stroke" value={selectedShape.stroke} onChange={(value) => onUpdateShape(selectedShape.id, { stroke: value })} />
+          <ColorField label="Fill" value={colorInputValue(selectedShape.fill, selectedShape.kind === "text" ? "#111827" : "#f8fafc")} onChange={(value) => onUpdateShape(selectedShape.id, { fill: value })} icon={<PaintBrushIcon aria-hidden="true" />} />
+          <ColorField label="Stroke" value={colorInputValue(selectedShape.stroke, "#0f172a")} onChange={(value) => onUpdateShape(selectedShape.id, { stroke: value })} />
           <NumberStepper label="Stroke width" min={0} max={24} step={0.5} value={selectedShape.strokeWidth} onChange={(value) => onUpdateShape(selectedShape.id, { strokeWidth: value })} />
           {selectedShape.kind === "text" ? (
-            <TextField label="Text" value={selectedShape.text} onChange={(event) => onUpdateShape(selectedShape.id, { text: event.target.value })} />
+            <>
+              <SelectMenu label="Role" value={selectedShape.textRole || "body"} options={textRoleOptions} onChange={(value) => {
+                const preset = textRolePreset(value);
+                onUpdateShape(selectedShape.id, { textRole: value, ...preset });
+              }} />
+              <div className="property-grid">
+                <NumberStepper label="Size" min={8} max={120} value={Math.round(selectedShape.fontSize ?? 28)} onChange={(value) => onUpdateShape(selectedShape.id, { fontSize: value })} />
+                <NumberStepper label="Weight" min={100} max={950} step={50} value={selectedShape.fontWeight ?? 700} onChange={(value) => onUpdateShape(selectedShape.id, { fontWeight: value })} />
+              </div>
+              <TextField label="Text" value={selectedShape.text} onChange={(event) => onUpdateShape(selectedShape.id, { text: event.target.value })} />
+            </>
           ) : null}
         </PropertySection>
         <PropertySection title="Component">
@@ -186,6 +202,16 @@ function PanelHeader({ icon, title, subtitle }: { icon: ReactNode; title: string
       </div>
     </header>
   );
+}
+
+function textRolePreset(role: TextShapeRole): Partial<DesignShape> {
+  if (role === "heading") return { fontSize: 56, fontWeight: 850, height: 12 };
+  if (role === "subheading") return { fontSize: 34, fontWeight: 720, height: 9 };
+  return { fontSize: 28, fontWeight: 650, height: 8 };
+}
+
+function colorInputValue(value: string, fallback: string) {
+  return /^#[0-9a-f]{6}$/i.test(value) ? value : fallback;
 }
 
 function PropertySection({ title, children }: { title: string; children: ReactNode }) {

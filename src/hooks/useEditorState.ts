@@ -155,6 +155,21 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
     }));
   }, [slideCount]);
 
+  const addSlide = useCallback((slideIndex: number, html: string) => {
+    commit((prev) => ({
+      ...prev,
+      currentSlide: slideIndex,
+      slideHtmlByIndex: {
+        ...prev.slideHtmlByIndex,
+        [slideIndex]: html,
+      },
+      selectedTarget: null,
+      selectedLayerId: null,
+      draftQuery: "",
+      inspectorTab: "draft",
+    }));
+  }, [commit]);
+
   const setTheme = useCallback((theme: ThemeName) => {
     commit((prev) => ({ ...prev, theme }));
   }, [commit]);
@@ -295,6 +310,7 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
             x: image.x,
             y: image.y,
             width: image.width,
+            height: image.height,
             zIndex: image.zIndex ?? index + 12,
             depth: image.depth ?? "front",
             frame: image.frame,
@@ -309,8 +325,9 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
         const alt = existing.alt || image.alt;
         const depth = existing.depth || image.depth || "front";
         const frame = existing.frame || image.frame;
-        if (src !== existing.src || name !== existing.name || alt !== existing.alt || depth !== existing.depth || frame !== existing.frame) {
-          nextOverrides[image.id] = { ...existing, src, name, alt, depth, frame };
+        const height = existing.height ?? image.height;
+        if (src !== existing.src || name !== existing.name || alt !== existing.alt || depth !== existing.depth || frame !== existing.frame || height !== existing.height) {
+          nextOverrides[image.id] = { ...existing, src, name, alt, depth, frame, height };
           changed = true;
         }
       });
@@ -554,6 +571,7 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
         x: Math.min(88, base.x + 4),
         y: Math.min(82, base.y + 4),
         width: base.width,
+        height: base.height,
         zIndex: maxZ + 1,
         depth: base.depth || "front",
         visible: true,
@@ -563,7 +581,7 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
     });
   }, [commit]);
 
-  const addLayer = useCallback((asset: AssetItem, position?: { x: number; y: number; width?: number }) => {
+  const addLayer = useCallback((asset: AssetItem, position?: { x: number; y: number; width?: number; height?: number }) => {
     commit((prev) => {
       const maxZ = prev.layers.filter((layer) => layer.slideIndex === prev.currentSlide).reduce((max, layer) => Math.max(max, layer.zIndex), 20);
       const layer: SlideLayer = {
@@ -575,6 +593,7 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
         x: position?.x ?? 58,
         y: position?.y ?? 42,
         width: position?.width ?? 22,
+        height: position?.height ?? 16,
         zIndex: maxZ + 1,
         depth: "front",
         visible: true,
@@ -639,14 +658,42 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
     });
   }, [commit]);
 
-  const updateShape = useCallback((shapeId: string, patch: Partial<DesignShape>) => {
-    commit((prev) => ({
+  const updateShape = useCallback((
+    shapeId: string,
+    patch: Partial<DesignShape>,
+    saveHistory = true,
+    historyBeforePatch?: Partial<DesignShape>,
+  ) => {
+    const updater = (prev: EditorState) => ({
       ...prev,
       shapes: prev.shapes.map((shape) => shape.id === shapeId ? { ...shape, ...patch } : shape),
-      selectedLayerId: shapeId,
-      selectedTarget: null,
-    }));
-  }, [commit]);
+    });
+    if (saveHistory) {
+      setState((prev) => {
+        const next = updater(prev);
+        let historySnapshot = snapshot(prev);
+        if (historyBeforePatch) {
+          historySnapshot = {
+            ...historySnapshot,
+            shapes: historySnapshot.shapes.map((shape) => shape.id === shapeId ? { ...shape, ...historyBeforePatch } : shape),
+          };
+        }
+        return {
+          ...next,
+          selectedLayerId: shapeId,
+          selectedTarget: null,
+          history: [...prev.history.slice(-30), historySnapshot],
+          future: [],
+          autosavedAt: Date.now(),
+        };
+      });
+    } else {
+      setState((prev) => {
+        const next = updater(prev);
+        return next === prev ? prev : { ...next, selectedLayerId: shapeId, selectedTarget: null, autosavedAt: Date.now() };
+      });
+    }
+  }, []);
 
   const deleteShape = useCallback((shapeId: string) => {
     commit((prev) => ({
@@ -978,6 +1025,7 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
   return useMemo(() => ({
     state,
     goToSlide,
+    addSlide,
     setTheme,
     setFontFamily,
     setAccent,
@@ -1022,5 +1070,5 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
     exportState,
     importState,
     resetAll,
-  }), [addComment, addContainer, addLayer, addShape, beginBaseElementEdit, beginBaseImageEdit, beginContainerEdit, beginLayerEdit, createComponentFromSelection, deleteBaseElement, deleteBaseImage, deleteComment, deleteContainer, deleteLayer, deleteShape, duplicateBaseImage, duplicateContainer, duplicateLayer, duplicateShape, exportState, goToSlide, importState, redo, registerBaseElements, registerBaseImages, replaceImage, replaceText, resetAll, resetSlide, selectLayer, selectTarget, setAccent, setActiveTool, setDraftQuery, setFontFamily, setInspectorTab, setTheme, state, undo, updateBaseElement, updateBaseImage, updateComment, updateContainer, updateLayer, updateShape, updateTargetStyle]);
+  }), [addComment, addContainer, addLayer, addShape, addSlide, beginBaseElementEdit, beginBaseImageEdit, beginContainerEdit, beginLayerEdit, createComponentFromSelection, deleteBaseElement, deleteBaseImage, deleteComment, deleteContainer, deleteLayer, deleteShape, duplicateBaseImage, duplicateContainer, duplicateLayer, duplicateShape, exportState, goToSlide, importState, redo, registerBaseElements, registerBaseImages, replaceImage, replaceText, resetAll, resetSlide, selectLayer, selectTarget, setAccent, setActiveTool, setDraftQuery, setFontFamily, setInspectorTab, setTheme, state, undo, updateBaseElement, updateBaseImage, updateComment, updateContainer, updateLayer, updateShape, updateTargetStyle]);
 }

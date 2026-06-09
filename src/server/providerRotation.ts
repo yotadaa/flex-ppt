@@ -2,6 +2,7 @@ export type DatabaseProvider = {
   name: string;
   url: string;
   index: number;
+  dialect: "postgres" | "mysql";
 };
 
 export type ProviderRotator = {
@@ -18,6 +19,7 @@ export function parseDatabaseProviders(raw: string | undefined | null): Database
       name: `provider_${index + 1}`,
       url,
       index,
+      dialect: detectDialect(url),
     }));
 }
 
@@ -48,3 +50,6 @@ function modulo(value: number, length: number) {
   return ((value % length) + length) % length;
 }
 
+function detectDialect(url: string): DatabaseProvider["dialect"] {
+  return /^mysql(?:2)?:\/\//i.test(url) ? "mysql" : "postgres";
+}

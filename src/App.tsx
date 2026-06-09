@@ -5,7 +5,7 @@ import type { AssetsData, SlidesData, ThesisData } from "./types";
 import AppShell from "./components/AppShell";
 import AuthScreen from "./components/auth/AuthScreen";
 import ProjectDashboard from "./components/dashboard/ProjectDashboard";
-import type { DashboardProject } from "./components/dashboard/projectData";
+import { isBlankDraftProject, type DashboardProject } from "./components/dashboard/projectData";
 import { clearLocalAuthSession, getLocalAuthSession, type LocalAuthSession } from "./lib/localAuth";
 import { createBlankProjectSlides, shouldUseBlankProjectSlides } from "./utils/projectSlides";
 import { publicUrl } from "./utils/slideDom";
@@ -116,7 +116,7 @@ export default function App() {
     );
   }
 
-  const projectSlidesData = shouldUseBlankProjectSlides(activeProject.id)
+  const projectSlidesData = shouldUseBlankProjectSlides(activeProject.id) || isBlankDraftProject(activeProject)
     ? createBlankProjectSlides(activeProject)
     : payload.slidesData;
 

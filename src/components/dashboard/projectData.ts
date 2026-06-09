@@ -16,6 +16,7 @@ export type DashboardProject = {
   slideCount: number;
   provider: string;
   accent: string;
+  trashedAt?: string;
 };
 
 export type ProjectFilters = {
@@ -60,8 +61,21 @@ export function createDraftProject(ownerEmail: string, sequence: number): Dashbo
     visibility: "private",
     slideCount: 1,
     provider: "local",
-    accent: "#7c3aed",
+    accent: "#0f8f86",
   };
+}
+
+export function isBlankDraftProject(project: DashboardProject) {
+  return project.id.startsWith("local-project-") || project.category.toLowerCase() === "draft";
+}
+
+export function mergeDashboardProjects(primary: DashboardProject[], fallback: DashboardProject[]) {
+  const seen = new Set<string>();
+  return [...primary, ...fallback].filter((project) => {
+    if (seen.has(project.id)) return false;
+    seen.add(project.id);
+    return true;
+  });
 }
 
 export function filterDashboardProjects(projects: DashboardProject[], filters: ProjectFilters) {

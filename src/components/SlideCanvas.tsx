@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
-  ArrowsPointingOutIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   DocumentDuplicateIcon,
@@ -17,6 +16,7 @@ import {
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import type { AssetItem, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, DesignShape, FontFamilyName, ImageDepth, SelectionTarget, Slide, SlideComment, SlideContainer, SlideLayer } from "../types";
 import { containerElementSrcDoc, containerRenderableMarkup } from "../utils/containers";
+import { slideEntryAnimationClass } from "../utils/slideAnimation";
 import { normalizeAssetUrl, targetFromElement } from "../utils/slideDom";
 import { AppButton, ColorField, IconButton, NumberStepper, SelectMenu } from "./ui/controls";
 
@@ -52,6 +52,19 @@ type AlignmentOverlay = {
   distances: AlignmentDistanceHint[];
 };
 
+type MoveKind = "base" | "layer" | "container" | "element" | "shape";
+type ResizeHandle = "n" | "s" | "e" | "w" | "ne" | "nw" | "se" | "sw";
+
+type ResizeBounds = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
+type MoveDragState = { mode: "move"; kind: MoveKind; id: string; startX: number; startY: number; x: number; y: number; moved: boolean };
+type ResizeDragState = { mode: "resize"; kind: MoveKind; id: string; handle: ResizeHandle; startX: number; startY: number; x: number; y: number; width: number; height: number; moved: boolean };
+
 type SlideCanvasProps = {
   slide: Slide;
   html: string;
@@ -73,7 +86,7 @@ type SlideCanvasProps = {
   onSelectLayer: (layerId: string | null) => void;
   onUpdateLayer: (layerId: string, patch: Partial<SlideLayer>, saveHistory?: boolean, historyBeforePatch?: Partial<SlideLayer>) => void;
   onUpdateContainer: (containerId: string, patch: Partial<SlideContainer>, saveHistory?: boolean, historyBeforePatch?: Partial<SlideContainer>) => void;
-  onUpdateShape: (shapeId: string, patch: Partial<DesignShape>) => void;
+  onUpdateShape: (shapeId: string, patch: Partial<DesignShape>, saveHistory?: boolean, historyBeforePatch?: Partial<DesignShape>) => void;
   onUpdateComment: (commentId: string, patch: Partial<SlideComment>) => void;
   onUpdateBaseImage: (layerId: string, patch: Partial<BaseImageOverride>, saveHistory?: boolean, historyBeforePatch?: Partial<BaseImageOverride>) => void;
   onUpdateBaseElement: (layerId: string, patch: Partial<BaseElementOverride>, saveHistory?: boolean, historyBeforePatch?: Partial<BaseElementOverride>) => void;
@@ -87,7 +100,7 @@ type SlideCanvasProps = {
   onDuplicateLayer: (layerId: string) => void;
   onDuplicateBaseImage: (layerId: string) => void;
   onUpdateTextStyle: (target: SelectionTarget, stylePatch: Record<string, string>) => void;
-  onAddLayer: (asset: AssetItem, position?: { x: number; y: number; width?: number }) => void;
+  onAddLayer: (asset: AssetItem, position?: { x: number; y: number; width?: number; height?: number }) => void;
   onGoToSlide: (slide: number) => void;
   onNext: () => void;
   onPrev: () => void;
@@ -138,12 +151,8 @@ export default function SlideCanvas({
   const [scale, setScale] = useState(1);
   const previousSlideIndexRef = useRef(slide.index);
   const dragRef = useRef<
-  | { mode: "move"; kind: "base" | "layer"; id: string; startX: number; startY: number; x: number; y: number; moved: boolean }
-    | { mode: "move"; kind: "container"; id: string; startX: number; startY: number; x: number; y: number; moved: boolean }
-    | { mode: "move"; kind: "element"; id: string; startX: number; startY: number; x: number; y: number; moved: boolean }
-    | { mode: "resize"; kind: "base" | "layer"; id: string; startX: number; width: number; moved: boolean }
-    | { mode: "resize"; kind: "container"; id: string; startX: number; startY: number; width: number; height: number; moved: boolean }
-    | { mode: "resize"; kind: "element"; id: string; startX: number; startY: number; width: number; height: number; moved: boolean }
+  | MoveDragState
+    | ResizeDragState
     | null
   >(null);
   const gestureRef = useRef<{ pointerId: number; startX: number; startY: number; startTime: number } | null>(null);
@@ -164,7 +173,7 @@ export default function SlideCanvas({
     color: string;
     padding: number;
   } | null>(null);
-  const transitionDirection = slide.index >= previousSlideIndexRef.current ? "forward" : "backward";
+  const entryAnimationClass = slideEntryAnimationClass(slide.index, previousSlideIndexRef.current);
   const imageTipPosition = useMemo(() => {
     if (!imageTip) return null;
     const frame = frameRef.current;
@@ -256,6 +265,7 @@ export default function SlideCanvas({
             x: ((rect.left + rect.width / 2 - frameRect.left) / frameRect.width) * 100,
             y: ((rect.top + rect.height / 2 - frameRect.top) / frameRect.height) * 100,
             width: (rect.width / frameRect.width) * 100,
+            height: (rect.height / frameRect.height) * 100,
             zIndex: image.zIndex ?? index + 12,
             visible: image.visible ?? true,
             locked: image.locked ?? false,
@@ -413,13 +423,13 @@ export default function SlideCanvas({
           if (!shell) return;
           const x = Math.max(4, Math.min(96, ((event.clientX - shell.left) / shell.width) * 100));
           const y = Math.max(4, Math.min(94, ((event.clientY - shell.top) / shell.height) * 100));
-          onAddLayer(asset, { x, y, width: 20 });
+          onAddLayer(asset, { x, y, width: 20, height: 14 });
         }}
       >
         <IconButton className="nav-hit left" label="Slide sebelumnya" icon={<ChevronLeftIcon aria-hidden="true" />} onClick={onPrev} />
           <div
             key={slide.index}
-            className={`slide-scale-shell slide-enter-${transitionDirection}`}
+            className={`slide-scale-shell ${entryAnimationClass}`}
             style={{
               width: SLIDE_WIDTH * scale,
               height: SLIDE_HEIGHT * scale,
@@ -506,6 +516,9 @@ export default function SlideCanvas({
                 setImageTip(null);
                 setElementTip(null);
                 setTextTip(null);
+                if (selected?.kind === "text") {
+                  onOpenTargetDetail(selected);
+                }
               }
             }}
             onDoubleClick={(event) => {
@@ -696,15 +709,18 @@ export default function SlideCanvas({
           if (image.visible === false) return null;
           const locked = image.locked === true;
           const selected = selectedLayerId === image.id;
+          const imageWidth = image.width ?? 12;
+          const imageHeight = image.height ?? fallbackImageHeight(imageWidth, image.frame);
           return (
             <div
               key={image.id}
-              className={`slide-layer base-image-layer depth-${depth} ${image.frame === "screen" ? "base-screen-frame" : ""} ${selected ? "selected" : ""} ${locked ? "locked" : ""}`}
+              className={`slide-layer base-image-layer depth-${depth} ${image.frame === "screen" ? "base-screen-frame" : ""} has-explicit-height ${selected ? "selected" : ""} ${locked ? "locked" : ""}`}
               data-layer-id={image.id}
               style={{
                 left: `${image.x}%`,
                 top: `${image.y}%`,
-                width: `${image.width}%`,
+                width: `${imageWidth}%`,
+                height: `${imageHeight}%`,
                 zIndex: image.zIndex ?? 12,
               }}
               onPointerDown={(event) => startImageMove(event, "base", image.id, image.name, image.x ?? 50, image.y ?? 50, locked)}
@@ -713,15 +729,7 @@ export default function SlideCanvas({
                 <div className="base-screen-bar" aria-hidden="true"><span></span><span></span><span></span></div>
               ) : null}
               <img src={normalizeAssetUrl(image.src)} alt={image.alt || image.name} draggable={false} />
-              {selected && !locked ? (
-                <IconButton
-                  compact
-                  className="resize-handle resize-se"
-                  label="Resize gambar"
-                  icon={<ArrowsPointingOutIcon aria-hidden="true" />}
-                  onPointerDown={(event) => startImageResize(event, "base", image.id, image.width ?? 12)}
-                />
-              ) : null}
+              {selected && !locked ? renderResizeHandles("base", image.id, { x: image.x ?? 50, y: image.y ?? 50, width: imageWidth, height: imageHeight }, "Resize gambar") : null}
             </div>
           );
         })}
@@ -744,15 +752,7 @@ export default function SlideCanvas({
               onPointerDown={(event) => startElementMove(event, element.id, element.name, element.x ?? 50, element.y ?? 50, locked)}
             >
               <div className="base-element-content" dangerouslySetInnerHTML={{ __html: element.html }} />
-              {selected && !locked ? (
-                <IconButton
-                  compact
-                  className="resize-handle resize-se"
-                  label="Resize kartu"
-                  icon={<ArrowsPointingOutIcon aria-hidden="true" />}
-                  onPointerDown={(event) => startElementResize(event, element.id, element.width ?? 12, element.height ?? 8)}
-                />
-              ) : null}
+              {selected && !locked ? renderResizeHandles("element", element.id, { x: element.x ?? 50, y: element.y ?? 50, width: element.width ?? 12, height: element.height ?? 8 }, "Resize kartu") : null}
             </div>
           );
         })}
@@ -786,44 +786,30 @@ export default function SlideCanvas({
               ) : (
                 <div className="slide-container-render" dangerouslySetInnerHTML={{ __html: containerRenderableMarkup(container) }} />
               )}
-              {selected && !locked ? (
-                <IconButton
-                  compact
-                  className="resize-handle resize-se"
-                  label="Resize container"
-                  icon={<ArrowsPointingOutIcon aria-hidden="true" />}
-                  onPointerDown={(event) => startContainerResize(event, container.id, container.width, container.height)}
-                />
-              ) : null}
+              {selected && !locked ? renderResizeHandles("container", container.id, container, "Resize container") : null}
             </div>
           );
         })}
         {overlayItems.map((layer) => {
           if (!layer.visible) return null;
           const selected = selectedLayerId === layer.id;
+          const layerHeight = layer.height ?? fallbackImageHeight(layer.width);
           return (
             <div
               key={layer.id}
-              className={`slide-layer depth-${depth} ${selected ? "selected" : ""} ${layer.locked ? "locked" : ""}`}
+              className={`slide-layer depth-${depth} has-explicit-height ${selected ? "selected" : ""} ${layer.locked ? "locked" : ""}`}
               data-layer-id={layer.id}
               style={{
                 left: `${layer.x}%`,
                 top: `${layer.y}%`,
                 width: `${layer.width}%`,
+                height: `${layerHeight}%`,
                 zIndex: layer.zIndex,
               }}
               onPointerDown={(event) => startImageMove(event, "layer", layer.id, layer.name, layer.x, layer.y, layer.locked)}
             >
               <img src={normalizeAssetUrl(layer.src)} alt={layer.name} draggable={false} />
-              {selected && !layer.locked ? (
-                <IconButton
-                  compact
-                  className="resize-handle resize-se"
-                  label="Resize gambar"
-                  icon={<ArrowsPointingOutIcon aria-hidden="true" />}
-                  onPointerDown={(event) => startImageResize(event, "layer", layer.id, layer.width)}
-                />
-              ) : null}
+              {selected && !layer.locked ? renderResizeHandles("layer", layer.id, { x: layer.x, y: layer.y, width: layer.width, height: layerHeight }, "Resize gambar") : null}
             </div>
           );
         })}
@@ -838,6 +824,7 @@ export default function SlideCanvas({
           .slice()
           .sort((a, b) => a.zIndex - b.zIndex)
           .map((shape) => {
+            if (!shape.visible) return null;
             const selected = selectedLayerId === shape.id;
             return (
               <div
@@ -853,7 +840,8 @@ export default function SlideCanvas({
                   opacity: shape.opacity,
                   transform: `translate(-50%, -50%) rotate(${shape.rotation}deg)`,
                 }}
-                onPointerDown={(event) => {
+                onPointerDown={(event) => startShapeMove(event, shape)}
+                onContextMenu={(event) => {
                   event.preventDefault();
                   event.stopPropagation();
                   onSelectTarget(null);
@@ -869,6 +857,7 @@ export default function SlideCanvas({
                 }}
               >
                 {renderShapeContent(shape)}
+                {selected && !shape.locked ? renderResizeHandles("shape", shape.id, shape, "Resize shape") : null}
               </div>
             );
           })}
@@ -911,7 +900,18 @@ export default function SlideCanvas({
       return <span className="shape-box" style={commonStyle} />;
     }
     if (shape.kind === "text") {
-      return <span className="shape-text">{shape.text}</span>;
+      return (
+        <span
+          className={`shape-text text-role-${shape.textRole || "body"}`}
+          style={{
+            color: shape.fill === "transparent" ? "#111827" : shape.fill,
+            fontSize: shape.fontSize ? `${shape.fontSize}px` : undefined,
+            fontWeight: shape.fontWeight,
+          }}
+        >
+          {shape.text}
+        </span>
+      );
     }
     if (shape.kind === "line" || shape.kind === "arrow") {
       return (
@@ -983,17 +983,39 @@ export default function SlideCanvas({
     window.addEventListener("pointerup", pointerUp);
   }
 
-  function startImageResize(event: ReactPointerEvent, kind: "base" | "layer", id: string, width: number) {
+  function renderResizeHandles(kind: MoveKind, id: string, bounds: ResizeBounds, label: string) {
+    const handles: ResizeHandle[] = ["nw", "n", "ne", "e", "se", "s", "sw", "w"];
+    return handles.map((handle) => (
+      <button
+        key={handle}
+        type="button"
+        className={`resize-handle resize-${handle}`}
+        aria-label={`${label} ${handle}`}
+        title={`${label} ${handle}`}
+        onPointerDown={(event) => startResize(event, kind, id, bounds, handle)}
+      />
+    ));
+  }
+
+  function startResize(event: ReactPointerEvent, kind: MoveKind, id: string, bounds: ResizeBounds, handle: ResizeHandle) {
     if (isEditInteractionLocked()) return;
     event.preventDefault();
     event.stopPropagation();
+    onSelectTarget(null);
+    onSelectLayer(id);
+    setTextTip(null);
     setIsLayerDragging(true);
     dragRef.current = {
       mode: "resize",
       kind,
       id,
+      handle,
       startX: event.clientX,
-      width,
+      startY: event.clientY,
+      x: bounds.x,
+      y: bounds.y,
+      width: bounds.width,
+      height: bounds.height,
       moved: false,
     };
     window.addEventListener("pointermove", pointerMove);
@@ -1032,25 +1054,6 @@ export default function SlideCanvas({
     window.addEventListener("pointerup", pointerUp);
   }
 
-  function startElementResize(event: ReactPointerEvent, id: string, width: number, height: number) {
-    if (isEditInteractionLocked()) return;
-    event.preventDefault();
-    event.stopPropagation();
-    setIsLayerDragging(true);
-    dragRef.current = {
-      mode: "resize",
-      kind: "element",
-      id,
-      startX: event.clientX,
-      startY: event.clientY,
-      width,
-      height,
-      moved: false,
-    };
-    window.addEventListener("pointermove", pointerMove);
-    window.addEventListener("pointerup", pointerUp);
-  }
-
   function startContainerMove(
     event: ReactPointerEvent,
     id: string,
@@ -1082,19 +1085,25 @@ export default function SlideCanvas({
     window.addEventListener("pointerup", pointerUp);
   }
 
-  function startContainerResize(event: ReactPointerEvent, id: string, width: number, height: number) {
+  function startShapeMove(event: ReactPointerEvent, shape: DesignShape) {
+    if (shape.locked) return;
     if (isEditInteractionLocked()) return;
     event.preventDefault();
     event.stopPropagation();
+    onSelectTarget(null);
+    onSelectLayer(shape.id);
+    setTextTip(null);
+    setImageTip(null);
+    setElementTip(null);
     setIsLayerDragging(true);
     dragRef.current = {
-      mode: "resize",
-      kind: "container",
-      id,
+      mode: "move",
+      kind: "shape",
+      id: shape.id,
       startX: event.clientX,
       startY: event.clientY,
-      width,
-      height,
+      x: shape.x,
+      y: shape.y,
       moved: false,
     };
     window.addEventListener("pointermove", pointerMove);
@@ -1115,34 +1124,26 @@ export default function SlideCanvas({
     const rect = frame.getBoundingClientRect();
     if (drag.mode === "resize") {
       setAlignmentOverlay(null);
-      if (!drag.moved && Math.abs(event.clientX - drag.startX) <= 2) return;
+      if (!drag.moved && Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) <= 2) return;
       if (!drag.moved) {
         if (drag.kind === "element") onBeginBaseElementEdit(drag.id, { width: drag.width, height: drag.height });
         else if (drag.kind === "container") onBeginContainerEdit(drag.id, { width: drag.width, height: drag.height });
-        else if (drag.kind === "base") onBeginBaseImageEdit(drag.id, { width: drag.width });
-        else onBeginLayerEdit(drag.id, { width: drag.width });
+        else if (drag.kind === "base") onBeginBaseImageEdit(drag.id, { x: drag.x, y: drag.y, width: drag.width, height: drag.height });
+        else if (drag.kind === "layer") onBeginLayerEdit(drag.id, { x: drag.x, y: drag.y, width: drag.width, height: drag.height });
         drag.moved = true;
       }
-      const nextWidth = drag.width + ((event.clientX - drag.startX) / rect.width) * 100;
-      if (drag.kind === "element") {
-        const nextHeight = drag.height + ((event.clientY - drag.startY) / rect.height) * 100;
-        onUpdateBaseElement(drag.id, {
-          width: Math.max(4, Math.min(95, nextWidth)),
-          height: Math.max(3, Math.min(82, nextHeight)),
-        }, false);
-        return;
-      }
-      if (drag.kind === "container") {
-        const nextHeight = drag.height + ((event.clientY - drag.startY) / rect.height) * 100;
-        onUpdateContainer(drag.id, {
-          width: Math.max(4, Math.min(95, nextWidth)),
-          height: Math.max(3, Math.min(82, nextHeight)),
-        }, false);
-        return;
-      }
-      const patch = { width: Math.max(4, Math.min(95, nextWidth)) };
+      const nextBounds = resizedBounds(drag, event, rect);
+      const patch = {
+        x: nextBounds.x,
+        y: nextBounds.y,
+        width: nextBounds.width,
+        height: nextBounds.height,
+      };
       if (drag.kind === "base") onUpdateBaseImage(drag.id, patch, false);
-      else onUpdateLayer(drag.id, patch, false);
+      else if (drag.kind === "layer") onUpdateLayer(drag.id, patch, false);
+      else if (drag.kind === "element") onUpdateBaseElement(drag.id, patch, false);
+      else if (drag.kind === "container") onUpdateContainer(drag.id, patch, false);
+      else onUpdateShape(drag.id, patch, false);
       return;
     }
     if (!drag.moved && Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) <= 2) return;
@@ -1150,7 +1151,7 @@ export default function SlideCanvas({
       if (drag.kind === "element") onBeginBaseElementEdit(drag.id, { x: drag.x, y: drag.y });
       else if (drag.kind === "container") onBeginContainerEdit(drag.id, { x: drag.x, y: drag.y });
       else if (drag.kind === "base") onBeginBaseImageEdit(drag.id, { x: drag.x, y: drag.y });
-      else onBeginLayerEdit(drag.id, { x: drag.x, y: drag.y });
+      else if (drag.kind === "layer") onBeginLayerEdit(drag.id, { x: drag.x, y: drag.y });
       drag.moved = true;
     }
     const nextX = drag.x + ((event.clientX - drag.startX) / rect.width) * 100;
@@ -1166,7 +1167,8 @@ export default function SlideCanvas({
     if (drag.kind === "element") onUpdateBaseElement(drag.id, patch, false);
     else if (drag.kind === "container") onUpdateContainer(drag.id, patch, false);
     else if (drag.kind === "base") onUpdateBaseImage(drag.id, patch, false);
-    else onUpdateLayer(drag.id, patch, false);
+    else if (drag.kind === "layer") onUpdateLayer(drag.id, patch, false);
+    else onUpdateShape(drag.id, patch, false);
   }
 
   function pointerUp() {
@@ -1174,13 +1176,15 @@ export default function SlideCanvas({
     if (drag?.moved) {
       if (drag.mode === "resize") {
         if (drag.kind === "element") {
-          onUpdateBaseElement(drag.id, {}, true, { width: drag.width, height: drag.height });
+          onUpdateBaseElement(drag.id, {}, true, { x: drag.x, y: drag.y, width: drag.width, height: drag.height });
         } else if (drag.kind === "container") {
-          onUpdateContainer(drag.id, {}, true, { width: drag.width, height: drag.height });
+          onUpdateContainer(drag.id, {}, true, { x: drag.x, y: drag.y, width: drag.width, height: drag.height });
         } else if (drag.kind === "base") {
-          onUpdateBaseImage(drag.id, {}, true, { width: drag.width });
+          onUpdateBaseImage(drag.id, {}, true, { x: drag.x, y: drag.y, width: drag.width, height: drag.height });
+        } else if (drag.kind === "layer") {
+          onUpdateLayer(drag.id, {}, true, { x: drag.x, y: drag.y, width: drag.width, height: drag.height });
         } else {
-          onUpdateLayer(drag.id, {}, true, { width: drag.width });
+          onUpdateShape(drag.id, {}, true, { x: drag.x, y: drag.y, width: drag.width, height: drag.height });
         }
       } else if (drag.kind === "element") {
         onUpdateBaseElement(drag.id, {}, true, { x: drag.x, y: drag.y });
@@ -1188,8 +1192,10 @@ export default function SlideCanvas({
         onUpdateContainer(drag.id, {}, true, { x: drag.x, y: drag.y });
       } else if (drag.kind === "base") {
         onUpdateBaseImage(drag.id, {}, true, { x: drag.x, y: drag.y });
-      } else {
+      } else if (drag.kind === "layer") {
         onUpdateLayer(drag.id, {}, true, { x: drag.x, y: drag.y });
+      } else {
+        onUpdateShape(drag.id, {}, true, { x: drag.x, y: drag.y });
       }
     }
     dragRef.current = null;
@@ -1208,6 +1214,69 @@ export default function SlideCanvas({
 function escapeSelector(value: string) {
   if (typeof CSS !== "undefined" && CSS.escape) return CSS.escape(value);
   return value.replace(/["\\]/g, "\\$&");
+}
+
+function fallbackImageHeight(width: number, frame?: BaseImageLayer["frame"]) {
+  if (frame === "screen") return Math.max(5, width / 2.14);
+  return Math.max(5, width * 0.68);
+}
+
+function resizedBounds(drag: ResizeDragState, event: PointerEvent, rect: DOMRect): ResizeBounds {
+  const dx = ((event.clientX - drag.startX) / rect.width) * 100;
+  const dy = ((event.clientY - drag.startY) / rect.height) * 100;
+  const minWidth = drag.kind === "shape" ? 2 : 4;
+  const minHeight = drag.kind === "shape" ? 2 : 3;
+  let left = drag.x - drag.width / 2;
+  let right = drag.x + drag.width / 2;
+  let top = drag.y - drag.height / 2;
+  let bottom = drag.y + drag.height / 2;
+
+  if (drag.handle.includes("e")) right += dx;
+  if (drag.handle.includes("w")) left += dx;
+  if (drag.handle.includes("s")) bottom += dy;
+  if (drag.handle.includes("n")) top += dy;
+
+  if (right - left < minWidth) {
+    if (drag.handle.includes("w")) left = right - minWidth;
+    else right = left + minWidth;
+  }
+  if (bottom - top < minHeight) {
+    if (drag.handle.includes("n")) top = bottom - minHeight;
+    else bottom = top + minHeight;
+  }
+
+  if (left < 0) {
+    right -= left;
+    left = 0;
+  }
+  if (right > 100) {
+    left -= right - 100;
+    right = 100;
+  }
+  if (top < 0) {
+    bottom -= top;
+    top = 0;
+  }
+  if (bottom > 100) {
+    top -= bottom - 100;
+    bottom = 100;
+  }
+
+  left = clamp(left, 0, 100 - minWidth);
+  right = clamp(right, left + minWidth, 100);
+  top = clamp(top, 0, 100 - minHeight);
+  bottom = clamp(bottom, top + minHeight, 100);
+
+  return {
+    x: (left + right) / 2,
+    y: (top + bottom) / 2,
+    width: right - left,
+    height: bottom - top,
+  };
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(max, Math.max(min, value));
 }
 
 function rgbToHex(value: string) {

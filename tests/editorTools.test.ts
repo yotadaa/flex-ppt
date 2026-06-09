@@ -46,7 +46,12 @@ describe("editor tool model", () => {
       fill: "#f8fafc",
       stroke: "#0f172a",
     });
-    expect(text.text).toBe("Text layer");
+    expect(text).toMatchObject({
+      text: "Text layer",
+      textRole: "body",
+      fontSize: 28,
+      fontWeight: 700,
+    });
     expect(arrow.strokeWidth).toBeGreaterThan(rectangle.strokeWidth);
   });
 

@@ -6,10 +6,20 @@ describe("database provider rotation", () => {
     const providers = parseDatabaseProviders(" postgresql://one , postgresql://two,postgresql://three ");
 
     expect(providers).toEqual([
-      { name: "provider_1", url: "postgresql://one", index: 0 },
-      { name: "provider_2", url: "postgresql://two", index: 1 },
-      { name: "provider_3", url: "postgresql://three", index: 2 },
+      { name: "provider_1", url: "postgresql://one", index: 0, dialect: "postgres" },
+      { name: "provider_2", url: "postgresql://two", index: 1, dialect: "postgres" },
+      { name: "provider_3", url: "postgresql://three", index: 2, dialect: "postgres" },
     ]);
+  });
+
+  it("detects local mysql providers", () => {
+    const providers = parseDatabaseProviders("mysql://root:password@127.0.0.1:3306/flex_ppt");
+
+    expect(providers[0]).toMatchObject({
+      name: "provider_1",
+      dialect: "mysql",
+      url: "mysql://root:password@127.0.0.1:3306/flex_ppt",
+    });
   });
 
   it("starts from the injected initial index and then rotates", () => {

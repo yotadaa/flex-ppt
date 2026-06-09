@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { CSSProperties } from "react";
-import type { AssetsData, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, DesignShapeKind, EditorTool, SlidesData, ThesisData } from "../types";
+import type { AssetsData, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, DesignShapeKind, EditorTool, Slide, SlidesData, ThesisData } from "../types";
 import { containerRenderableMarkup } from "../utils/containers";
 import { editorToolFromKey } from "../utils/editorTools";
 import { extractBaseElementLayers, extractBaseImageLayers, highlightSlideSearch, normalizeAssetUrl, plainTextFromHtml, slideHtmlFor } from "../utils/slideDom";
+import { createBlankSlide } from "../utils/projectSlides";
 import { useEditorState } from "../hooks/useEditorState";
 import Toolbar from "./Toolbar";
 import EditorToolbelt from "./EditorToolbelt";
@@ -40,11 +41,12 @@ const FONT_STACKS = {
 const creationShapeTools: EditorTool[] = ["rectangle", "line", "arrow", "ellipse", "polygon", "star", "text", "pen", "pencil"];
 
 export default function AppShell({ projectId, projectTitle, userEmail, slidesData, thesisData, assetsData, onReturnToDashboard }: AppShellProps) {
+  const [slides, setSlides] = useState(() => loadProjectSlideList(projectId, slidesData.slides));
   const initialSlideHtmlByIndex = useMemo(
-    () => Object.fromEntries(slidesData.slides.map((slide) => [slide.index, slide.html])),
-    [slidesData.slides],
+    () => Object.fromEntries(slides.map((slide) => [slide.index, slide.html])),
+    [slides],
   );
-  const editor = useEditorState(slidesData.slides.length, initialSlideHtmlByIndex, projectId);
+  const editor = useEditorState(slides.length, initialSlideHtmlByIndex, projectId);
   const { state } = editor;
   const [modalOpen, setModalOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -55,9 +57,17 @@ export default function AppShell({ projectId, projectTitle, userEmail, slidesDat
   const [isPdfExporting, setIsPdfExporting] = useState(false);
   const isPresenting = isFullscreen || isPresentingFallback;
 
+  useEffect(() => {
+    setSlides(loadProjectSlideList(projectId, slidesData.slides));
+  }, [projectId, slidesData.slides]);
+
+  useEffect(() => {
+    saveProjectSlideList(projectId, slides, slidesData.slides);
+  }, [projectId, slides, slidesData.slides]);
+
   const activeSlide = useMemo(
-    () => slidesData.slides.find((slide) => slide.index === state.currentSlide) || slidesData.slides[0],
-    [slidesData.slides, state.currentSlide],
+    () => slides.find((slide) => slide.index === state.currentSlide) || slides[0],
+    [slides, state.currentSlide],
   );
   const activeHtml = useMemo(
     () => slideHtmlFor(activeSlide, state.slideHtmlByIndex),
@@ -68,8 +78,8 @@ export default function AppShell({ projectId, projectTitle, userEmail, slidesDat
     [activeHtml, slideSearch],
   );
   const printableSlides = useMemo(
-    () => slidesData.slides.map((slide) => ({ index: slide.index, html: slideHtmlFor(slide, state.slideHtmlByIndex) })),
-    [slidesData.slides, state.slideHtmlByIndex],
+    () => slides.map((slide) => ({ index: slide.index, html: slideHtmlFor(slide, state.slideHtmlByIndex) })),
+    [slides, state.slideHtmlByIndex],
   );
   const activeLayers = useMemo(
     () => state.layers.filter((layer) => layer.slideIndex === activeSlide.index),
@@ -97,18 +107,18 @@ export default function AppShell({ projectId, projectTitle, userEmail, slidesDat
   );
   const chapterStartByName = useMemo(() => {
     const entries = new Map<string, number>();
-    slidesData.slides.forEach((slide) => {
+    slides.forEach((slide) => {
       if (!entries.has(slide.chapter)) entries.set(slide.chapter, slide.index);
     });
     return Object.fromEntries(entries);
-  }, [slidesData.slides]);
+  }, [slides]);
   const slideSearchMatches = useMemo(() => {
     const q = slideSearch.trim().toLowerCase();
     if (q.length < 2) return [];
-    return slidesData.slides
+    return slides
       .filter((slide) => plainTextFromHtml(slideHtmlFor(slide, state.slideHtmlByIndex)).toLowerCase().includes(q))
       .map((slide) => slide.index);
-  }, [slidesData.slides, slideSearch, state.slideHtmlByIndex]);
+  }, [slides, slideSearch, state.slideHtmlByIndex]);
 
   const goToSearchMatch = useCallback((direction: 1 | -1) => {
     if (!slideSearchMatches.length) return;
@@ -118,6 +128,15 @@ export default function AppShell({ projectId, projectTitle, userEmail, slidesDat
       : (currentPosition + direction + slideSearchMatches.length) % slideSearchMatches.length;
     editor.goToSlide(slideSearchMatches[nextPosition]);
   }, [editor, slideSearchMatches, state.currentSlide]);
+
+  const slidesDataForEditor = useMemo(() => ({ ...slidesData, slides }), [slides, slidesData]);
+
+  const addBlankSlide = useCallback(() => {
+    const nextIndex = slides.reduce((max, slide) => Math.max(max, slide.index), 0) + 1;
+    const slide = createBlankSlide(nextIndex, `Untitled slide ${nextIndex}`);
+    setSlides((current) => [...current, slide]);
+    editor.addSlide(slide.index, slide.html);
+  }, [editor, slides]);
 
   const toggleFullscreen = useCallback(async () => {
     const root = document.querySelector(".app-shell") as HTMLElement | null;
@@ -212,7 +231,7 @@ export default function AppShell({ projectId, projectTitle, userEmail, slidesDat
       <Toolbar
         state={state}
         projectTitle={projectTitle}
-        slideCount={slidesData.slides.length}
+        slideCount={slides.length}
         isFullscreen={isPresenting}
         searchQuery={slideSearch}
         searchMatchCount={slideSearchMatches.length}
@@ -242,14 +261,15 @@ export default function AppShell({ projectId, projectTitle, userEmail, slidesDat
         onCreateComponent={editor.createComponentFromSelection}
       />
       <div className="top-progress" aria-hidden="true">
-        <span style={{ width: `${(state.currentSlide / slidesData.slides.length) * 100}%` }} />
+        <span style={{ width: `${(state.currentSlide / slides.length) * 100}%` }} />
       </div>
 
       <div className="workspace-grid">
         <SlideRail
-          slides={slidesData.slides}
+          slides={slides}
           currentSlide={state.currentSlide}
           onSelect={editor.goToSlide}
+          onAddSlide={addBlankSlide}
         />
         <SlideCanvas
           slide={activeSlide}
@@ -299,7 +319,7 @@ export default function AppShell({ projectId, projectTitle, userEmail, slidesDat
         />
         <Inspector
           state={state}
-          slidesData={slidesData}
+          slidesData={slidesDataForEditor}
           thesisData={thesisData}
           assetsData={assetsData}
           onSetTab={editor.setInspectorTab}
@@ -350,7 +370,7 @@ export default function AppShell({ projectId, projectTitle, userEmail, slidesDat
 
       {paletteOpen ? (
         <CommandPalette
-          slides={slidesData.slides}
+          slides={slides}
           thesisBlocks={thesisData.blocks}
           assets={assetsData.assets}
           onClose={() => setPaletteOpen(false)}
@@ -407,11 +427,12 @@ export default function AppShell({ projectId, projectTitle, userEmail, slidesDat
                 {backBaseImages.map((image) => image.visible === false ? null : (
                   <div
                     key={image.id}
-                    className={`slide-layer base-image-layer depth-back ${image.frame === "screen" ? "base-screen-frame" : ""}`}
+                    className={`slide-layer base-image-layer depth-back ${image.frame === "screen" ? "base-screen-frame" : ""} ${image.height ? "has-explicit-height" : ""}`}
                     style={{
                       left: `${image.x}%`,
                       top: `${image.y}%`,
                       width: `${image.width}%`,
+                      height: image.height ? `${image.height}%` : undefined,
                       zIndex: image.zIndex ?? 12,
                     }}
                   >
@@ -424,11 +445,12 @@ export default function AppShell({ projectId, projectTitle, userEmail, slidesDat
                 {backLayers.map((layer) => layer.visible ? (
                   <div
                     key={layer.id}
-                    className="slide-layer depth-back"
+                    className={`slide-layer depth-back ${layer.height ? "has-explicit-height" : ""}`}
                     style={{
                       left: `${layer.x}%`,
                       top: `${layer.y}%`,
                       width: `${layer.width}%`,
+                      height: layer.height ? `${layer.height}%` : undefined,
                       zIndex: layer.zIndex,
                     }}
                   >
@@ -474,11 +496,12 @@ export default function AppShell({ projectId, projectTitle, userEmail, slidesDat
                 {frontBaseImages.map((image) => image.visible === false ? null : (
                   <div
                     key={image.id}
-                    className={`slide-layer base-image-layer depth-front ${image.frame === "screen" ? "base-screen-frame" : ""}`}
+                    className={`slide-layer base-image-layer depth-front ${image.frame === "screen" ? "base-screen-frame" : ""} ${image.height ? "has-explicit-height" : ""}`}
                     style={{
                       left: `${image.x}%`,
                       top: `${image.y}%`,
                       width: `${image.width}%`,
+                      height: image.height ? `${image.height}%` : undefined,
                       zIndex: image.zIndex ?? 12,
                     }}
                   >
@@ -491,11 +514,12 @@ export default function AppShell({ projectId, projectTitle, userEmail, slidesDat
                 {frontLayers.map((layer) => layer.visible ? (
                   <div
                     key={layer.id}
-                    className="slide-layer depth-front"
+                    className={`slide-layer depth-front ${layer.height ? "has-explicit-height" : ""}`}
                     style={{
                       left: `${layer.x}%`,
                       top: `${layer.y}%`,
                       width: `${layer.width}%`,
+                      height: layer.height ? `${layer.height}%` : undefined,
                       zIndex: layer.zIndex,
                     }}
                   >
@@ -572,4 +596,70 @@ function enrichBaseImages(baseImages: BaseImageLayer[], overrides: Record<string
       frame: override.frame || image.frame,
     };
   });
+}
+
+type StoredSlideListEnvelope = {
+  version: 2;
+  sourceSignature: string;
+  slides: Slide[];
+};
+
+function loadProjectSlideList(projectId: string, fallback: Slide[]) {
+  if (typeof localStorage === "undefined") return fallback;
+  try {
+    const raw = localStorage.getItem(projectSlideListKey(projectId));
+    if (!raw) return fallback;
+    const parsed = JSON.parse(raw) as Slide[] | StoredSlideListEnvelope;
+    const storedSlides = Array.isArray(parsed) ? parsed : parsed.slides;
+    if (!Array.isArray(storedSlides) || !storedSlides.length) return fallback;
+    if (!Array.isArray(parsed) && parsed.sourceSignature !== slideListSourceSignature(fallback)) {
+      localStorage.removeItem(projectSlideListKey(projectId));
+      return fallback;
+    }
+    if (Array.isArray(parsed) && projectId === "project-flex-ppt-thesis" && parsed.length !== fallback.length) {
+      localStorage.removeItem(projectSlideListKey(projectId));
+      return fallback;
+    }
+    if (storedSlides.some((slide) => slide.html.includes('data-edit-id="blank-title"') || slide.html.includes('data-edit-id="blank-body"'))) {
+      localStorage.removeItem(projectSlideListKey(projectId));
+      return fallback;
+    }
+    return storedSlides
+      .filter((slide) => Number.isFinite(slide.index) && slide.title && slide.html)
+      .sort((a, b) => a.index - b.index);
+  } catch {
+    localStorage.removeItem(projectSlideListKey(projectId));
+    return fallback;
+  }
+}
+
+function saveProjectSlideList(projectId: string, slides: Slide[], fallback: Slide[]) {
+  if (typeof localStorage === "undefined") return;
+  try {
+    const payload: StoredSlideListEnvelope = {
+      version: 2,
+      sourceSignature: slideListSourceSignature(fallback),
+      slides,
+    };
+    localStorage.setItem(projectSlideListKey(projectId), JSON.stringify(payload));
+  } catch {
+    // Storage can fail in constrained browser contexts; editor state still remains usable.
+  }
+}
+
+function projectSlideListKey(projectId: string) {
+  return `flex-ppt-slide-list-v1:${projectId || "default"}`;
+}
+
+function slideListSourceSignature(slides: Slide[]) {
+  return slides
+    .map((slide) => [
+      slide.index,
+      slide.title,
+      slide.chapter,
+      slide.html.length,
+      slide.html.slice(0, 96),
+      slide.html.slice(-96),
+    ].join(":"))
+    .join("|");
 }

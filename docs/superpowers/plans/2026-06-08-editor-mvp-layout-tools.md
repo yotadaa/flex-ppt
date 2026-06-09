@@ -91,3 +91,75 @@
 - [ ] Inspect screenshots for layout, overlap, toolbar/sidebar/slide-strip placement, new project behavior, and mac-oriented design feel.
 - [ ] Iterate on any visual drift: font, spacing, color temperature, toolbar density, right sidebar density, and dashboard color scheme.
 - [ ] Commit and push.
+
+### Task 6: Slide Creation And Empty Starts
+
+**Files:**
+- Modify: `src/utils/projectSlides.ts`
+- Modify: `src/components/AppShell.tsx`
+- Modify: `src/components/SlideRail.tsx`
+- Modify: `src/hooks/useEditorState.ts`
+- Test: `tests/projectSlides.test.ts`
+
+- [ ] New blank projects must open with an empty slide canvas: no seeded heading, no body copy, and no editable HTML text nodes.
+- [ ] Add a reusable `createBlankSlide(index, title, chapter)` helper that returns empty slide HTML and zero images/citations.
+- [ ] Persist the editable slide list per project so user-added slides survive refresh in local auth mode.
+- [ ] Wire the bottom slide rail plus button to append a new empty slide and immediately navigate to it.
+- [ ] Keep slide count, top toolbar count, search, printable deck, command palette, and inspector references in sync with the local slide list.
+- [ ] Add tests proving blank slides contain no seeded `data-edit-id` text elements.
+
+### Task 7: Edge Resize And Text-As-Layer Controls
+
+**Files:**
+- Modify: `src/types.ts`
+- Modify: `src/utils/editorTools.ts`
+- Modify: `src/hooks/useEditorState.ts`
+- Modify: `src/components/SlideCanvas.tsx`
+- Modify: `src/components/LayerPanel.tsx`
+- Modify: `src/components/ElementPropertiesPanel.tsx`
+- Modify: `src/styles/app.css`
+- Test: `tests/editorTools.test.ts`
+
+- [ ] Add height support for imported image layers and managed base images, while keeping old saved local state compatible.
+- [ ] Replace the single oversized resize button with eight edge/corner handles on selected images, HTML containers, managed cards, and editorial shapes.
+- [ ] Remove the large floating scale button from selected image/card layers because edge handles now control width, height, and corner scaling.
+- [ ] Dragging side handles adjusts width or height independently; dragging corner handles adjusts both dimensions.
+- [ ] Keep undo history clean by recording one transaction per resize drag, not one history entry per pointer move.
+- [ ] Add layer-style text controls for added text objects: role preset (`body`, `heading`, `subheading`), font size, font weight, text color, dimensions, position, visibility, lock, duplicate, and delete.
+- [ ] Right-clicking an editorial text layer should select it for the same inspector/layer controls instead of opening the browser context menu.
+
+### Task 8: Feature Screenshot Audit
+
+**Files:**
+- No committed QA/screenshots. Save temporary screenshots outside the repo.
+
+- [ ] Run `npm test`.
+- [ ] Run `npm run build`.
+- [ ] Start/confirm dev server on `localhost:5999`.
+- [ ] Screenshot the empty new-slide state and verify there are no default heading/body elements.
+- [ ] Screenshot an added slide in the bottom rail and verify the slide count increments without duplicated redundant numbering.
+- [ ] Screenshot selected text/image/shape resize handles and verify mac-oriented spacing, neutral colors, and no overlaps.
+- [ ] Analyze screenshots for anomalies: clipped controls, duplicated labels, stale selected states, layout overflow, unreadable text, right sidebar drift, and Canva-purple color drift.
+- [ ] Iterate on any found anomaly, rerun the affected checks, then commit and push.
+
+### Task 9: Dashboard Database And Navigation
+
+**Files:**
+- Modify: `src/server/auth.ts`
+- Modify: `app/api/projects/route.ts`
+- Modify: `app/api/projects/[id]/route.ts`
+- Modify: `src/components/dashboard/ProjectDashboard.tsx`
+- Modify: `src/components/dashboard/projectData.ts`
+- Modify: `src/App.tsx`
+- Modify: `src/styles/app.css`
+
+- [ ] Check `.env.example` and local env presence for `DATABASE_URL`, `DIRECT_URL`, and public Supabase keys without exposing secret values.
+- [ ] Support local-auth project API writes through `DATABASE_URL` by deriving a stable local UUID from the signed-in email when no Supabase Auth bearer token is available.
+- [ ] Keep the Supabase/RLS plan aligned with official guidance: RLS remains in migrations, while server-side direct database routes use database credentials and do not expose service credentials to the browser.
+- [ ] When creating a new project, POST it to `/api/projects`; if DB is unavailable, keep local fallback and surface DB status in the dashboard.
+- [ ] Treat database-created draft projects as blank editor projects, even when their persisted UUID no longer starts with `local-project-`.
+- [ ] Remove the Templates menu item.
+- [ ] Make Projects, AI, and Trash dashboard nav items clickable and stateful.
+- [ ] Add dashboard Settings with account, behavior, design, and data configuration controls.
+- [ ] Add Trash actions for move-to-trash, restore, and permanent delete in local UI state.
+- [ ] Validate dashboard navigation and project creation with browser screenshots.

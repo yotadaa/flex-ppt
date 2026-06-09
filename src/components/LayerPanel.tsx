@@ -91,6 +91,7 @@ export default function LayerPanel({
                         <NumberStepper label="X" min={0} max={95} value={Math.round(image.x ?? 0)} onChange={(value) => onUpdateBaseImage(image.id, { x: value })} />
                         <NumberStepper label="Y" min={0} max={92} value={Math.round(image.y ?? 0)} onChange={(value) => onUpdateBaseImage(image.id, { y: value })} />
                         <NumberStepper label="W" min={4} max={95} value={Math.round(image.width ?? 12)} onChange={(value) => onUpdateBaseImage(image.id, { width: value })} />
+                        <NumberStepper label="H" min={3} max={88} value={Math.round(image.height ?? 8)} onChange={(value) => onUpdateBaseImage(image.id, { height: value })} />
                         <NumberStepper label="Z" min={1} max={999} value={image.zIndex ?? 12} onChange={(value) => onUpdateBaseImage(image.id, { zIndex: value })} />
                       </div>
                     ) : null}
@@ -292,6 +293,7 @@ export default function LayerPanel({
                 <NumberStepper label="X" min={0} max={95} value={Math.round(layer.x)} onChange={(value) => onUpdateLayer(layer.id, { x: value })} />
                 <NumberStepper label="Y" min={0} max={92} value={Math.round(layer.y)} onChange={(value) => onUpdateLayer(layer.id, { y: value })} />
                 <NumberStepper label="W" min={4} max={95} value={Math.round(layer.width)} onChange={(value) => onUpdateLayer(layer.id, { width: value })} />
+                <NumberStepper label="H" min={3} max={88} value={Math.round(layer.height ?? 8)} onChange={(value) => onUpdateLayer(layer.id, { height: value })} />
                 <NumberStepper label="Z" min={1} max={999} value={layer.zIndex} onChange={(value) => onUpdateLayer(layer.id, { zIndex: value })} />
               </div>
               <div className="layer-actions">

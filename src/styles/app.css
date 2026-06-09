@@ -913,11 +913,14 @@ button {
 .slide-scale-shell {
   position: relative;
   flex: 0 0 auto;
+  filter: drop-shadow(0 28px 60px rgba(15, 23, 42, 0.16));
+  will-change: opacity, transform, filter;
+}
+
+.slide-scale-shell.is-slide-entering {
   animation-duration: 430ms;
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   animation-fill-mode: both;
-  filter: drop-shadow(0 28px 60px rgba(15, 23, 42, 0.16));
-  will-change: opacity, transform, filter;
 }
 
 .slide-enter-forward {
@@ -928,53 +931,57 @@ button {
   animation-name: slideEnterBackward;
 }
 
-.slide-scale-shell .react-slide-frame .brand,
-.slide-scale-shell .react-slide-frame .chapter,
-.slide-scale-shell .react-slide-frame .pageno,
-.slide-scale-shell .react-slide-frame .kicker,
-.slide-scale-shell .react-slide-frame h1,
-.slide-scale-shell .react-slide-frame .subdesc,
-.slide-scale-shell .react-slide-frame .lead,
-.slide-scale-shell .react-slide-frame .bodytext,
-.slide-scale-shell .react-slide-frame .card,
-.slide-scale-shell .react-slide-frame .metric,
-.slide-scale-shell .react-slide-frame .flow-node,
-.slide-scale-shell .react-slide-frame .step,
-.slide-scale-shell .react-slide-frame .image-box,
-.slide-scale-shell .react-slide-frame .callout,
-.slide-scale-shell .react-slide-frame .formula,
-.slide-scale-shell .react-slide-frame .footer {
+.slide-scale-shell.is-slide-entering .react-slide-frame .brand,
+.slide-scale-shell.is-slide-entering .react-slide-frame .chapter,
+.slide-scale-shell.is-slide-entering .react-slide-frame .pageno,
+.slide-scale-shell.is-slide-entering .react-slide-frame .kicker,
+.slide-scale-shell.is-slide-entering .react-slide-frame h1,
+.slide-scale-shell.is-slide-entering .react-slide-frame .subdesc,
+.slide-scale-shell.is-slide-entering .react-slide-frame .lead,
+.slide-scale-shell.is-slide-entering .react-slide-frame .bodytext,
+.slide-scale-shell.is-slide-entering .react-slide-frame .card,
+.slide-scale-shell.is-slide-entering .react-slide-frame .metric,
+.slide-scale-shell.is-slide-entering .react-slide-frame .flow-node,
+.slide-scale-shell.is-slide-entering .react-slide-frame .step,
+.slide-scale-shell.is-slide-entering .react-slide-frame .image-box,
+.slide-scale-shell.is-slide-entering .react-slide-frame .callout,
+.slide-scale-shell.is-slide-entering .react-slide-frame .formula,
+.slide-scale-shell.is-slide-entering .react-slide-frame .footer {
   animation: elementRise 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.slide-scale-shell .react-slide-frame .brand { animation-delay: 40ms; }
-.slide-scale-shell .react-slide-frame .chapter { animation-delay: 90ms; }
-.slide-scale-shell .react-slide-frame .pageno { animation-delay: 120ms; }
-.slide-scale-shell .react-slide-frame .kicker { animation-delay: 150ms; }
-.slide-scale-shell .react-slide-frame h1 { animation-delay: 190ms; }
-.slide-scale-shell .react-slide-frame .subdesc,
-.slide-scale-shell .react-slide-frame .lead,
-.slide-scale-shell .react-slide-frame .bodytext { animation-delay: 240ms; }
-.slide-scale-shell .react-slide-frame .card:nth-of-type(1),
-.slide-scale-shell .react-slide-frame .metric:nth-of-type(1),
-.slide-scale-shell .react-slide-frame .flow-node:nth-of-type(1),
-.slide-scale-shell .react-slide-frame .step:nth-of-type(1) { animation-delay: 300ms; }
-.slide-scale-shell .react-slide-frame .card:nth-of-type(2),
-.slide-scale-shell .react-slide-frame .metric:nth-of-type(2),
-.slide-scale-shell .react-slide-frame .flow-node:nth-of-type(2),
-.slide-scale-shell .react-slide-frame .step:nth-of-type(2) { animation-delay: 350ms; }
-.slide-scale-shell .react-slide-frame .card:nth-of-type(3),
-.slide-scale-shell .react-slide-frame .metric:nth-of-type(3),
-.slide-scale-shell .react-slide-frame .flow-node:nth-of-type(3),
-.slide-scale-shell .react-slide-frame .step:nth-of-type(3) { animation-delay: 400ms; }
-.slide-scale-shell .react-slide-frame .card:nth-of-type(n+4),
-.slide-scale-shell .react-slide-frame .metric:nth-of-type(n+4),
-.slide-scale-shell .react-slide-frame .flow-node:nth-of-type(n+4),
-.slide-scale-shell .react-slide-frame .step:nth-of-type(n+4) { animation-delay: 450ms; }
-.slide-scale-shell .react-slide-frame .image-box,
-.slide-scale-shell .react-slide-frame .formula,
-.slide-scale-shell .react-slide-frame .callout { animation-delay: 330ms; }
-.slide-scale-shell .react-slide-frame .footer { animation-delay: 520ms; }
+.slide-scale-shell.is-slide-entering .react-slide-frame .brand { animation-delay: 40ms; }
+.slide-scale-shell.is-slide-entering .react-slide-frame .chapter { animation-delay: 90ms; }
+.slide-scale-shell.is-slide-entering .react-slide-frame .pageno { animation-delay: 120ms; }
+.slide-scale-shell.is-slide-entering .react-slide-frame .kicker { animation-delay: 150ms; }
+.slide-scale-shell.is-slide-entering .react-slide-frame h1 { animation-delay: 190ms; }
+.slide-scale-shell.is-slide-entering .react-slide-frame .subdesc,
+.slide-scale-shell.is-slide-entering .react-slide-frame .lead,
+.slide-scale-shell.is-slide-entering .react-slide-frame .bodytext { animation-delay: 240ms; }
+.slide-scale-shell.is-slide-entering .react-slide-frame .card:nth-of-type(1),
+.slide-scale-shell.is-slide-entering .react-slide-frame .metric:nth-of-type(1),
+.slide-scale-shell.is-slide-entering .react-slide-frame .flow-node:nth-of-type(1),
+.slide-scale-shell.is-slide-entering .react-slide-frame .step:nth-of-type(1) { animation-delay: 300ms; }
+.slide-scale-shell.is-slide-entering .react-slide-frame .card:nth-of-type(2),
+.slide-scale-shell.is-slide-entering .react-slide-frame .metric:nth-of-type(2),
+.slide-scale-shell.is-slide-entering .react-slide-frame .flow-node:nth-of-type(2),
+.slide-scale-shell.is-slide-entering .react-slide-frame .step:nth-of-type(2) { animation-delay: 350ms; }
+.slide-scale-shell.is-slide-entering .react-slide-frame .card:nth-of-type(3),
+.slide-scale-shell.is-slide-entering .react-slide-frame .metric:nth-of-type(3),
+.slide-scale-shell.is-slide-entering .react-slide-frame .flow-node:nth-of-type(3),
+.slide-scale-shell.is-slide-entering .react-slide-frame .step:nth-of-type(3) { animation-delay: 400ms; }
+.slide-scale-shell.is-slide-entering .react-slide-frame .card:nth-of-type(n+4),
+.slide-scale-shell.is-slide-entering .react-slide-frame .metric:nth-of-type(n+4),
+.slide-scale-shell.is-slide-entering .react-slide-frame .flow-node:nth-of-type(n+4),
+.slide-scale-shell.is-slide-entering .react-slide-frame .step:nth-of-type(n+4) { animation-delay: 450ms; }
+.slide-scale-shell.is-slide-entering .react-slide-frame .image-box,
+.slide-scale-shell.is-slide-entering .react-slide-frame .formula,
+.slide-scale-shell.is-slide-entering .react-slide-frame .callout { animation-delay: 330ms; }
+.slide-scale-shell.is-slide-entering .react-slide-frame .footer { animation-delay: 520ms; }
+
+.slide-scale-shell:not(.is-slide-entering) .react-slide-frame .chip.active {
+  animation: none;
+}
 
 @keyframes slideEnterForward {
   from {
@@ -1049,7 +1056,7 @@ button {
   transition: background-color 180ms ease, box-shadow 180ms ease, filter 180ms ease;
 }
 
-.react-slide-frame [data-edit-id]:hover {
+.app-shell:not(.is-presenting) .react-slide-frame [data-edit-id]:hover {
   outline: 0;
   background: color-mix(in srgb, var(--slide-accent, var(--accent)) 9%, transparent);
   box-shadow:
@@ -1060,9 +1067,7 @@ button {
 
 .app-shell.is-presenting .react-slide-frame [data-edit-id],
 .app-shell.is-presenting .react-slide-frame [data-edit-id]:hover {
-  background: transparent !important;
-  box-shadow: none !important;
-  filter: none !important;
+  cursor: default;
 }
 
 .nav-hit {
@@ -1161,25 +1166,80 @@ button {
   pointer-events: none;
 }
 
+.slide-layer.has-explicit-height img {
+  height: 100%;
+  object-fit: contain;
+}
+
 .resize-handle {
   position: absolute !important;
-  right: 12px;
-  top: 12px;
-  bottom: auto;
-  width: 72px;
-  min-height: 72px;
-  z-index: 10;
-  cursor: nwse-resize;
-  background: color-mix(in srgb, var(--surface) 96%, transparent);
-  border-color: color-mix(in srgb, var(--slide-accent, var(--accent)) 36%, var(--line));
-  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.14);
+  width: 10px;
+  min-width: 10px;
+  height: 10px;
+  min-height: 10px;
+  z-index: 15;
+  border: 1px solid color-mix(in srgb, var(--slide-accent, var(--accent)) 64%, #ffffff);
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 0;
+  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.22);
   pointer-events: auto !important;
 }
 
-.resize-handle svg {
-  width: 24px;
-  height: 24px;
-  pointer-events: none;
+.resize-n {
+  left: 50%;
+  top: -6px;
+  transform: translate(-50%, -50%);
+  cursor: ns-resize;
+}
+
+.resize-s {
+  left: 50%;
+  bottom: -6px;
+  transform: translate(-50%, 50%);
+  cursor: ns-resize;
+}
+
+.resize-e {
+  right: -6px;
+  top: 50%;
+  transform: translate(50%, -50%);
+  cursor: ew-resize;
+}
+
+.resize-w {
+  left: -6px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  cursor: ew-resize;
+}
+
+.resize-ne {
+  right: -6px;
+  top: -6px;
+  transform: translate(50%, -50%);
+  cursor: nesw-resize;
+}
+
+.resize-nw {
+  left: -6px;
+  top: -6px;
+  transform: translate(-50%, -50%);
+  cursor: nwse-resize;
+}
+
+.resize-se {
+  right: -6px;
+  bottom: -6px;
+  transform: translate(50%, 50%);
+  cursor: nwse-resize;
+}
+
+.resize-sw {
+  left: -6px;
+  bottom: -6px;
+  transform: translate(-50%, 50%);
+  cursor: nesw-resize;
 }
 
 .base-image-layer img {
@@ -2821,7 +2881,8 @@ body.pdf-exporting .print-deck img {
 
 .dashboard-create,
 .dashboard-trash,
-.dashboard-global-nav a {
+.dashboard-global-nav a,
+.dashboard-global-nav nav button {
   width: 58px;
   display: grid;
   place-items: center;
@@ -2829,7 +2890,7 @@ body.pdf-exporting .print-deck img {
   border: 0;
   border-radius: 14px;
   background: transparent;
-  color: #5f4b8b;
+  color: #526071;
   padding: 8px 4px;
   text-decoration: none;
   font-size: 0.68rem;
@@ -2838,7 +2899,8 @@ body.pdf-exporting .print-deck img {
 
 .dashboard-create svg,
 .dashboard-trash svg,
-.dashboard-global-nav a svg {
+.dashboard-global-nav a svg,
+.dashboard-global-nav nav button svg {
   width: 22px;
   height: 22px;
   stroke-width: 2.1;
@@ -2846,8 +2908,8 @@ body.pdf-exporting .print-deck img {
 
 .dashboard-create {
   color: #fff;
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-  box-shadow: 0 12px 26px rgba(124, 58, 237, 0.28);
+  background: linear-gradient(145deg, #17202c, #334155);
+  box-shadow: 0 12px 26px rgba(20, 27, 36, 0.18);
 }
 
 .dashboard-global-nav nav {
@@ -2855,9 +2917,11 @@ body.pdf-exporting .print-deck img {
   gap: 8px;
 }
 
-.dashboard-global-nav a.active {
-  background: rgba(124, 58, 237, 0.12);
-  color: #6d28d9;
+.dashboard-global-nav a.active,
+.dashboard-global-nav nav button.active,
+.dashboard-trash.active {
+  background: color-mix(in srgb, var(--dashboard-accent, #0f8f86) 13%, transparent);
+  color: #0f766e;
 }
 
 .dashboard-trash {
@@ -2917,7 +2981,7 @@ body.pdf-exporting .print-deck img {
 }
 
 .recent-row:hover {
-  background: rgba(124, 58, 237, 0.09);
+  background: color-mix(in srgb, var(--dashboard-accent, #0f8f86) 10%, transparent);
 }
 
 .recent-row img {
@@ -2961,7 +3025,7 @@ body.pdf-exporting .print-deck img {
   border-radius: 0 0 22px 22px;
   background:
     radial-gradient(circle at 0% 0%, rgba(103, 232, 249, 0.46), transparent 26rem),
-    radial-gradient(circle at 100% 0%, rgba(168, 85, 247, 0.28), transparent 24rem),
+    radial-gradient(circle at 100% 0%, rgba(203, 213, 225, 0.42), transparent 24rem),
     linear-gradient(180deg, rgba(255,255,255,0.54), rgba(255,255,255,0));
 }
 
@@ -2977,7 +3041,7 @@ body.pdf-exporting .print-deck img {
 .dashboard-search {
   width: min(760px, 86vw);
   min-height: 58px;
-  border: 1.5px solid #8b5cf6;
+  border: 1.5px solid color-mix(in srgb, var(--dashboard-accent, #0f8f86) 54%, #d7dee8);
   border-radius: 18px;
   background: rgba(255,255,255,0.86);
 }
@@ -2996,7 +3060,7 @@ body.pdf-exporting .print-deck img {
 
 .dashboard-type-row button {
   min-height: 40px;
-  border: 1px solid rgba(124, 58, 237, 0.18);
+  border: 1px solid color-mix(in srgb, var(--dashboard-accent, #0f8f86) 18%, rgba(20, 27, 36, 0.12));
   border-radius: 999px;
   background: rgba(255,255,255,0.72);
   color: #111827;
@@ -3005,10 +3069,10 @@ body.pdf-exporting .print-deck img {
 }
 
 .dashboard-type-row button.active {
-  border-color: rgba(124, 58, 237, 0.36);
-  color: #6d28d9;
+  border-color: color-mix(in srgb, var(--dashboard-accent, #0f8f86) 42%, rgba(20, 27, 36, 0.12));
+  color: #0f766e;
   background: rgba(255,255,255,0.94);
-  box-shadow: 0 10px 24px rgba(124, 58, 237, 0.12);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--dashboard-accent, #0f8f86) 12%, transparent);
 }
 
 .dashboard-type-row svg {
@@ -3056,6 +3120,7 @@ body.pdf-exporting .print-deck img {
 }
 
 .project-card {
+  position: relative;
   min-width: 0;
   display: grid;
   gap: 8px;
@@ -3066,9 +3131,24 @@ body.pdf-exporting .print-deck img {
   text-align: left;
 }
 
+.project-open {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  text-align: left;
+}
+
 .project-card:hover .project-thumb {
   transform: translateY(-2px);
   box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
+}
+
+.dashboard-shell.reduce-motion .project-thumb {
+  transition: none;
 }
 
 .project-thumb {
@@ -3116,6 +3196,24 @@ body.pdf-exporting .print-deck img {
   font-size: 0.92rem;
 }
 
+.project-card-action {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  opacity: 0;
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.project-card:hover .project-card-action,
+.project-card:focus-within .project-card-action {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .project-meta {
   display: flex;
   align-items: center;
@@ -3137,6 +3235,168 @@ body.pdf-exporting .print-deck img {
 
 .editor-project-host {
   position: relative;
+}
+
+.database-status {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  border: 1px solid rgba(20, 27, 36, 0.1);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.62);
+  color: #526071;
+  padding: 10px;
+  font-size: 0.72rem;
+  font-weight: 720;
+  line-height: 1.35;
+}
+
+.database-status svg {
+  width: 18px;
+  height: 18px;
+  color: var(--dashboard-accent, #0f8f86);
+}
+
+.status-error {
+  color: #9f1239;
+}
+
+.status-saving,
+.status-checking {
+  color: #475569;
+}
+
+.dashboard-config-view {
+  min-height: 100vh;
+  padding: 54px 0;
+}
+
+.dashboard-config-view header {
+  max-width: 920px;
+  margin: 0 auto 24px;
+}
+
+.dashboard-config-view header p {
+  margin: 0 0 8px;
+  color: #6e7785;
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.dashboard-config-view header h1 {
+  margin: 0;
+  color: #1a202c;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1;
+  font-weight: 880;
+  letter-spacing: 0;
+}
+
+.settings-grid {
+  max-width: 920px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.settings-card,
+.trash-row {
+  border: 1px solid rgba(20, 27, 36, 0.1);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: 0 18px 48px rgba(20, 27, 36, 0.08);
+  backdrop-filter: blur(24px) saturate(1.18);
+}
+
+.settings-card {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+
+.settings-card.wide {
+  grid-column: 1 / -1;
+}
+
+.settings-card h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.settings-card p {
+  margin: 0;
+  color: #526071;
+  line-height: 1.5;
+}
+
+.settings-toggle {
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #273244;
+  font-size: 0.86rem;
+  font-weight: 760;
+}
+
+.settings-toggle input {
+  width: 42px;
+  height: 24px;
+  accent-color: var(--dashboard-accent, #0f8f86);
+}
+
+.settings-status {
+  width: fit-content;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--dashboard-accent, #0f8f86) 12%, #ffffff);
+  color: #0f766e;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.trash-list {
+  max-width: 920px;
+  margin: 0 auto;
+  display: grid;
+  gap: 12px;
+}
+
+.trash-row {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+}
+
+.trash-row img {
+  width: 72px;
+  height: 48px;
+  border-radius: 10px;
+  object-fit: cover;
+  background: #f8fafc;
+}
+
+.trash-row strong,
+.trash-row span {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.trash-row span {
+  color: #6e7785;
+  font-size: 0.78rem;
+  font-weight: 720;
 }
 
 .dashboard-return {
@@ -4094,6 +4354,16 @@ body.pdf-exporting .print-deck img {
     padding: 6px 8px;
   }
 
+  .shape-text.text-role-heading {
+    line-height: 0.98;
+    letter-spacing: 0;
+  }
+
+  .shape-text.text-role-subheading {
+    line-height: 1.12;
+    color: #334155;
+  }
+
   .slide-comment {
     position: absolute;
     pointer-events: auto;
@@ -4175,11 +4445,14 @@ body.pdf-exporting .print-deck img {
   }
 
   .dashboard-trash,
-  .dashboard-global-nav a {
+  .dashboard-global-nav a,
+  .dashboard-global-nav nav button {
     color: #526071;
   }
 
-  .dashboard-global-nav a.active {
+  .dashboard-global-nav a.active,
+  .dashboard-global-nav nav button.active,
+  .dashboard-trash.active {
     background: rgba(15, 143, 134, 0.11);
     color: #0f766e;
   }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { DashboardProject } from "../src/components/dashboard/projectData";
-import { createBlankProjectSlides, shouldUseBlankProjectSlides } from "../src/utils/projectSlides";
+import { createBlankProjectSlides, createBlankSlide, shouldUseBlankProjectSlides } from "../src/utils/projectSlides";
 
 const project: DashboardProject = {
   id: "local-project-42",
@@ -34,7 +34,23 @@ describe("project slide selection", () => {
       citations: [],
       images: [],
     });
-    expect(slidesData.slides[0].html).toContain("data-edit-id=\"blank-title\"");
+    expect(slidesData.slides[0].html).toContain("blank-editor-slide");
+    expect(slidesData.slides[0].html).not.toContain("data-edit-id=");
     expect(slidesData.referencePdfs).toEqual({});
+  });
+
+  it("creates empty appended slides without seeded editable text", () => {
+    const slide = createBlankSlide(3, "Slide baru");
+
+    expect(slide).toMatchObject({
+      index: 3,
+      title: "Slide baru",
+      chapter: "Draft",
+      bodyText: "",
+      images: [],
+    });
+    expect(slide.html).toContain("blank-editor-slide");
+    expect(slide.html).not.toContain("data-edit-id=");
+    expect(slide.html).not.toContain("<h1");
   });
 });

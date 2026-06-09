@@ -89,6 +89,7 @@ export type ImageDepth = "back" | "front";
 export type ImageFrame = "screen";
 export type BaseElementKind = "card" | "callout" | "metric" | "element";
 export type SlideContainerKind = "html" | "svg" | "image";
+export type TextShapeRole = "body" | "heading" | "subheading";
 export type EditorTool =
   | "move"
   | "hand"
@@ -130,6 +131,7 @@ export type SlideLayer = {
   x: number;
   y: number;
   width: number;
+  height?: number;
   zIndex: number;
   depth?: ImageDepth;
   visible: boolean;
@@ -174,6 +176,9 @@ export type DesignShape = {
   opacity: number;
   cornerRadius: number;
   text: string;
+  textRole?: TextShapeRole;
+  fontSize?: number;
+  fontWeight?: number;
   path: string;
   visible: boolean;
   locked: boolean;
@@ -209,6 +214,7 @@ export type BaseImageOverride = {
   x: number;
   y: number;
   width: number;
+  height?: number;
   zIndex: number;
   depth?: ImageDepth;
   frame?: ImageFrame;
@@ -226,6 +232,7 @@ export type BaseImageLayer = {
   x?: number;
   y?: number;
   width?: number;
+  height?: number;
   zIndex?: number;
   depth?: ImageDepth;
   frame?: ImageFrame;
