@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Slide } from "../src/types";
-import { createDraftProject, filterDashboardProjects, seedProjectsFromSlides } from "../src/components/dashboard/projectData";
+import { createDraftProject, createSeedProjectFromSlides, filterDashboardProjects, seedProjectsFromSlides } from "../src/components/dashboard/projectData";
 
 const slides: Slide[] = [
   {
@@ -29,7 +29,8 @@ describe("dashboard project data", () => {
 
     expect(projects[0]).toMatchObject({
       id: "project-flex-ppt-thesis",
-      title: "Optimasi Penjadwalan Praktikum",
+      datasetId: "default",
+      title: "PPT Brief - Optimasi Penjadwalan Praktikum",
       ownerEmail: "user@example.com",
       type: "presentation",
       slideCount: 2,
@@ -43,8 +44,26 @@ describe("dashboard project data", () => {
 
     expect(filterDashboardProjects(projects, { query: "fuzzy", type: "all" })).toHaveLength(1);
     expect(filterDashboardProjects(projects, { query: "user@example.com", type: "all" })).toHaveLength(1);
-    expect(filterDashboardProjects(projects, { query: "skripsi", type: "presentation" })).toHaveLength(1);
-    expect(filterDashboardProjects(projects, { query: "skripsi", type: "whiteboard" })).toHaveLength(0);
+    expect(filterDashboardProjects(projects, { query: "ppt brief", type: "presentation" })).toHaveLength(1);
+    expect(filterDashboardProjects(projects, { query: "ppt brief", type: "whiteboard" })).toHaveLength(0);
+  });
+
+  it("can define a second data-backed project for code snapshot slides", () => {
+    const project = createSeedProjectFromSlides(slides, "user@example.com", {
+      id: "project-code-snapshot",
+      datasetId: "code-snapshot",
+      title: "Code Snapshot - Optimasi Penjadwalan Praktikum",
+      description: "Project terpisah dari code-snapshot.",
+      category: "Code Snapshot",
+      accent: "#267a9c",
+    });
+
+    expect(project).toMatchObject({
+      id: "project-code-snapshot",
+      datasetId: "code-snapshot",
+      slideCount: 2,
+      category: "Code Snapshot",
+    });
   });
 
   it("creates a blank project draft with private visibility", () => {

@@ -290,6 +290,8 @@ export type EditorSnapshot = {
 
 export type EditorState = EditorSnapshot & {
   currentSlide: number;
+  previousSlide: number;
+  slideChangeKey: number;
   theme: ThemeName;
   fontFamily: FontFamilyName;
   accent: string;

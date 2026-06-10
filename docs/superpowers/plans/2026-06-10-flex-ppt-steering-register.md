@@ -55,6 +55,8 @@
 - [x] Fall back to local mode cleanly when DB env is absent or unavailable.
 - [x] Use local MySQL for now with `root/password` and auto-created `flex_ppt.projects`.
 - [x] Keep Supabase/Postgres available behind explicit `FLEX_DATABASE_MODE=supabase`.
+- [ ] Handle Windows-to-WSL MySQL connectivity when WSL `mysqld` listens on `127.0.0.1:3306` but the Windows app sees `ECONNREFUSED`.
+- [ ] Document local MySQL connection options: Windows MySQL service, WSL IP/port proxy, or `LOCAL_DATABASE_URL` override.
 - [ ] Make database-created draft projects open as blank editor projects.
 
 ### Task D: Dashboard Canva-Like Layout, Not Canva Colors
@@ -183,6 +185,10 @@
 - [x] Compare source and destination asset counts.
 - [x] Validate all referenced asset paths exist after injection.
 - [x] Run tests/build after data injection.
+- [x] Treat current app `/data` copied from `C:\skripsi\presentation\ppt-brief\public\data` as the first data-backed dashboard project.
+- [x] Copy `C:\skripsi\presentation\code-snapshot\public\data` into a project-specific app data folder.
+- [x] Show exactly two data-backed projects in the dashboard: `ppt-brief` and `code-snapshot`.
+- [x] Opening each project must load its own slides/thesis/assets payload.
 
 ### Task L: Validation, Audit, Iterate
 
@@ -210,3 +216,18 @@
 - [x] Fix the mismatch where slide gene/card visuals lose background and shadow in fullscreen/presenting mode.
 - [x] Sweep additional slide style cause by removing the global presenting-mode `[data-edit-id]` background reset.
 - [x] Re-run screenshots after fixes and document remaining intentional differences.
+
+### Task N: Fullscreen Presentation Fit And Motion
+
+**Files:**
+- Modify: `src/components/SlideCanvas.tsx`
+- Modify: `src/styles/app.css`
+- Test: `tests/slideAnimation.test.ts`
+
+- [x] Capture user-reported fullscreen anomaly where a dark bottom band reduces effective slide height.
+- [x] Remove the hidden bottom slide-rail grid row from presenting mode so the canvas owns the full fullscreen viewport.
+- [x] Ensure fullscreen slide scale uses the complete fullscreen canvas area.
+- [x] Fix first next-slide transition in fullscreen so smooth entrance animation triggers immediately, without needing back/forward first.
+- [x] Keep the prior rule: clicking existing slide elements must not retrigger animations.
+- [x] Fix regression where clicking the slide after a transition retriggers entrance animation; entry animation class must be consumed and cleared after the slide transition.
+- [x] Validate fullscreen next/prev with screenshot evidence and computed layout measurements.

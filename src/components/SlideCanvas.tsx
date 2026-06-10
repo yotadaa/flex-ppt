@@ -16,7 +16,7 @@ import {
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import type { AssetItem, BaseElementLayer, BaseElementOverride, BaseImageLayer, BaseImageOverride, DesignShape, FontFamilyName, ImageDepth, SelectionTarget, Slide, SlideComment, SlideContainer, SlideLayer } from "../types";
 import { containerElementSrcDoc, containerRenderableMarkup } from "../utils/containers";
-import { slideEntryAnimationClass } from "../utils/slideAnimation";
+import { hasPendingSlideEntryAnimation, slideEntryAnimationClass } from "../utils/slideAnimation";
 import { normalizeAssetUrl, targetFromElement } from "../utils/slideDom";
 import { AppButton, ColorField, IconButton, NumberStepper, SelectMenu } from "./ui/controls";
 
@@ -70,6 +70,8 @@ type SlideCanvasProps = {
   html: string;
   theme: string;
   accent: string;
+  previousSlideIndex: number;
+  slideChangeKey: number;
   isEditingLocked?: boolean;
   chapterStartByName: Record<string, number>;
   layers: SlideLayer[];
@@ -111,6 +113,8 @@ export default function SlideCanvas({
   html,
   theme,
   accent,
+  previousSlideIndex,
+  slideChangeKey,
   isEditingLocked = false,
   chapterStartByName,
   layers,
@@ -149,7 +153,7 @@ export default function SlideCanvas({
   const viewportRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
-  const previousSlideIndexRef = useRef(slide.index);
+  const [consumedSlideChangeKey, setConsumedSlideChangeKey] = useState(slideChangeKey);
   const dragRef = useRef<
   | MoveDragState
     | ResizeDragState
@@ -173,7 +177,9 @@ export default function SlideCanvas({
     color: string;
     padding: number;
   } | null>(null);
-  const entryAnimationClass = slideEntryAnimationClass(slide.index, previousSlideIndexRef.current);
+  const entryAnimationClass = hasPendingSlideEntryAnimation(slideChangeKey, consumedSlideChangeKey)
+    ? slideEntryAnimationClass(slide.index, previousSlideIndex)
+    : "";
   const imageTipPosition = useMemo(() => {
     if (!imageTip) return null;
     const frame = frameRef.current;
@@ -235,7 +241,12 @@ export default function SlideCanvas({
   }, []);
 
   useEffect(() => {
-    previousSlideIndexRef.current = slide.index;
+    if (!hasPendingSlideEntryAnimation(slideChangeKey, consumedSlideChangeKey)) return;
+    const timer = window.setTimeout(() => setConsumedSlideChangeKey(slideChangeKey), 700);
+    return () => window.clearTimeout(timer);
+  }, [consumedSlideChangeKey, slideChangeKey]);
+
+  useEffect(() => {
     setImageTip(null);
     setElementTip(null);
     setIsLayerDragging(false);
@@ -428,7 +439,7 @@ export default function SlideCanvas({
       >
         <IconButton className="nav-hit left" label="Slide sebelumnya" icon={<ChevronLeftIcon aria-hidden="true" />} onClick={onPrev} />
           <div
-            key={slide.index}
+            key={`${slide.index}-${slideChangeKey}`}
             className={`slide-scale-shell ${entryAnimationClass}`}
             style={{
               width: SLIDE_WIDTH * scale,

@@ -5,6 +5,7 @@ export type DashboardVisibility = "private" | "shared";
 
 export type DashboardProject = {
   id: string;
+  datasetId?: string;
   title: string;
   description: string;
   ownerEmail: string;
@@ -27,25 +28,37 @@ export type ProjectFilters = {
 const fallbackThumbnail = "/assets/generated-concept/integrated-scheduling-pipeline.png";
 
 export function seedProjectsFromSlides(slides: Slide[], ownerEmail = "local@flex-ppt.test"): DashboardProject[] {
-  const firstImage = slides.find((slide) => slide.images.length)?.images[0] || fallbackThumbnail;
+  return [
+    createSeedProjectFromSlides(slides, ownerEmail, {
+      id: "project-flex-ppt-thesis",
+      datasetId: "default",
+      title: "PPT Brief - Optimasi Penjadwalan Praktikum",
+      description: "Project dari data C:\\skripsi\\presentation\\ppt-brief\\public\\data dengan editor layer, draft, referensi, export PDF, Algoritma Genetika, dan Fuzzy Logic.",
+      category: "PPT Brief",
+      accent: "#14b8a6",
+    }),
+  ];
+}
+
+export function createSeedProjectFromSlides(
+  slides: Slide[],
+  ownerEmail = "local@flex-ppt.test",
+  options: Partial<DashboardProject> & Pick<DashboardProject, "id" | "title" | "description" | "category">,
+): DashboardProject {
+  const firstImage = slides.find((slide) => slide.images?.length)?.images?.[0] || fallbackThumbnail;
   const thumbnail = firstImage.startsWith("/") ? firstImage : `/${firstImage.replace(/^\/+/, "")}`;
 
-  return [
-    {
-      id: "project-flex-ppt-thesis",
-      title: "Optimasi Penjadwalan Praktikum",
-      description: "Deck skripsi dengan editor layer, draft, referensi, export PDF, Algoritma Genetika, dan Fuzzy Logic.",
-      ownerEmail,
-      type: "presentation",
-      category: "Skripsi",
-      updatedAt: new Date().toISOString(),
-      thumbnail,
-      visibility: "private",
-      slideCount: slides.length,
-      provider: "local",
-      accent: "#14b8a6",
-    },
-  ];
+  return {
+    ownerEmail,
+    type: "presentation",
+    updatedAt: new Date().toISOString(),
+    thumbnail,
+    visibility: "private",
+    slideCount: slides.length,
+    provider: "local",
+    accent: "#14b8a6",
+    ...options,
+  };
 }
 
 export function createDraftProject(ownerEmail: string, sequence: number): DashboardProject {

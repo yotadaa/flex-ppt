@@ -29,6 +29,7 @@ import {
 
 type ProjectDashboardProps = {
   slidesData: SlidesData;
+  extraProjects?: DashboardProject[];
   userEmail: string;
   isDemo: boolean;
   accessToken?: string;
@@ -73,8 +74,11 @@ const defaultSettings: DashboardSettings = {
   dashboardAccent: "#0f8f86",
 };
 
-export default function ProjectDashboard({ slidesData, userEmail, isDemo, accessToken, onOpenProject, onSignOut }: ProjectDashboardProps) {
-  const seededProjects = useMemo(() => seedProjectsFromSlides(slidesData.slides, userEmail), [slidesData.slides, userEmail]);
+export default function ProjectDashboard({ slidesData, extraProjects = [], userEmail, isDemo, accessToken, onOpenProject, onSignOut }: ProjectDashboardProps) {
+  const seededProjects = useMemo(
+    () => mergeDashboardProjects(seedProjectsFromSlides(slidesData.slides, userEmail), extraProjects),
+    [extraProjects, slidesData.slides, userEmail],
+  );
   const [projects, setProjects] = useState(() => seededProjects);
   const [query, setQuery] = useState("");
   const [type, setType] = useState<"all" | DashboardProjectType>("all");

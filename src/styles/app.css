@@ -73,6 +73,8 @@ button:disabled {
 
 .app-shell.is-presenting {
   background: #020617;
+  width: 100vw;
+  height: 100dvh;
 }
 
 .app-shell.is-presenting .editor-toolbar,
@@ -84,13 +86,19 @@ button:disabled {
 }
 
 .app-shell.is-presenting .workspace-grid {
-  height: 100vh;
+  width: 100vw;
+  height: 100dvh;
   grid-template-columns: 1fr;
+  grid-template-rows: minmax(0, 1fr);
+  grid-template-areas: "canvas";
   gap: 0;
   padding: 0;
 }
 
 .app-shell.is-presenting .canvas-panel {
+  width: 100vw;
+  height: 100dvh;
+  min-height: 100dvh;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -98,6 +106,9 @@ button:disabled {
 }
 
 .app-shell.is-presenting .slide-viewport {
+  width: 100vw;
+  height: 100dvh;
+  min-height: 100dvh;
   padding: 0;
 }
 

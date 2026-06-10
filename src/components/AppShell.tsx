@@ -276,6 +276,8 @@ export default function AppShell({ projectId, projectTitle, userEmail, slidesDat
           html={renderedActiveHtml}
           theme={state.theme}
           accent={state.accent}
+          previousSlideIndex={state.previousSlide}
+          slideChangeKey={state.slideChangeKey}
           isEditingLocked={isPresenting}
           chapterStartByName={chapterStartByName}
           layers={activeLayers}

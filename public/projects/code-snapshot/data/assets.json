@@ -1,0 +1,444 @@
+{
+  "assets": [
+    {
+      "id": "generated-conflict-theory-practicum",
+      "name": "Konflik praktikum vs kelas teori",
+      "path": "/assets/generated-concept/conflict-theory-practicum.png",
+      "relativePath": "generated-concept/conflict-theory-practicum.png",
+      "kind": "isometric",
+      "size": 1062896
+    },
+    {
+      "id": "generated-greedy-repair-postprocessing",
+      "name": "Greedy repair post-processing",
+      "path": "/assets/generated-concept/greedy-repair-postprocessing.png",
+      "relativePath": "generated-concept/greedy-repair-postprocessing.png",
+      "kind": "isometric",
+      "size": 1207747
+    },
+    {
+      "id": "generated-fuzzy-diversity-stagnation-controller",
+      "name": "Fuzzy diversity stagnation controller",
+      "path": "/assets/generated-concept/fuzzy-diversity-stagnation-controller.png",
+      "relativePath": "generated-concept/fuzzy-diversity-stagnation-controller.png",
+      "kind": "isometric",
+      "size": 1180271
+    },
+    {
+      "id": "generated-fitness-penalty-evaluator",
+      "name": "Fitness penalty evaluator",
+      "path": "/assets/generated-concept/fitness-penalty-evaluator.png",
+      "relativePath": "generated-concept/fitness-penalty-evaluator.png",
+      "kind": "isometric",
+      "size": 997753
+    },
+    {
+      "id": "generated-integrated-scheduling-pipeline",
+      "name": "Integrated scheduling pipeline",
+      "path": "/assets/generated-concept/integrated-scheduling-pipeline.png",
+      "relativePath": "generated-concept/integrated-scheduling-pipeline.png",
+      "kind": "isometric",
+      "size": 769065
+    },
+    {
+      "id": "chromosome-generation-flowchart-png",
+      "name": "chromosome_generation_flowchart.png",
+      "path": "/assets/chromosome_generation_flowchart.png",
+      "relativePath": "chromosome_generation_flowchart.png",
+      "kind": "slide",
+      "size": 195369
+    },
+    {
+      "id": "docx-media-image1-jpeg",
+      "name": "image1.jpeg",
+      "path": "/assets/docx-media/image1.jpeg",
+      "relativePath": "docx-media/image1.jpeg",
+      "kind": "slide",
+      "size": 42361
+    },
+    {
+      "id": "docx-media-image10-jpeg",
+      "name": "image10.jpeg",
+      "path": "/assets/docx-media/image10.jpeg",
+      "relativePath": "docx-media/image10.jpeg",
+      "kind": "slide",
+      "size": 30288
+    },
+    {
+      "id": "docx-media-image11-jpeg",
+      "name": "image11.jpeg",
+      "path": "/assets/docx-media/image11.jpeg",
+      "relativePath": "docx-media/image11.jpeg",
+      "kind": "slide",
+      "size": 49760
+    },
+    {
+      "id": "docx-media-image12-jpeg",
+      "name": "image12.jpeg",
+      "path": "/assets/docx-media/image12.jpeg",
+      "relativePath": "docx-media/image12.jpeg",
+      "kind": "slide",
+      "size": 33295
+    },
+    {
+      "id": "docx-media-image13-jpeg",
+      "name": "image13.jpeg",
+      "path": "/assets/docx-media/image13.jpeg",
+      "relativePath": "docx-media/image13.jpeg",
+      "kind": "slide",
+      "size": 49469
+    },
+    {
+      "id": "docx-media-image14-jpeg",
+      "name": "image14.jpeg",
+      "path": "/assets/docx-media/image14.jpeg",
+      "relativePath": "docx-media/image14.jpeg",
+      "kind": "slide",
+      "size": 33221
+    },
+    {
+      "id": "docx-media-image15-png",
+      "name": "image15.png",
+      "path": "/assets/docx-media/image15.png",
+      "relativePath": "docx-media/image15.png",
+      "kind": "slide",
+      "size": 129108
+    },
+    {
+      "id": "docx-media-image16-png",
+      "name": "image16.png",
+      "path": "/assets/docx-media/image16.png",
+      "relativePath": "docx-media/image16.png",
+      "kind": "slide",
+      "size": 60387
+    },
+    {
+      "id": "docx-media-image17-png",
+      "name": "image17.png",
+      "path": "/assets/docx-media/image17.png",
+      "relativePath": "docx-media/image17.png",
+      "kind": "slide",
+      "size": 34804
+    },
+    {
+      "id": "docx-media-image18-png",
+      "name": "image18.png",
+      "path": "/assets/docx-media/image18.png",
+      "relativePath": "docx-media/image18.png",
+      "kind": "slide",
+      "size": 48967
+    },
+    {
+      "id": "docx-media-image19-png",
+      "name": "image19.png",
+      "path": "/assets/docx-media/image19.png",
+      "relativePath": "docx-media/image19.png",
+      "kind": "slide",
+      "size": 38227
+    },
+    {
+      "id": "docx-media-image2-jpeg",
+      "name": "image2.jpeg",
+      "path": "/assets/docx-media/image2.jpeg",
+      "relativePath": "docx-media/image2.jpeg",
+      "kind": "slide",
+      "size": 35993
+    },
+    {
+      "id": "docx-media-image20-png",
+      "name": "image20.png",
+      "path": "/assets/docx-media/image20.png",
+      "relativePath": "docx-media/image20.png",
+      "kind": "slide",
+      "size": 43633
+    },
+    {
+      "id": "docx-media-image21-png",
+      "name": "image21.png",
+      "path": "/assets/docx-media/image21.png",
+      "relativePath": "docx-media/image21.png",
+      "kind": "slide",
+      "size": 44498
+    },
+    {
+      "id": "docx-media-image22-png",
+      "name": "image22.png",
+      "path": "/assets/docx-media/image22.png",
+      "relativePath": "docx-media/image22.png",
+      "kind": "slide",
+      "size": 38131
+    },
+    {
+      "id": "docx-media-image23-png",
+      "name": "image23.png",
+      "path": "/assets/docx-media/image23.png",
+      "relativePath": "docx-media/image23.png",
+      "kind": "slide",
+      "size": 87537
+    },
+    {
+      "id": "docx-media-image24-jpeg",
+      "name": "image24.jpeg",
+      "path": "/assets/docx-media/image24.jpeg",
+      "relativePath": "docx-media/image24.jpeg",
+      "kind": "slide",
+      "size": 115302
+    },
+    {
+      "id": "docx-media-image25-jpeg",
+      "name": "image25.jpeg",
+      "path": "/assets/docx-media/image25.jpeg",
+      "relativePath": "docx-media/image25.jpeg",
+      "kind": "slide",
+      "size": 77976
+    },
+    {
+      "id": "docx-media-image26-jpeg",
+      "name": "image26.jpeg",
+      "path": "/assets/docx-media/image26.jpeg",
+      "relativePath": "docx-media/image26.jpeg",
+      "kind": "slide",
+      "size": 70486
+    },
+    {
+      "id": "docx-media-image27-jpeg",
+      "name": "image27.jpeg",
+      "path": "/assets/docx-media/image27.jpeg",
+      "relativePath": "docx-media/image27.jpeg",
+      "kind": "slide",
+      "size": 82578
+    },
+    {
+      "id": "docx-media-image28-jpeg",
+      "name": "image28.jpeg",
+      "path": "/assets/docx-media/image28.jpeg",
+      "relativePath": "docx-media/image28.jpeg",
+      "kind": "slide",
+      "size": 118113
+    },
+    {
+      "id": "docx-media-image29-jpeg",
+      "name": "image29.jpeg",
+      "path": "/assets/docx-media/image29.jpeg",
+      "relativePath": "docx-media/image29.jpeg",
+      "kind": "slide",
+      "size": 105001
+    },
+    {
+      "id": "docx-media-image3-png",
+      "name": "image3.png",
+      "path": "/assets/docx-media/image3.png",
+      "relativePath": "docx-media/image3.png",
+      "kind": "slide",
+      "size": 238183
+    },
+    {
+      "id": "docx-media-image30-jpeg",
+      "name": "image30.jpeg",
+      "path": "/assets/docx-media/image30.jpeg",
+      "relativePath": "docx-media/image30.jpeg",
+      "kind": "slide",
+      "size": 128271
+    },
+    {
+      "id": "docx-media-image31-jpeg",
+      "name": "image31.jpeg",
+      "path": "/assets/docx-media/image31.jpeg",
+      "relativePath": "docx-media/image31.jpeg",
+      "kind": "slide",
+      "size": 108847
+    },
+    {
+      "id": "docx-media-image4-jpeg",
+      "name": "image4.jpeg",
+      "path": "/assets/docx-media/image4.jpeg",
+      "relativePath": "docx-media/image4.jpeg",
+      "kind": "slide",
+      "size": 57775
+    },
+    {
+      "id": "docx-media-image5-png",
+      "name": "image5.png",
+      "path": "/assets/docx-media/image5.png",
+      "relativePath": "docx-media/image5.png",
+      "kind": "slide",
+      "size": 62575
+    },
+    {
+      "id": "docx-media-image6-jpeg",
+      "name": "image6.jpeg",
+      "path": "/assets/docx-media/image6.jpeg",
+      "relativePath": "docx-media/image6.jpeg",
+      "kind": "slide",
+      "size": 46281
+    },
+    {
+      "id": "docx-media-image7-jpeg",
+      "name": "image7.jpeg",
+      "path": "/assets/docx-media/image7.jpeg",
+      "relativePath": "docx-media/image7.jpeg",
+      "kind": "slide",
+      "size": 18140
+    },
+    {
+      "id": "docx-media-image8-jpeg",
+      "name": "image8.jpeg",
+      "path": "/assets/docx-media/image8.jpeg",
+      "relativePath": "docx-media/image8.jpeg",
+      "kind": "slide",
+      "size": 20639
+    },
+    {
+      "id": "docx-media-image9-jpeg",
+      "name": "image9.jpeg",
+      "path": "/assets/docx-media/image9.jpeg",
+      "relativePath": "docx-media/image9.jpeg",
+      "kind": "slide",
+      "size": 45868
+    },
+    {
+      "id": "gui-data-crop-jpg",
+      "name": "gui-data-crop.jpg",
+      "path": "/assets/gui-data-crop.jpg",
+      "relativePath": "gui-data-crop.jpg",
+      "kind": "gui",
+      "size": 91246
+    },
+    {
+      "id": "gui-fitness-crop-jpg",
+      "name": "gui-fitness-crop.jpg",
+      "path": "/assets/gui-fitness-crop.jpg",
+      "relativePath": "gui-fitness-crop.jpg",
+      "kind": "gui",
+      "size": 58603
+    },
+    {
+      "id": "gui-schedule-crop-jpg",
+      "name": "gui-schedule-crop.jpg",
+      "path": "/assets/gui-schedule-crop.jpg",
+      "relativePath": "gui-schedule-crop.jpg",
+      "kind": "gui",
+      "size": 88207
+    },
+    {
+      "id": "isometric-chromosome-png",
+      "name": "isometric-chromosome.png",
+      "path": "/assets/isometric-chromosome.png",
+      "relativePath": "isometric-chromosome.png",
+      "kind": "isometric",
+      "size": 1422932
+    },
+    {
+      "id": "isometric-dashboard-png",
+      "name": "isometric-dashboard.png",
+      "path": "/assets/isometric-dashboard.png",
+      "relativePath": "isometric-dashboard.png",
+      "kind": "isometric",
+      "size": 1619515
+    },
+    {
+      "id": "isometric-fuzzy-controller-png",
+      "name": "isometric-fuzzy-controller.png",
+      "path": "/assets/isometric-fuzzy-controller.png",
+      "relativePath": "isometric-fuzzy-controller.png",
+      "kind": "isometric",
+      "size": 1648949
+    },
+    {
+      "id": "isometric-scheduling-png",
+      "name": "isometric-scheduling.png",
+      "path": "/assets/isometric-scheduling.png",
+      "relativePath": "isometric-scheduling.png",
+      "kind": "isometric",
+      "size": 1680160
+    },
+    {
+      "id": "logo-unja-png",
+      "name": "logo-unja.png",
+      "path": "/assets/logo-unja.png",
+      "relativePath": "logo-unja.png",
+      "kind": "logo",
+      "size": 520887
+    },
+    {
+      "id": "reference-html-images-ref-slide-01-img-01-jpg",
+      "name": "ref-slide-01-img-01.jpg",
+      "path": "/assets/reference-html-images/ref-slide-01-img-01.jpg",
+      "relativePath": "reference-html-images/ref-slide-01-img-01.jpg",
+      "kind": "isometric",
+      "size": 42361
+    },
+    {
+      "id": "reference-html-images-ref-slide-01-img-03-webp",
+      "name": "ref-slide-01-img-03.webp",
+      "path": "/assets/reference-html-images/ref-slide-01-img-03.webp",
+      "relativePath": "reference-html-images/ref-slide-01-img-03.webp",
+      "kind": "isometric",
+      "size": 375516
+    },
+    {
+      "id": "reference-html-images-ref-slide-02-img-05-webp",
+      "name": "ref-slide-02-img-05.webp",
+      "path": "/assets/reference-html-images/ref-slide-02-img-05.webp",
+      "relativePath": "reference-html-images/ref-slide-02-img-05.webp",
+      "kind": "isometric",
+      "size": 203436
+    },
+    {
+      "id": "reference-html-images-ref-slide-03-img-07-webp",
+      "name": "ref-slide-03-img-07.webp",
+      "path": "/assets/reference-html-images/ref-slide-03-img-07.webp",
+      "relativePath": "reference-html-images/ref-slide-03-img-07.webp",
+      "kind": "isometric",
+      "size": 232334
+    },
+    {
+      "id": "reference-html-images-ref-slide-06-img-11-webp",
+      "name": "ref-slide-06-img-11.webp",
+      "path": "/assets/reference-html-images/ref-slide-06-img-11.webp",
+      "relativePath": "reference-html-images/ref-slide-06-img-11.webp",
+      "kind": "isometric",
+      "size": 194328
+    },
+    {
+      "id": "reference-html-images-ref-slide-23-img-29-webp",
+      "name": "ref-slide-23-img-29.webp",
+      "path": "/assets/reference-html-images/ref-slide-23-img-29.webp",
+      "relativePath": "reference-html-images/ref-slide-23-img-29.webp",
+      "kind": "isometric",
+      "size": 160116
+    },
+    {
+      "id": "reference-html-images-ref-slide-25-img-32-webp",
+      "name": "ref-slide-25-img-32.webp",
+      "path": "/assets/reference-html-images/ref-slide-25-img-32.webp",
+      "relativePath": "reference-html-images/ref-slide-25-img-32.webp",
+      "kind": "isometric",
+      "size": 200302
+    },
+    {
+      "id": "reference-html-images-ref-slide-28-img-36-webp",
+      "name": "ref-slide-28-img-36.webp",
+      "path": "/assets/reference-html-images/ref-slide-28-img-36.webp",
+      "relativePath": "reference-html-images/ref-slide-28-img-36.webp",
+      "kind": "isometric",
+      "size": 198026
+    },
+    {
+      "id": "reference-html-images-ref-slide-34-img-43-webp",
+      "name": "ref-slide-34-img-43.webp",
+      "path": "/assets/reference-html-images/ref-slide-34-img-43.webp",
+      "relativePath": "reference-html-images/ref-slide-34-img-43.webp",
+      "kind": "isometric",
+      "size": 236020
+    },
+    {
+      "id": "reference-html-images-ref-slide-36-img-47-webp",
+      "name": "ref-slide-36-img-47.webp",
+      "path": "/assets/reference-html-images/ref-slide-36-img-47.webp",
+      "relativePath": "reference-html-images/ref-slide-36-img-47.webp",
+      "kind": "isometric",
+      "size": 242394
+    }
+  ]
+}

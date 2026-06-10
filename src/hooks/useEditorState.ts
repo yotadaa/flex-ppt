@@ -53,8 +53,11 @@ function loadState(initial: InitialState, storageKey: string): EditorState {
         const storedSlides = parsed.slideHtmlByIndex && Object.keys(parsed.slideHtmlByIndex).length
           ? { ...initial.slideHtmlByIndex, ...parsed.slideHtmlByIndex }
           : initial.slideHtmlByIndex;
+        const currentSlide = parsed.currentSlide || 1;
         return {
-          currentSlide: parsed.currentSlide || 1,
+          currentSlide,
+          previousSlide: parsed.previousSlide || currentSlide,
+          slideChangeKey: parsed.slideChangeKey || 0,
           theme: parsed.theme || "light",
           fontFamily: parsed.fontFamily || "inter",
           accent: parsed.accent || "#14b8a6",
@@ -82,6 +85,8 @@ function loadState(initial: InitialState, storageKey: string): EditorState {
   }
   return {
     currentSlide: 1,
+    previousSlide: 1,
+    slideChangeKey: 0,
     theme: "light",
     fontFamily: "inter",
     accent: "#14b8a6",
@@ -147,18 +152,26 @@ export function useEditorState(slideCount: number, initialSlideHtmlByIndex: Reco
   }, []);
 
   const goToSlide = useCallback((slide: number) => {
-    setState((prev) => ({
-      ...prev,
-      currentSlide: Math.min(slideCount, Math.max(1, slide)),
-      selectedTarget: null,
-      selectedLayerId: null,
-    }));
+    setState((prev) => {
+      const nextSlide = Math.min(slideCount, Math.max(1, slide));
+      const changed = nextSlide !== prev.currentSlide;
+      return {
+        ...prev,
+        currentSlide: nextSlide,
+        previousSlide: changed ? prev.currentSlide : prev.previousSlide,
+        slideChangeKey: changed ? prev.slideChangeKey + 1 : prev.slideChangeKey,
+        selectedTarget: null,
+        selectedLayerId: null,
+      };
+    });
   }, [slideCount]);
 
   const addSlide = useCallback((slideIndex: number, html: string) => {
     commit((prev) => ({
       ...prev,
+      previousSlide: prev.currentSlide,
       currentSlide: slideIndex,
+      slideChangeKey: prev.slideChangeKey + 1,
       slideHtmlByIndex: {
         ...prev.slideHtmlByIndex,
         [slideIndex]: html,

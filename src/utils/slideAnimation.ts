@@ -3,3 +3,7 @@ export function slideEntryAnimationClass(currentSlideIndex: number, previousSlid
   const direction = currentSlideIndex > previousSlideIndex ? "forward" : "backward";
   return `is-slide-entering slide-enter-${direction}`;
 }
+
+export function hasPendingSlideEntryAnimation(slideChangeKey: number, consumedSlideChangeKey: number) {
+  return slideChangeKey !== consumedSlideChangeKey;
+}
